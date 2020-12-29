@@ -1,0 +1,35 @@
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+
+Vue.use(VueRouter)
+
+const routes = [
+    {
+        path: '/',
+        name: 'Home',
+        component: () => import('../views/Home.vue')
+    },
+    {
+        path: '/docs',
+        name: 'Docs',
+        component: () => import('../views/Docs.vue')
+    },
+    {
+        path: '/callback',
+        name: 'Callback',
+        component: () => import('../views/Callback.vue')
+    },
+    {
+        path: '/404',
+        name: 'NotFound',
+        component: () => import('../views/NotFound.vue')
+    }
+]
+
+const router = new VueRouter({
+    mode: 'history',
+    base: process.env.BASE_URL,
+    routes
+})
+
+export default router
