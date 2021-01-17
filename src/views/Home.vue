@@ -569,7 +569,7 @@
                     { text: '1498598914', value: '1498598914' },
                     { text: '228346469', value: '228346469' },
                 ],
-                corpSelected: "",
+                corpSelected: 0,
                 corpListOptions: [
                 ],
                 wwBindConfig: {
@@ -948,8 +948,9 @@
             },
             getJoinLink(id) {
                 for (let i = 0; i < this.corpListOptions.length; i++) {
-                    if (this.corpListOptions[i].value === id)
+                    if (this.corpListOptions[i].value === id) {
                         return this.corpListOptions[i]
+                    }
                 }
             },
             qqPrivateBind() {
@@ -1074,6 +1075,8 @@
                             for (let i = 0; i < data.data.length; i++) {
                                 this.corpListOptions.push({value: data.data[i].id, text: data.data[i].corp_name, link: data.data[i].join_link})
                             }
+
+                            console.log("push corp list: ",this.corpListOptions)
                         }
                     })
                     .catch((error) => {
@@ -1100,7 +1103,7 @@
                     .get(this.serverUrl + "/emails/get", {headers: header})
                     .then((response) => {
                         let data = response.data;
-                        if (data.code === 200) {
+                        if (data.code === 200 && data.data !== null) {
                             this.emailConfig = data.data;
                         }
                     })
