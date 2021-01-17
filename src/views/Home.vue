@@ -94,12 +94,12 @@
                                     placeholder="输入推送QQ地址"
                             ></b-form-input>
                             <small class="form-text text-muted"
-                            ><code>请将该账号添加机器人QQ为好友</code></small
+                            ><code>请将该账号添加机器人QQ为好友[已开启敏感词过滤规则,存在敏感词的推送将会被丢弃]</code></small
                             >
                         </div>
 
                         <b-form-radio-group
-                            v-model="sendFrom"
+                            v-model="user.sendFrom"
                             :options="randomAccountList()"
                             class="mb-3"
                             value-field="value"
@@ -121,12 +121,12 @@
                                     placeholder="输入需要绑定的QQ群号码"
                             ></b-form-input>
                             <small class="form-text text-muted"
-                            ><code>请选择以下机器人并拉他们入群</code></small
+                            ><code>请选择以下机器人并拉他们入群[已开启敏感词过滤规则,存在敏感词的推送将会被丢弃]</code></small
                             >
                         </div>
 
                         <b-form-radio-group
-                            v-model="groupFrom"
+                            v-model="user.groupFrom"
                             :options="randomGroupAccountList()"
                             class="mb-3"
                             value-field="value"
@@ -138,17 +138,38 @@
                         </button>
 
                         <hr>
+
+                        <div class="form-group">
+                            <label>私有化绑定</label> <a href="https://images.xuthus.cc/images/coolpush">linux部署包(go-cqhttp定制版本)</a>
+                            <b-form-input
+                                v-model="user.privatePath"
+                                type="text"
+                                class="form-control"
+                                placeholder="输入需要绑定的URL地址, eg: http://8.8.8.8:5700"
+                            ></b-form-input>
+                            <small class="form-text text-muted"
+                            ><code>输入私有化部署后的可供访问的URL地址,并完成校验</code></small
+                            >
+                        </div>
+
+                        <button type="button" class="btn btn-danger mt-2 mr-2" @click="qqPrivateValid">
+                            校验
+                        </button>
+
+                        <button type="button" class="btn btn-primary mt-2" @click="qqPrivateBind">
+                            绑定
+                        </button>
+
+                        <hr>
                         <div class="form-group">
                             <label>QQ备忘墙</label>
                             <small class="form-text text-muted"
                             ><code>感谢以下QQ号的贡献，虽然被封禁了，但值得被铭记!</code></small
                             >
                             <br/>
-                            <h5><b-badge variant="danger">1498598914</b-badge> <span> </span>
+                            <h5>
                                 <b-badge variant="danger">964627404</b-badge> <span> </span>
-                                <b-badge variant="danger">228346469</b-badge> <span> </span>
                                 <b-badge variant="danger">723860385</b-badge> <span> </span>
-                                <b-badge variant="danger">371365873</b-badge> <span> </span>
                             </h5>
                         </div>
 
@@ -164,19 +185,55 @@
 
                         <hr>
 
+                        <h3 class="text-primary">邮箱推送</h3>
                         <div class="form-group">
-                            <label>邮箱推送</label>
+                            <label>邮箱推送地址</label>
                             <b-form-input
-                                v-model="user.email"
+                                v-model="emailConfig.to"
                                 type="text"
                                 class="form-control"
                                 placeholder="输入需要绑定的邮箱地址"
-                                disabled
                             ></b-form-input>
                             <small class="form-text text-muted"
-                            ><code>注意，邮箱消息推送可能由于垃圾邮件而导致被退信 , 重构中...</code></small
+                            ><code>注意，邮箱消息推送可能由于垃圾邮件而导致被退信</code></small
                             >
                         </div>
+                        <b-form inline>
+                            <b-form-input
+                                v-model="emailConfig.host"
+                                class="mb-2 mr-sm-2 mb-sm-0"
+                                placeholder="服务地址:smtp.qq.com"
+                            ></b-form-input>
+
+                            <b-input-group prepend=":" class="mb-2 mr-sm-2 mb-sm-0">
+                                <b-form-input placeholder="端口:465" v-model="emailConfig.port"></b-form-input>
+                            </b-input-group>
+                        </b-form>
+                        <br>
+                        <b-form inline>
+                            <b-form-input
+                                v-model="emailConfig.username"
+                                class="mb-2 mr-sm-2 mb-sm-0"
+                                placeholder="登录账号:test@qq.com"
+                            ></b-form-input>
+
+                            <b-form-input
+                                v-model="emailConfig.from"
+                                class="mb-2 mr-sm-2 mb-sm-0"
+                                placeholder="发件昵称:996真福报"
+                            ></b-form-input>
+
+                            <b-form-input
+                                v-model="emailConfig.password"
+                                class="mb-2 mr-sm-2 mb-sm-0"
+                                placeholder="登录密码"
+                            ></b-form-input>
+                        </b-form>
+
+                        <button type="button" class="btn btn-danger mt-2 mr-2" @click="emailValid">
+                            校验
+                        </button>
+
                         <button type="button" class="btn btn-primary mt-2" @click="emailBind">
                             绑定
                         </button>
@@ -184,7 +241,7 @@
                         <hr>
 
                         <h3 class="text-primary">绑定微信推送</h3>
-                        <div v-if="wxPusherUid === ''">
+                        <div v-if="user.wxPusherUid === ''">
                             <b-form-checkbox v-model="openWxPusher" name="check-button" switch>
                                 开启微信推送
                             </b-form-checkbox>
@@ -216,7 +273,70 @@
                         <hr>
 
                         <h3 class="text-primary">绑定企业微信推送</h3>
-                        <b-alert show>实现中...拭目以待...</b-alert>
+                        <b-card no-body>
+                            <b-tabs pills card>
+                                <b-tab title="加入企业" active>
+                                    <b-card-text>选择一个企业，通过企业邀请链接加入其中，并回填你在该企业的用户ID</b-card-text>
+
+                                    <b-form inline class="mt-4">
+                                        <b-form-select v-model="corpSelected" :options="corpListOptions" class="mb-4 mr-4"></b-form-select>
+
+                                        <b-input-group prepend="用户ID" class="mb-4 mr-2">
+                                            <b-form-input placeholder="UserID" v-model="wwBindConfig.user.user_id"></b-form-input>
+                                        </b-input-group>
+
+                                        <b-button variant="primary" class="mb-4" @click="wwJoinSubmit">保存</b-button>
+                                    </b-form>
+
+                                    <div v-if="corpSelected && getJoinLink(corpSelected)" class="mt-4">
+                                        企业邀请链接：<a :href="getJoinLink(corpSelected).link">{{getJoinLink(corpSelected).link}}</a>
+                                    </div>
+
+                                </b-tab>
+                                <b-tab title="自定义企业">
+                                    <b-card-text>如果你希望自定义企业推送，可以在这里配置。</b-card-text>
+
+                                    <b-form inline class="mt-4">
+
+                                        <b-input-group prepend="企业名称" class="mb-2 mr-sm-2 mb-sm-0">
+                                            <b-form-input v-model="wwBindConfig.app.corp_name" placeholder="eg: 酷推"></b-form-input>
+                                        </b-input-group>
+
+                                        <b-input-group prepend="企业CorpId" class="mb-2 mr-sm-2 mb-sm-0">
+                                            <b-form-input v-model="wwBindConfig.app.corp_id" placeholder="eg: wwbc847..."></b-form-input>
+                                        </b-input-group>
+
+                                    </b-form>
+
+                                    <b-form inline class="mt-4">
+
+                                        <b-input-group prepend="应用AgentID" class="mb-2 mr-sm-2 mb-sm-0">
+                                            <b-form-input v-model="wwBindConfig.app.agent_id" placeholder="eg: 1000002"></b-form-input>
+                                        </b-input-group>
+
+                                        <b-input-group prepend="应用Secret" class="mb-2 mr-sm-2 mb-sm-0">
+                                            <b-form-input v-model="wwBindConfig.app.secret" placeholder="eg: z2Ea3uj17UNYO..."></b-form-input>
+                                        </b-input-group>
+
+                                    </b-form>
+
+                                    <b-form-checkbox switch size="lg" v-model="wwBindConfig.app.is_share" class="mr-2 mt-4">是否公开企业邀请</b-form-checkbox>
+
+                                    <div v-if="wwBindConfig.app.is_share" class="mt-4">
+                                        <b-input-group prepend="企业邀请链接" class="mb-2 mr-sm-2 mb-sm-0">
+                                            <b-form-input v-model="wwBindConfig.app.join_link" placeholder="eg: https://work.weixin.qq.com/join/..."></b-form-input>
+                                        </b-input-group>
+                                    </div>
+
+                                    <b-input-group prepend="绑定UserID" class="mb-2 mt-4">
+                                        <b-form-input v-model="wwBindConfig.user.user_id" placeholder="eg: XiaoMing"></b-form-input>
+                                    </b-input-group>
+
+                                    <b-button variant="primary" class="mt-4" @click="wwBindSubmit">保存</b-button>
+                                </b-tab>
+                            </b-tabs>
+                        </b-card>
+
                     </b-col>
                 </div>
             </div>
@@ -275,6 +395,23 @@
                                 class="form-control"
                                 disabled
                         ></b-form-input>
+
+                        <p class="mt-2">如果你部署了私有化的QQ机器人，在绑定并验证后，只需要向以下URL发一个GET或者POST请求，即可完成私聊推送，当然，敏感词不受限制，并且增强功能均已开启：</p>
+                        <b-form-input
+                            v-model="this.serverUrl+ '/psend/' + user.skey"
+                            type="text"
+                            class="form-control"
+                            disabled
+                        ></b-form-input>
+
+                        <p class="mt-2">私有化QQ机器人群聊推送：</p>
+                        <b-form-input
+                            v-model="this.serverUrl+ '/pgroup/' + user.skey"
+                            type="text"
+                            class="form-control"
+                            disabled
+                        ></b-form-input>
+
                         <p class="mt-2">如需微信消息推送，只需要向以下URL发一个GET或者POST请求：</p>
                         <b-form-input
                             v-model="this.serverUrl+ '/wx/' + user.skey"
@@ -295,6 +432,17 @@
                                 class="form-control"
                                 disabled
                         ></b-form-input>
+
+                        <p class="mt-2 text-danger">如需企微消息推送，你需要向以下URL地址发送POST请求：</p>
+                        <b-form-input
+                            v-model="this.serverUrl+ '/ww/' + user.skey"
+                            type="text"
+                            class="form-control"
+                            disabled
+                        ></b-form-input>
+                        <p class="mt-2 text-danger">企业微信推送的请求参数可参考<strong>说明文档</strong></p>
+
+
 
                         <p class="mt-2">额外的，如需邮箱消息推送，只需要向以下URL发一个GET或者POST请求：</p>
                         <b-form-input
@@ -408,27 +556,49 @@
         data() {
             return {
                 accountOption: [
-                    { text: '2292066393', value: '2292066393' },
                     { text: '2277671372', value: '2277671372' },
+                    { text: '371365873', value: '371365873' },
+                    { text: '723860385', value: '723860385' },
+                    { text: '1498598914', value: '1498598914' },
+                    { text: '228346469', value: '228346469' },
                 ],
                 accountGroupOption: [
-                    { text: '2292066393', value: '2292066393' },
                     { text: '2277671372', value: '2277671372' },
+                    { text: '371365873', value: '371365873' },
+                    { text: '723860385', value: '723860385' },
+                    { text: '1498598914', value: '1498598914' },
+                    { text: '228346469', value: '228346469' },
                 ],
+                corpSelected: "",
+                corpListOptions: [
+                ],
+                wwBindConfig: {
+                    user: {},
+                    app: {}
+                },
                 user: {
                     skey: "",
                     sendTo: "",
+                    sendFrom: "",
                     groupTo: "",
-                    email: "",
+                    groupFrom: "",
+                    privatePath: "",
+                    wxPusherUid: "",
                 }, //用户信息
                 msg: "", //在线测试的消息体
-                isLogin: false, //检测是否登录 false没有登陆
-                sendFrom: "", //发送者 默认值
-                groupFrom: "",//群发者 默认值
+                isLogin: false
+                , //检测是否登录 false没有登陆
                 openWxPusher: false,//是否开启微信推送
-                wxPusherUid: '',
                 wxPusherImg: "",//获得二维码地址
                 wxPusherShowBindResult: false,
+                emailConfig:{
+                    host: "",
+                    port: "",
+                    username: "",
+                    password: "",
+                    from: "",
+                    to: ""
+                },
 
                 //弹窗相关
                 color: "warning",
@@ -530,7 +700,7 @@
                         "&sendTo=" +
                         this.user.sendTo +
                         "&sendFrom=" +
-                        this.sendFrom,
+                        this.user.sendFrom,
                         {headers: header}
                     )
                     .then((response) => {
@@ -556,7 +726,7 @@
                         "&groupTo=" +
                         this.user.groupTo +
                         "&groupFrom=" +
-                        this.groupFrom,
+                        this.user.groupFrom,
                         {headers: header}
                     )
                     .then((response) => {
@@ -575,23 +745,52 @@
             emailBind() {
                 let token = localStorage.getItem("token");
                 let header = {token: token};
+                this.emailConfig.port = parseInt(this.emailConfig.port)
                 this.$api
-                    .get(
-                        this.serverUrl + "/email_bind?id=" +
-                        this.user.id +
-                        "&email=" +
-                        this.user.email,
-                        {headers: header}
+                    .post(
+                        this.serverUrl + "/emails/bind", this.emailConfig, {headers: header}
                     )
                     .then((response) => {
                         //绑定成功
-                        this.alertMessage = "绑定成功";
-                        this.color = "success";
-                        this.dismissCountDown = this.dismissSecs;
+                        if (response.data.code === 200) {
+                            this.alertMessage = "成功";
+                            this.color = "success";
+                            this.dismissCountDown = this.dismissSecs;
+                        }else{
+                            this.alertMessage = "失败";
+                            this.color = "danger";
+                            this.dismissCountDown = this.dismissSecs;
+                        }
                     })
                     .catch((error) => {
                         //绑定失败
                         this.alertMessage = "绑定失败";
+                        this.color = "danger";
+                        this.dismissCountDown = this.dismissSecs;
+                    });
+            },
+            emailValid() {
+                let token = localStorage.getItem("token");
+                let header = {token: token};
+                this.$api
+                    .get(
+                        this.serverUrl + "/emails/valid", {headers: header}
+                    )
+                    .then((response) => {
+                        //绑定成功
+                        if (response.data.code === 200) {
+                            this.alertMessage = "成功";
+                            this.color = "success";
+                            this.dismissCountDown = this.dismissSecs;
+                        }else{
+                            this.alertMessage = response.data.data.Msg;
+                            this.color = "danger";
+                            this.dismissCountDown = this.dismissSecs;
+                        }
+                    })
+                    .catch((error) => {
+                        //绑定失败
+                        this.alertMessage = "失败";
                         this.color = "danger";
                         this.dismissCountDown = this.dismissSecs;
                     });
@@ -660,8 +859,7 @@
                         {headers: header}
                     )
                     .then((response) => {
-                        //绑定成功
-                        this.wxPusherUid = '';
+                        this.user.wxPusherUid = '';
                         this.alertMessage = "取消绑定成功";
                         this.color = "success";
                         this.dismissCountDown = this.dismissSecs;
@@ -695,6 +893,136 @@
                     localStorage.setItem("loginType", "qq");
                     window.location.href = this.qq;
                 }
+            },
+            wwJoinSubmit() {
+                let token = localStorage.getItem("token");
+                let header = {token: token};
+                this.$api
+                    .get(
+                        this.serverUrl + "/wework/join?appId=" +
+                        this.corpSelected + "&userId=" +
+                        this.wwBindConfig.user.user_id,
+                        {headers: header}
+                    )
+                    .then((response) => {
+                        //绑定成功
+                        if (response.data.code === 200) {
+                            this.alertMessage = "成功";
+                            this.color = "success";
+                            this.dismissCountDown = this.dismissSecs;
+                        }else{
+                            this.alertMessage = "失败";
+                            this.color = "danger";
+                            this.dismissCountDown = this.dismissSecs;
+                        }
+                    })
+                    .catch((error) => {
+                        //绑定失败
+                        this.alertMessage = "失败";
+                        this.color = "danger";
+                        this.dismissCountDown = this.dismissSecs;
+                    });
+            },
+            wwBindSubmit() {
+                let token = localStorage.getItem("token");
+                this.wwBindConfig.app.agent_id = parseInt(this.wwBindConfig.app.agent_id)
+                this.$api
+                    .post(this.serverUrl + '/wework/bind?userId='+this.wwBindConfig.user.user_id, this.wwBindConfig.app,
+                        {headers: {"Content-type": "application/json", token: token }})
+                    .then((response) => {
+                        if (response.data.code === 200) {
+                            this.alertMessage = "成功";
+                            this.color = "success";
+                            this.dismissCountDown = this.dismissSecs;
+                        }else{
+                            this.alertMessage = "失败";
+                            this.color = "danger";
+                            this.dismissCountDown = this.dismissSecs;
+                        }
+                    })
+                    .catch((error) => {
+                        this.alertMessage = "失败";
+                        this.color = "danger";
+                        this.dismissCountDown = this.dismissSecs;
+                    });
+            },
+            getJoinLink(id) {
+                for (let i = 0; i < this.corpListOptions.length; i++) {
+                    if (this.corpListOptions[i].value === id)
+                        return this.corpListOptions[i]
+                }
+            },
+            qqPrivateBind() {
+
+                if (this.user.privatePath === "") {
+                    this.alertMessage = "请指定绑定地址";
+                    this.color = "danger";
+                    this.dismissCountDown = this.dismissSecs;
+                    return
+                }
+
+                let reg = new RegExp(/(\w+):\/\/([^/:]+)(:\d*)?/);
+                let result = this.user.privatePath.match(reg)
+                if (result === null || result[0] === "") {
+                    this.alertMessage = "格式不正确";
+                    this.color = "danger";
+                    this.dismissCountDown = this.dismissSecs;
+                    return
+                }
+
+
+                let token = localStorage.getItem("token");
+                let header = {token: token};
+                this.$api
+                    .get(
+                        this.serverUrl + "/qq/private/bind?sendPath=" + this.user.privatePath,
+                        {headers: header}
+                    )
+                    .then((response) => {
+                        //绑定成功
+                        if (response.data.code === 200) {
+                            this.alertMessage = "绑定成功";
+                            this.color = "success";
+                            this.dismissCountDown = this.dismissSecs;
+                        }else{
+                            this.alertMessage = "绑定失败";
+                            this.color = "danger";
+                            this.dismissCountDown = this.dismissSecs;
+                        }
+                    })
+                    .catch((error) => {
+                        //绑定失败
+                        this.alertMessage = "绑定失败";
+                        this.color = "danger";
+                        this.dismissCountDown = this.dismissSecs;
+                    });
+            },
+            qqPrivateValid() {
+                let token = localStorage.getItem("token");
+                let header = {token: token};
+                this.$api
+                    .get(
+                        this.serverUrl + "/qq/private/valid",
+                        {headers: header}
+                    )
+                    .then((response) => {
+                        //绑定成功
+                        if (response.data.code === 200) {
+                            this.alertMessage = "校验成功";
+                            this.color = "success";
+                            this.dismissCountDown = this.dismissSecs;
+                        }else{
+                            this.alertMessage = "校验失败";
+                            this.color = "danger";
+                            this.dismissCountDown = this.dismissSecs;
+                        }
+                    })
+                    .catch((error) => {
+                        //绑定失败
+                        this.alertMessage = "校验失败";
+                        this.color = "danger";
+                        this.dismissCountDown = this.dismissSecs;
+                    });
             }
         },
         created() {
@@ -708,11 +1036,7 @@
                         let data = response.data;
                         if (data.code === 200) {
                             this.isLogin = true;
-                            this.user = response.data.data;
-                            this.sendFrom = this.user.sendFrom;
-                            this.groupFrom = this.user.groupFrom;
-                            this.user.email = data.data.email;
-                            this.wxPusherUid = data.data.wxPusherUid;
+                            this.user = data.data;
                         } else {
                             //清空localStorage
                             this.isLogin = false;
@@ -737,6 +1061,53 @@
             if (error !== undefined) {
                 //推送到专门页面处理
                 this.$router.push({name: "Callback", query: {error: error}});
+            }
+
+            //正常 获取企业列表
+            if (token !== null) {
+                let header = {token: token};
+                this.$api
+                    .get(this.serverUrl + "/wework/list", {headers: header})
+                    .then((response) => {
+                        let data = response.data;
+                        if (data.code === 200) {
+                            for (let i = 0; i < data.data.length; i++) {
+                                this.corpListOptions.push({value: data.data[i].id, text: data.data[i].corp_name, link: data.data[i].join_link})
+                            }
+                        }
+                    })
+                    .catch((error) => {
+                        //清空localStorage
+                        this.$router.push({name: "Callback", query: {error: error}});
+                    });
+
+                this.$api
+                    .get(this.serverUrl + "/wework/get_bind_app", {headers: header})
+                    .then((response) => {
+                        let data = response.data;
+                        if (data.code === 200) {
+                            this.wwBindConfig.user = data.data.user;
+                            this.wwBindConfig.app = data.data.app;
+                            this.corpSelected = data.data.user.app_id;
+                        }
+                    })
+                    .catch((error) => {
+                        //清空localStorage
+                        this.$router.push({name: "Callback", query: {error: error}});
+                    });
+
+                this.$api
+                    .get(this.serverUrl + "/emails/get", {headers: header})
+                    .then((response) => {
+                        let data = response.data;
+                        if (data.code === 200) {
+                            this.emailConfig = data.data;
+                        }
+                    })
+                    .catch((error) => {
+                        //清空localStorage
+                        this.$router.push({name: "Callback", query: {error: error}});
+                    });
             }
         },
         mounted() {

@@ -97,7 +97,7 @@
                                 this.code = data.code;
                             } else{
                                 sessionStorage.setItem('user', data.data);
-                                localStorage.setItem('token', data.msg);
+                                localStorage.setItem('token', data.message);
                                 this.$router.push({name: 'Home'});
                             }
                         })

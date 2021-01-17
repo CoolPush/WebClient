@@ -33,6 +33,39 @@
                     <p><code>删除机器人为好友,并重新添加</code></p>
                     <p>由于早期机器人添加好友均为单项好友关系,目前机器人升级,导致添加好友和邀请好友入群失败.删除机器人好友,并重新添加即可,机器人将响应你的请求,并添加你为好友,建立双向好友关系.</p>
 
+                    <h3 class="text-primary">企微推送<b-badge variant="danger">New</b-badge></h3>
+                    <p>目前企微推送支持四种消息格式，且只允许使用POST方式推送。推送格式如下：</p>
+                    <p>(一)普通消息推送：</p>
+                    <p>url: <code>https://push.xuthus.cc/ww/skey</code></p>
+                    <p>body: <code>随便什么数据都可以，但是敏感词会过滤掉</code></p>
+
+                    <p>(二)文本卡片：</p>
+                    <p>url: <code>https://push.xuthus.cc/ww/skey?type=1</code></p>
+                    <p>body: <code>{
+                        "title": "你好测试",
+                        "desc": "测试文本卡片",
+                        "href": "https://cp.xuthus.cc",
+                        "btntxt": "查看更多"
+                        }</code></p>
+
+                    <p>(三)图文消息：</p>
+                    <p>url: <code>https://push.xuthus.cc/ww/skey?type=2</code></p>
+                    <p>body: <code>{
+                        "title": "你好测试",
+                        "desc": "测试文本卡片",
+                        "href": "https://cp.xuthus.cc",
+                        "pic": "https://xuthus.cc/images/Photo_0411_1a.jpg"
+                        }</code></p>
+
+                    <p>(四)Markdown消息：[待验证]</p>
+                    <p>url: <code>https://push.xuthus.cc/ww/skey?type=3</code></p>
+                    <p>body: <code>[这是一个链接](http://work.weixin.qq.com/api/doc)</code></p>
+
+                    <p>如何绑定企业微信UserId？</p>
+                    <p>自定义企业微信推送配置的，进入企业微信通讯录，查看个人信息-> <code>"帐号"</code></p>
+                    <p>加入酷推企业的，在企业微信中，找到 <code>酷推</code> 应用，回复 "获取用户ID" 即可。</p>
+                    <p>加入第三方企业的，咨询该企业管理员获取。</p>
+
                     <h3 class="text-primary">推送增强<b-badge variant="danger">由于滥用,[图片推送][json][xml]通道已关闭</b-badge></h3>
                     <p>目前QQ机器人推送支持发送 <code>图片</code>、<code>群内@</code>、<code>表情</code>，使用方式：</p>
                     <p>发送图片：<code>@image=可访问的图片地址@</code> , 例如：<code>@image=https://xuthus.cc/images/Photo_0411_1a.jpg@</code></p>
