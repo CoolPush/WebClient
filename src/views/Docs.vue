@@ -57,7 +57,7 @@
                         "pic": "https://xuthus.cc/images/Photo_0411_1a.jpg"
                         }</code></p>
 
-                    <p>(四)Markdown消息：[待验证]</p>
+                    <p>(四)Markdown消息：</p>
                     <p>url: <code>https://push.xuthus.cc/ww/skey?type=3</code></p>
                     <p>body: <code>[这是一个链接](http://work.weixin.qq.com/api/doc)</code></p>
 
