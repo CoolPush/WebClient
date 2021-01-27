@@ -630,19 +630,31 @@
                         .then((response) => {
                             let data = response.data;
                             if (data.code === 200) {
-                                this.alertMessage = "重置成功,刷新页面以获取最新Skey";
-                                this.color = "success";
-                                this.dismissCountDown = this.dismissSecs;
+                                this.$swal.fire({
+                                    position: 'top-end',
+                                    icon: 'success',
+                                    title: '重置成功,刷新页面以获取最新Skey',
+                                    showConfirmButton: false,
+                                    timer: 5000
+                                });
                             } else {
-                                this.alertMessage = "重置失败:" + data.msg;
-                                this.color = "danger";
-                                this.dismissCountDown = this.dismissSecs;
+                                this.$swal.fire({
+                                    position: 'top-end',
+                                    icon: 'error',
+                                    title: "重置失败: " + data.message + '<br/>日志: '+ data.data,
+                                    showConfirmButton: false,
+                                    timer: 5000
+                                });
                             }
                         })
                         .catch((error) => {
-                            console.log("重置结果", error);
-                            //清空localStorage
-                            // localStorage.clear();
+                            this.$swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: "重置结果:" + error.msg,
+                                showConfirmButton: false,
+                                timer: 5000
+                            });
                         });
                 }
             },
@@ -651,20 +663,33 @@
                     this.$api
                         .get(this.serverUrl + '/send/' + this.user.skey + "?c=" + this.msg)
                         .then((response) => {
-                            if (response.data.code !== 200) {
-                                this.alertMessage = "发送失败:" + error.msg;
-                                this.color = "danger";
-                                this.dismissCountDown = this.dismissSecs;
+                            let data = response.data;
+                            if (data.code !== 200) {
+                                this.$swal.fire({
+                                    position: 'top-end',
+                                    icon: 'error',
+                                    title: "发送失败: " + data.message + '<br/>日志: '+ data.data,
+                                    showConfirmButton: false,
+                                    timer: 5000
+                                });
                                 return
                             }
-                            this.alertMessage = "发送成功";
-                            this.color = "success";
-                            this.dismissCountDown = this.dismissSecs;
+                            this.$swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: "发送成功",
+                                showConfirmButton: false,
+                                timer: 5000
+                            });
                         })
                         .catch((error) => {
-                            this.alertMessage = "发送失败:" + error.msg;
-                            this.color = "danger";
-                            this.dismissCountDown = this.dismissSecs;
+                            this.$swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: "发送失败:" + error.msg,
+                                showConfirmButton: false,
+                                timer: 5000
+                            });
                         });
                 }
             },
@@ -673,20 +698,33 @@
                     this.$api
                         .post(this.serverUrl + '/send/' + this.user.skey, this.msg, {headers: {"Content-type": "application/json"}})
                         .then((response) => {
-                            if (response.data.code === 400) {
-                                this.alertMessage = "发送失败:" + error.msg;
-                                this.color = "danger";
-                                this.dismissCountDown = this.dismissSecs;
+                            let data = response.data;
+                            if (response.data.code !== 200) {
+                                this.$swal.fire({
+                                    position: 'top-end',
+                                    icon: 'error',
+                                    title: "发送失败:" + data.message + '<br/>日志: '+ data.data,
+                                    showConfirmButton: false,
+                                    timer: 5000
+                                });
                                 return
                             }
-                            this.alertMessage = "发送成功";
-                            this.color = "success";
-                            this.dismissCountDown = this.dismissSecs;
+                            this.$swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: "发送成功",
+                                showConfirmButton: false,
+                                timer: 5000
+                            });
                         })
                         .catch((error) => {
-                            this.alertMessage = "发送失败:" + error.msg;
-                            this.color = "danger";
-                            this.dismissCountDown = this.dismissSecs;
+                            this.$swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: "发送失败:" + error.msg,
+                                showConfirmButton: false,
+                                timer: 5000
+                            });
                         });
                 }
             },
@@ -704,16 +742,34 @@
                         {headers: header}
                     )
                     .then((response) => {
-                        //绑定成功
-                        this.alertMessage = "绑定成功";
-                        this.color = "success";
-                        this.dismissCountDown = this.dismissSecs;
+                        let data = response.data;
+                        if (response.data.code !== 200) {
+                            this.$swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: "绑定失败: " + data.message + '<br/>日志: '+ data.data,
+                                showConfirmButton: false,
+                                timer: 5000
+                            });
+                            return
+                        }
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: "绑定成功",
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
                     })
                     .catch((error) => {
                         //绑定失败
-                        this.alertMessage = "绑定失败";
-                        this.color = "danger";
-                        this.dismissCountDown = this.dismissSecs;
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "绑定失败: " + error.msg,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
                     });
             },
             groupBind() {
@@ -730,16 +786,34 @@
                         {headers: header}
                     )
                     .then((response) => {
-                        //绑定成功
-                        this.alertMessage = "绑定成功";
-                        this.color = "success";
-                        this.dismissCountDown = this.dismissSecs;
+                        let data = response.data;
+                        if (response.data.code !== 200) {
+                            this.$swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: "绑定失败: " + data.message + '<br/>日志: '+ data.data,
+                                showConfirmButton: false,
+                                timer: 5000
+                            });
+                            return
+                        }
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: "绑定成功",
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
                     })
                     .catch((error) => {
                         //绑定失败
-                        this.alertMessage = "绑定失败";
-                        this.color = "danger";
-                        this.dismissCountDown = this.dismissSecs;
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "绑定失败: " + error.msg,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
                     });
             },
             emailBind() {
@@ -751,22 +825,34 @@
                         this.serverUrl + "/emails/bind", this.emailConfig, {headers: header}
                     )
                     .then((response) => {
-                        //绑定成功
-                        if (response.data.code === 200) {
-                            this.alertMessage = "成功";
-                            this.color = "success";
-                            this.dismissCountDown = this.dismissSecs;
-                        }else{
-                            this.alertMessage = "失败";
-                            this.color = "danger";
-                            this.dismissCountDown = this.dismissSecs;
+                        let data = response.data;
+                        if (response.data.code !== 200) {
+                            this.$swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: "绑定失败: " + data.message + '<br/>日志: '+ data.data,
+                                showConfirmButton: false,
+                                timer: 5000
+                            });
+                            return
                         }
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: "绑定成功",
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
                     })
                     .catch((error) => {
                         //绑定失败
-                        this.alertMessage = "绑定失败";
-                        this.color = "danger";
-                        this.dismissCountDown = this.dismissSecs;
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "绑定失败: " + error.msg,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
                     });
             },
             emailValid() {
@@ -777,22 +863,34 @@
                         this.serverUrl + "/emails/valid", {headers: header}
                     )
                     .then((response) => {
-                        //绑定成功
-                        if (response.data.code === 200) {
-                            this.alertMessage = "成功";
-                            this.color = "success";
-                            this.dismissCountDown = this.dismissSecs;
-                        }else{
-                            this.alertMessage = response.data.data.Msg;
-                            this.color = "danger";
-                            this.dismissCountDown = this.dismissSecs;
+                        let data = response.data;
+                        if (response.data.code !== 200) {
+                            this.$swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: "校验失败: " + data.message + '<br/>日志: '+ data.data,
+                                showConfirmButton: false,
+                                timer: 5000
+                            });
+                            return
                         }
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: "校验成功，请查收递投测试邮件",
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
                     })
                     .catch((error) => {
                         //绑定失败
-                        this.alertMessage = "失败";
-                        this.color = "danger";
-                        this.dismissCountDown = this.dismissSecs;
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "校验失败: " + error.msg,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
                     });
             },
             bindWxPusher() {
@@ -805,16 +903,31 @@
                             let data = response.data;
                             if (data.code === 200) {
                                 if (data.wxPusherUid === '') {
-                                    this.wxPusherShowBindResult = true;
-                                    this.alertMessage = "绑定失败,请重试!";
-                                    this.color = "danger";
-                                    this.dismissCountDown = this.dismissSecs;
+                                    this.$swal.fire({
+                                        position: 'top-end',
+                                        icon: 'error',
+                                        title: "绑定失败,请重试: " + data.message + '<br/>日志: '+ data.data,
+                                        showConfirmButton: false,
+                                        timer: 5000
+                                    });
                                 }else{
                                     this.wxPusherShowBindResult = true;
-                                    this.alertMessage = "绑定成功!";
-                                    this.color = "success";
-                                    this.dismissCountDown = this.dismissSecs;
+                                    this.$swal.fire({
+                                        position: 'top-end',
+                                        icon: 'success',
+                                        title: "绑定成功!",
+                                        showConfirmButton: false,
+                                        timer: 5000
+                                    });
                                 }
+                            } else {
+                                this.$swal.fire({
+                                    position: 'top-end',
+                                    icon: 'error',
+                                    title: "校验失败: " + data.message + '<br/>日志: '+ data.data,
+                                    showConfirmButton: false,
+                                    timer: 5000
+                                });
                             }
                         })
                         .catch((error) => {
@@ -837,15 +950,26 @@
                                 this.wxPusherImg = data.data;
                                 this.$bvModal.show('modal-bindWxPusher')
                             } else {
-                                this.alertMessage = "重置失败:" + data.msg;
-                                this.color = "danger";
-                                this.dismissCountDown = this.dismissSecs;
+                                this.$swal.fire({
+                                    position: 'top-end',
+                                    icon: 'error',
+                                    title: "获取二维码失败: " + data.message + '<br/>日志: '+ data.data,
+                                    showConfirmButton: false,
+                                    timer: 5000
+                                });
                             }
                         })
                         .catch((error) => {
                             console.log("重置结果", error);
                             //清空localStorage
                             // localStorage.clear();
+                            this.$swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: "获取二维码失败: " + error.msg,
+                                showConfirmButton: false,
+                                timer: 5000
+                            });
                         });
                 }
             },
@@ -859,16 +983,34 @@
                         {headers: header}
                     )
                     .then((response) => {
-                        this.user.wxPusherUid = '';
-                        this.alertMessage = "取消绑定成功";
-                        this.color = "success";
-                        this.dismissCountDown = this.dismissSecs;
+                        let data = response.data;
+                        if (data.code === 200) {
+                            this.user.wxPusherUid = '';
+                            this.$swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: "取消绑定成功!",
+                                showConfirmButton: false,
+                                timer: 5000
+                            });
+                        } else {
+                            this.$swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: "取消绑定是啊比: " + data.message + '<br/>日志: '+ data.data,
+                                showConfirmButton: false,
+                                timer: 5000
+                            });
+                        }
                     })
                     .catch((error) => {
-                        //绑定失败
-                        this.alertMessage = "取消绑定失败";
-                        this.color = "danger";
-                        this.dismissCountDown = this.dismissSecs;
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "取消绑定失败: " + error.msg,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
                     });
             },
             logout() {
@@ -896,9 +1038,13 @@
             },
             wwJoinSubmit() {
                 if (this.wwBindConfig.user.user_id.toLowerCase() === "@all") {
-                    this.alertMessage = "非法参数 @all";
-                    this.color = "danger";
-                    this.dismissCountDown = this.dismissSecs;
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "非法参数 @all",
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
                     return
                 }
 
@@ -912,30 +1058,45 @@
                         {headers: header}
                     )
                     .then((response) => {
-                        //绑定成功
+                        let data = response.data;
                         if (response.data.code === 200) {
-                            this.alertMessage = "成功";
-                            this.color = "success";
-                            this.dismissCountDown = this.dismissSecs;
+                            this.$swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: "操作成功!",
+                                showConfirmButton: false,
+                                timer: 5000
+                            });
                         }else{
-                            this.alertMessage = "失败";
-                            this.color = "danger";
-                            this.dismissCountDown = this.dismissSecs;
+                            this.$swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: "操作失败: " + data.message + '<br/>日志: '+ data.data,
+                                showConfirmButton: false,
+                                timer: 5000
+                            });
                         }
                     })
                     .catch((error) => {
-                        //绑定失败
-                        this.alertMessage = "失败";
-                        this.color = "danger";
-                        this.dismissCountDown = this.dismissSecs;
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "操作失败: " + error.msg,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
                     });
             },
             wwBindSubmit() {
                 if (this.wwBindConfig.user.user_id.toLowerCase() === "@all") {
-                    this.alertMessage = "非法参数 @all";
-                    this.color = "danger";
-                    this.dismissCountDown = this.dismissSecs;
-                    return
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "非法参数: @all",
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                    return;
                 }
 
                 let token = localStorage.getItem("token");
@@ -944,20 +1105,33 @@
                     .post(this.serverUrl + '/wework/bind?userId='+this.wwBindConfig.user.user_id, this.wwBindConfig.app,
                         {headers: {"Content-type": "application/json", token: token }})
                     .then((response) => {
+                        let data = response.data;
                         if (response.data.code === 200) {
-                            this.alertMessage = "成功";
-                            this.color = "success";
-                            this.dismissCountDown = this.dismissSecs;
+                            this.$swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: "操作成功!",
+                                showConfirmButton: false,
+                                timer: 5000
+                            });
                         }else{
-                            this.alertMessage = "失败";
-                            this.color = "danger";
-                            this.dismissCountDown = this.dismissSecs;
+                            this.$swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: "操作失败: " + data.message + '<br/>日志: '+ data.data,
+                                showConfirmButton: false,
+                                timer: 5000
+                            });
                         }
                     })
                     .catch((error) => {
-                        this.alertMessage = "失败";
-                        this.color = "danger";
-                        this.dismissCountDown = this.dismissSecs;
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "操作失败: " + error.msg,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
                     });
             },
             getJoinLink(id) {
@@ -970,25 +1144,33 @@
             qqPrivateBind() {
 
                 if (this.user.privatePath === "") {
-                    this.alertMessage = "请指定绑定地址";
-                    this.color = "danger";
-                    this.dismissCountDown = this.dismissSecs;
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "请指定绑定地址",
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
                     return
                 }
 
                 let reg = new RegExp(/(\w+):\/\/([^/:]+)(:\d*)?/);
                 let result = this.user.privatePath.match(reg)
                 if (result === null || result[0] === "") {
-                    this.alertMessage = "格式不正确";
-                    this.color = "danger";
-                    this.dismissCountDown = this.dismissSecs;
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "格式不正确",
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
                     return
                 }
 
                 let removeLastPart = function(url) {
                     let lastSlashIndex = url.lastIndexOf("/");
-                    if (lastSlashIndex > url.indexOf("/") + 1) { // if not in http://
-                        return url.substr(0, lastSlashIndex); // cut it off
+                    if (lastSlashIndex > url.indexOf("/") + 1) {
+                        return url.substr(0, lastSlashIndex);
                     } else {
                         return url;
                     }
@@ -1004,22 +1186,33 @@
                         {headers: header}
                     )
                     .then((response) => {
-                        //绑定成功
+                        let data = response.data;
                         if (response.data.code === 200) {
-                            this.alertMessage = "绑定成功";
-                            this.color = "success";
-                            this.dismissCountDown = this.dismissSecs;
+                            this.$swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: "操作成功!",
+                                showConfirmButton: false,
+                                timer: 5000
+                            });
                         }else{
-                            this.alertMessage = "绑定失败";
-                            this.color = "danger";
-                            this.dismissCountDown = this.dismissSecs;
+                            this.$swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: "操作失败: " + data.message + '<br/>日志: '+ data.data,
+                                showConfirmButton: false,
+                                timer: 5000
+                            });
                         }
                     })
                     .catch((error) => {
-                        //绑定失败
-                        this.alertMessage = "绑定失败";
-                        this.color = "danger";
-                        this.dismissCountDown = this.dismissSecs;
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "操作失败: " + error.msg,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
                     });
             },
             qqPrivateValid() {
@@ -1031,22 +1224,33 @@
                         {headers: header}
                     )
                     .then((response) => {
-                        //绑定成功
+                        let data = response.data;
                         if (response.data.code === 200) {
-                            this.alertMessage = "校验成功";
-                            this.color = "success";
-                            this.dismissCountDown = this.dismissSecs;
+                            this.$swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: "校验成功!",
+                                showConfirmButton: false,
+                                timer: 5000
+                            });
                         }else{
-                            this.alertMessage = "校验失败";
-                            this.color = "danger";
-                            this.dismissCountDown = this.dismissSecs;
+                            this.$swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: "校验失败: " + data.message + '<br/>日志: '+ data.data,
+                                showConfirmButton: false,
+                                timer: 5000
+                            });
                         }
                     })
                     .catch((error) => {
-                        //绑定失败
-                        this.alertMessage = "校验失败";
-                        this.color = "danger";
-                        this.dismissCountDown = this.dismissSecs;
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "操作失败: " + error.msg,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
                     });
             }
         },
