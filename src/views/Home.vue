@@ -899,6 +899,7 @@
                     this.alertMessage = "非法参数 @all";
                     this.color = "danger";
                     this.dismissCountDown = this.dismissSecs;
+                    return
                 }
 
                 let token = localStorage.getItem("token");
@@ -934,6 +935,7 @@
                     this.alertMessage = "非法参数 @all";
                     this.color = "danger";
                     this.dismissCountDown = this.dismissSecs;
+                    return
                 }
 
                 let token = localStorage.getItem("token");
@@ -1097,8 +1099,6 @@
                             for (let i = 0; i < data.data.length; i++) {
                                 this.corpListOptions.push({value: data.data[i].id, text: data.data[i].corp_name, link: data.data[i].join_link})
                             }
-
-                            console.log("push corp list: ",this.corpListOptions)
                         }
                     })
                     .catch((error) => {
