@@ -895,6 +895,12 @@
                 }
             },
             wwJoinSubmit() {
+                if (this.wwBindConfig.user.user_id.toLowerCase() === "@all") {
+                    this.alertMessage = "非法参数 @all";
+                    this.color = "danger";
+                    this.dismissCountDown = this.dismissSecs;
+                }
+
                 let token = localStorage.getItem("token");
                 let header = {token: token};
                 this.$api
@@ -924,6 +930,12 @@
                     });
             },
             wwBindSubmit() {
+                if (this.wwBindConfig.user.user_id.toLowerCase() === "@all") {
+                    this.alertMessage = "非法参数 @all";
+                    this.color = "danger";
+                    this.dismissCountDown = this.dismissSecs;
+                }
+
                 let token = localStorage.getItem("token");
                 this.wwBindConfig.app.agent_id = parseInt(this.wwBindConfig.app.agent_id)
                 this.$api
@@ -971,6 +983,16 @@
                     return
                 }
 
+                let removeLastPart = function(url) {
+                    let lastSlashIndex = url.lastIndexOf("/");
+                    if (lastSlashIndex > url.indexOf("/") + 1) { // if not in http://
+                        return url.substr(0, lastSlashIndex); // cut it off
+                    } else {
+                        return url;
+                    }
+                }
+
+                this.user.privatePath = removeLastPart(this.user.privatePath);
 
                 let token = localStorage.getItem("token");
                 let header = {token: token};
