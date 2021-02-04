@@ -173,8 +173,7 @@
                             >
                             <br/>
                             <h5>
-                                <b-badge variant="danger">964627404</b-badge> <span> </span>
-                                <b-badge variant="danger">723860385</b-badge> <span> </span>
+                                <b-badge variant="danger" class="mr-2" v-for="num in accountOfflineList" :key="num">{{num}}</b-badge> <span> </span>
                             </h5>
                         </div>
 
@@ -561,19 +560,18 @@
         data() {
             return {
                 accountOption: [
-                    { text: '2277671372', value: '2277671372' },
                     { text: '371365873', value: '371365873' },
-                    { text: '723860385', value: '723860385' },
-                    { text: '1498598914', value: '1498598914' },
-                    { text: '228346469', value: '228346469' },
+                    { text: '1136423131', value: '1136423131' },
+                    { text: '2046118436', value: '2046118436' },
                 ],
                 accountGroupOption: [
-                    { text: '2277671372', value: '2277671372' },
                     { text: '371365873', value: '371365873' },
-                    { text: '723860385', value: '723860385' },
-                    { text: '1498598914', value: '1498598914' },
-                    { text: '228346469', value: '228346469' },
+                    { text: '1136423131', value: '1136423131' },
+                    { text: '2046118436', value: '2046118436' },
                 ],
+				accountOfflineList: [
+					'228346469', '964627404', '723860385', '2277671372', '1498598914', '2292066393', '3150058140'
+				],
                 corpSelected: 0,
                 corpListOptions: [
                 ],
