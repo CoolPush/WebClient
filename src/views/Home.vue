@@ -676,7 +676,7 @@ export default {
                             this.$swal.fire({
                                 position: 'top-end',
                                 icon: 'error',
-                                title: "重置失败: " + data.message + '<br/>日志: ' + data.data,
+                                title: "重置失败: " + data.message,
                                 showConfirmButton: false,
                                 timer: 5000
                             });
@@ -738,7 +738,7 @@ export default {
                             this.$swal.fire({
                                 position: 'top-end',
                                 icon: 'error',
-                                title: "发送失败:" + data.message + '<br/>日志: ' + data.data,
+                                title: "发送失败:" + data.message,
                                 showConfirmButton: false,
                                 timer: 5000
                             });
@@ -782,7 +782,7 @@ export default {
                         this.$swal.fire({
                             position: 'top-end',
                             icon: 'error',
-                            title: "绑定失败: " + data.message + '<br/>日志: ' + data.data,
+                            title: "绑定失败: " + data.message,
                             showConfirmButton: false,
                             timer: 5000
                         });
@@ -826,7 +826,7 @@ export default {
                         this.$swal.fire({
                             position: 'top-end',
                             icon: 'error',
-                            title: "绑定失败: " + data.message + '<br/>日志: ' + data.data,
+                            title: "绑定失败: " + data.message,
                             showConfirmButton: false,
                             timer: 5000
                         });
@@ -865,7 +865,7 @@ export default {
                         this.$swal.fire({
                             position: 'top-end',
                             icon: 'error',
-                            title: "绑定失败: " + data.message + '<br/>日志: ' + data.data,
+                            title: "绑定失败: " + data.message,
                             showConfirmButton: false,
                             timer: 5000
                         });
@@ -903,7 +903,7 @@ export default {
                         this.$swal.fire({
                             position: 'top-end',
                             icon: 'error',
-                            title: "校验失败: " + data.message + '<br/>日志: ' + data.data,
+                            title: "校验失败: " + data.message,
                             showConfirmButton: false,
                             timer: 5000
                         });
@@ -941,7 +941,7 @@ export default {
                                 this.$swal.fire({
                                     position: 'top-end',
                                     icon: 'error',
-                                    title: "绑定失败,请重试: " + data.message + '<br/>日志: ' + data.data,
+                                    title: "绑定失败,请重试: " + data.message,
                                     showConfirmButton: false,
                                     timer: 5000
                                 });
@@ -959,7 +959,7 @@ export default {
                             this.$swal.fire({
                                 position: 'top-end',
                                 icon: 'error',
-                                title: "校验失败: " + data.message + '<br/>日志: ' + data.data,
+                                title: "校验失败: " + data.message,
                                 showConfirmButton: false,
                                 timer: 5000
                             });
@@ -988,7 +988,7 @@ export default {
                             this.$swal.fire({
                                 position: 'top-end',
                                 icon: 'error',
-                                title: "获取二维码失败: " + data.message + '<br/>日志: ' + data.data,
+                                title: "获取二维码失败: " + data.message,
                                 showConfirmButton: false,
                                 timer: 5000
                             });
@@ -1032,7 +1032,7 @@ export default {
                         this.$swal.fire({
                             position: 'top-end',
                             icon: 'error',
-                            title: "取消绑定是啊比: " + data.message + '<br/>日志: ' + data.data,
+                            title: "取消绑定是啊比: " + data.message,
                             showConfirmButton: false,
                             timer: 5000
                         });
@@ -1106,7 +1106,7 @@ export default {
                         this.$swal.fire({
                             position: 'top-end',
                             icon: 'error',
-                            title: "操作失败: " + data.message + '<br/>日志: ' + data.data,
+                            title: "操作失败: " + data.message,
                             showConfirmButton: false,
                             timer: 5000
                         });
@@ -1153,7 +1153,7 @@ export default {
                         this.$swal.fire({
                             position: 'top-end',
                             icon: 'error',
-                            title: "操作失败: " + data.message + '<br/>日志: ' + data.data,
+                            title: "操作失败: " + data.message,
                             showConfirmButton: false,
                             timer: 5000
                         });
@@ -1237,7 +1237,7 @@ export default {
                         this.$swal.fire({
                             position: 'top-end',
                             icon: 'error',
-                            title: "操作失败: " + data.message + '<br/>日志: ' + data.data,
+                            title: "操作失败: " + data.message,
                             showConfirmButton: false,
                             timer: 5000
                         });
@@ -1275,7 +1275,7 @@ export default {
                         this.$swal.fire({
                             position: 'top-end',
                             icon: 'error',
-                            title: "校验失败: " + data.message + '<br/>日志: ' + data.data,
+                            title: "校验失败: " + data.message,
                             showConfirmButton: false,
                             timer: 5000
                         });
