@@ -9,8 +9,8 @@
                         <b-button variant="primary" size="lg" class="my-2 mr-2" @click="login">登陆</b-button>
                     </span>
                     <router-link
-                            :to="{ name: 'Docs' }"
-                            class="btn btn-primary btn-lg my-2 mr-2"
+                        :to="{ name: 'Docs' }"
+                        class="btn btn-primary btn-lg my-2 mr-2"
                     >
                         <span>说明</span>
                     </router-link>
@@ -26,20 +26,20 @@
         <div v-if="dismissCountDown" class="container mt-4 docs">
             <div class="row">
                 <b-col
-                        sm="12"
-                        md="8"
-                        lg="8"
-                        xl="8"
-                        offset-md="2"
-                        offset-lg="2"
-                        offset-xl="2"
+                    sm="12"
+                    md="8"
+                    lg="8"
+                    xl="8"
+                    offset-md="2"
+                    offset-lg="2"
+                    offset-xl="2"
                 >
                     <b-alert
-                            :show="dismissCountDown"
-                            dismissible
-                            :variant="color"
-                            @dismissed="dismissCountDown = 0"
-                            @dismiss-count-down="countDownChanged"
+                        :show="dismissCountDown"
+                        dismissible
+                        :variant="color"
+                        @dismissed="dismissCountDown = 0"
+                        @dismiss-count-down="countDownChanged"
                     >
                         {{ alertMessage }}
                     </b-alert>
@@ -51,23 +51,23 @@
             <div class="container py-5 docs">
                 <div class="row">
                     <b-col
-                            sm="12"
-                            md="8"
-                            lg="8"
-                            xl="8"
-                            offset-md="2"
-                            offset-lg="2"
-                            offset-xl="2"
+                        sm="12"
+                        md="8"
+                        lg="8"
+                        xl="8"
+                        offset-md="2"
+                        offset-lg="2"
+                        offset-xl="2"
                     >
                         <div class="call-key">
                             <h3 class="text-primary float-left">调用代码Skey</h3>
                             <b-button v-b-modal.modal-reset class="btn btn-danger float-right">重置</b-button>
                         </div>
                         <b-form-input
-                                v-model="user.skey"
-                                type="text"
-                                class="form-control"
-                                disabled
+                            v-model="user.skey"
+                            type="text"
+                            class="form-control"
+                            disabled
                         ></b-form-input>
                     </b-col>
                 </div>
@@ -76,22 +76,22 @@
             <div class="container py-3 docs">
                 <div class="row">
                     <b-col
-                            sm="12"
-                            md="8"
-                            lg="8"
-                            xl="8"
-                            offset-md="2"
-                            offset-lg="2"
-                            offset-xl="2"
+                        sm="12"
+                        md="8"
+                        lg="8"
+                        xl="8"
+                        offset-md="2"
+                        offset-lg="2"
+                        offset-xl="2"
                     >
                         <h3 class="text-primary">绑定机器人</h3>
                         <div class="form-group">
                             <label>QQ号私人推送</label>
                             <b-form-input
-                                    v-model="user.sendTo"
-                                    type="text"
-                                    class="form-control"
-                                    placeholder="输入推送QQ地址"
+                                v-model="user.sendTo"
+                                type="text"
+                                class="form-control"
+                                placeholder="输入推送QQ地址"
                             ></b-form-input>
                             <small class="form-text text-muted"
                             ><code>请将该账号添加机器人QQ为好友[已开启敏感词过滤规则,存在敏感词的推送将会被丢弃]</code></small
@@ -115,10 +115,10 @@
                         <div class="form-group">
                             <label>QQ群推送</label>
                             <b-form-input
-                                    v-model="user.groupTo"
-                                    type="text"
-                                    class="form-control"
-                                    placeholder="输入需要绑定的QQ群号码"
+                                v-model="user.groupTo"
+                                type="text"
+                                class="form-control"
+                                placeholder="输入需要绑定的QQ群号码"
                             ></b-form-input>
                             <small class="form-text text-muted"
                             ><code>请选择以下机器人并拉他们入群[已开启敏感词过滤规则,存在敏感词的推送将会被丢弃]</code></small
@@ -139,22 +139,29 @@
 
                         <hr>
 
-                        <div class="form-group">
-                            <label>私有化绑定</label> <router-link
-							:to="{ name: 'Deploy' }"
-							class="my-2 mr-2"
-						>
-							<span>部署包(go-cqhttp定制版本)</span>
-						</router-link>
-                            <b-form-input
-                                v-model="user.privatePath"
-                                type="text"
-                                class="form-control"
-                                placeholder="输入需要绑定的URL地址, eg: http://8.8.8.8:5700"
-                            ></b-form-input>
-                            <small class="form-text text-muted"
-                            ><code>输入私有化部署后的可供访问的URL地址,并完成校验</code></small
+                        <div class="form-group private_deploy">
+                            <label>私有化绑定 </label>
+                            <router-link
+                                :to="{ name: 'Deploy' }"
+                                class="my-2 mr-2"
                             >
+                                <span> 部署包(go-cqhttp定制版本)</span>
+                            </router-link>
+                            <b-form inline>
+                                <b-form-input
+                                    v-model="user.privatePath"
+                                    type="text"
+                                    class="form-control mr-2"
+                                    placeholder="绑定URL地址,eg: http://8.8.8.8:5700"
+                                ></b-form-input>
+                                <b-form-input
+                                    v-model="user.privateAccessToken"
+                                    type="text"
+                                    class="form-control"
+                                    placeholder="若存在鉴权,请输入 access_token"
+                                ></b-form-input>
+                            </b-form>
+                            <small class="form-text text-muted"><code>输入私有化部署后的可供访问的URL地址,并完成校验</code></small>
                         </div>
 
                         <button type="button" class="btn btn-danger mt-2 mr-2" @click="qqPrivateValid">
@@ -173,7 +180,10 @@
                             >
                             <br/>
                             <h5>
-                                <b-badge variant="danger" class="mr-2" v-for="num in accountOfflineList" :key="num">{{num}}</b-badge> <span> </span>
+                                <b-badge variant="danger" class="mr-2" v-for="num in accountOfflineList" :key="num">
+                                    {{ num }}
+                                </b-badge>
+                                <span> </span>
                             </h5>
                         </div>
 
@@ -184,7 +194,9 @@
                             ><code>感谢以下用户的QQ小号赞助!</code></small
                             >
                             <br/>
-                            <h5><b-badge variant="danger">W4j1e</b-badge></h5>
+                            <h5>
+                                <b-badge variant="danger">W4j1e</b-badge>
+                            </h5>
                         </div>
 
                         <hr>
@@ -250,16 +262,20 @@
                                 开启微信推送
                             </b-form-checkbox>
                             <div v-if="openWxPusher">
-                                <button type="button" class="btn btn-primary mt-2" v-b-modal.modal-bindWxPusher @click="getWxPusherQrCode">
+                                <button type="button" class="btn btn-primary mt-2" v-b-modal.modal-bindWxPusher
+                                        @click="getWxPusherQrCode">
                                     开始绑定
                                 </button>
                             </div>
                         </div>
                         <div v-else>
                             <b-button variant="primary mr-2">
-                                已绑定 <b-badge variant="light">ok</b-badge>
+                                已绑定
+                                <b-badge variant="light">ok</b-badge>
                             </b-button>
-                            <b-button variant="danger" v-b-popover.hover.top="'取消绑定后,酷推skey将与推送端微信公众号失去关联,你仍可通过扫码方式重新建立绑定关系'" title="说明" @click="cancelBindWxPusher">
+                            <b-button variant="danger"
+                                      v-b-popover.hover.top="'取消绑定后,酷推skey将与推送端微信公众号失去关联,你仍可通过扫码方式重新建立绑定关系'" title="说明"
+                                      @click="cancelBindWxPusher">
                                 取消绑定
                             </b-button>
                         </div>
@@ -283,17 +299,20 @@
                                     <b-card-text>选择一个企业，通过企业邀请链接加入其中，并回填你在该企业的用户ID</b-card-text>
 
                                     <b-form inline class="mt-4">
-                                        <b-form-select v-model="corpSelected" :options="corpListOptions" class="mb-4 mr-4"></b-form-select>
+                                        <b-form-select v-model="corpSelected" :options="corpListOptions"
+                                                       class="mb-4 mr-4"></b-form-select>
 
                                         <b-input-group prepend="用户ID" class="mb-4 mr-2">
-                                            <b-form-input placeholder="UserID" v-model="wwBindConfig.user.user_id"></b-form-input>
+                                            <b-form-input placeholder="UserID"
+                                                          v-model="wwBindConfig.user.user_id"></b-form-input>
                                         </b-input-group>
 
                                         <b-button variant="primary" class="mb-4" @click="wwJoinSubmit">保存</b-button>
                                     </b-form>
 
                                     <div v-if="corpSelected && getJoinLink(corpSelected)" class="mt-4">
-                                        企业邀请链接：<a :href="getJoinLink(corpSelected).link">{{getJoinLink(corpSelected).link}}</a>
+                                        企业邀请链接：<a
+                                        :href="getJoinLink(corpSelected).link">{{ getJoinLink(corpSelected).link }}</a>
                                     </div>
 
                                 </b-tab>
@@ -303,11 +322,13 @@
                                     <b-form inline class="mt-4">
 
                                         <b-input-group prepend="企业名称" class="mb-2 mr-sm-2 mb-sm-0">
-                                            <b-form-input v-model="wwBindConfig.app.corp_name" placeholder="eg: 酷推"></b-form-input>
+                                            <b-form-input v-model="wwBindConfig.app.corp_name"
+                                                          placeholder="eg: 酷推"></b-form-input>
                                         </b-input-group>
 
                                         <b-input-group prepend="企业CorpId" class="mb-2 mr-sm-2 mb-sm-0">
-                                            <b-form-input v-model="wwBindConfig.app.corp_id" placeholder="eg: wwbc847..."></b-form-input>
+                                            <b-form-input v-model="wwBindConfig.app.corp_id"
+                                                          placeholder="eg: wwbc847..."></b-form-input>
                                         </b-input-group>
 
                                     </b-form>
@@ -315,25 +336,31 @@
                                     <b-form inline class="mt-4">
 
                                         <b-input-group prepend="应用AgentID" class="mb-2 mr-sm-2 mb-sm-0">
-                                            <b-form-input v-model="wwBindConfig.app.agent_id" placeholder="eg: 1000002"></b-form-input>
+                                            <b-form-input v-model="wwBindConfig.app.agent_id"
+                                                          placeholder="eg: 1000002"></b-form-input>
                                         </b-input-group>
 
                                         <b-input-group prepend="应用Secret" class="mb-2 mr-sm-2 mb-sm-0">
-                                            <b-form-input v-model="wwBindConfig.app.secret" placeholder="eg: z2Ea3uj17UNYO..."></b-form-input>
+                                            <b-form-input v-model="wwBindConfig.app.secret"
+                                                          placeholder="eg: z2Ea3uj17UNYO..."></b-form-input>
                                         </b-input-group>
 
                                     </b-form>
 
-                                    <b-form-checkbox switch size="lg" v-model="wwBindConfig.app.is_share" class="mr-2 mt-4">是否公开企业邀请</b-form-checkbox>
+                                    <b-form-checkbox switch size="lg" v-model="wwBindConfig.app.is_share"
+                                                     class="mr-2 mt-4">是否公开企业邀请
+                                    </b-form-checkbox>
 
                                     <div v-if="wwBindConfig.app.is_share" class="mt-4">
                                         <b-input-group prepend="企业邀请链接" class="mb-2 mr-sm-2 mb-sm-0">
-                                            <b-form-input v-model="wwBindConfig.app.join_link" placeholder="eg: https://work.weixin.qq.com/join/..."></b-form-input>
+                                            <b-form-input v-model="wwBindConfig.app.join_link"
+                                                          placeholder="eg: https://work.weixin.qq.com/join/..."></b-form-input>
                                         </b-input-group>
                                     </div>
 
                                     <b-input-group prepend="绑定UserID" class="mb-2 mt-4">
-                                        <b-form-input v-model="wwBindConfig.user.user_id" placeholder="eg: XiaoMing"></b-form-input>
+                                        <b-form-input v-model="wwBindConfig.user.user_id"
+                                                      placeholder="eg: XiaoMing"></b-form-input>
                                     </b-input-group>
 
                                     <b-button variant="primary" class="mt-4" @click="wwBindSubmit">保存</b-button>
@@ -348,21 +375,21 @@
             <div class="container py-3 docs">
                 <div class="row">
                     <b-col
-                            sm="12"
-                            md="8"
-                            lg="8"
-                            xl="8"
-                            offset-md="2"
-                            offset-lg="2"
-                            offset-xl="2"
+                        sm="12"
+                        md="8"
+                        lg="8"
+                        xl="8"
+                        offset-md="2"
+                        offset-lg="2"
+                        offset-xl="2"
                     >
                         <h3 class="text-primary">在线测试</h3>
                         <b-form-textarea
-                                id="textarea"
-                                v-model="msg"
-                                placeholder="消息内容,限制最长1500字母/500汉字;如需格式化消息,请使用POST按照raw格式提交"
-                                rows="5"
-                                max-rows="6"
+                            id="textarea"
+                            v-model="msg"
+                            placeholder="消息内容,限制最长1500字母/500汉字;如需格式化消息,请使用POST按照raw格式提交"
+                            rows="5"
+                            max-rows="6"
                         ></b-form-textarea>
                         <button type="button" class="btn btn-primary mt-2 mr-2" @click="sendGetMsg">
                             发送消息
@@ -377,30 +404,31 @@
             <div class="container py-3 docs">
                 <div class="row">
                     <b-col
-                            sm="12"
-                            md="8"
-                            lg="8"
-                            xl="8"
-                            offset-md="2"
-                            offset-lg="2"
-                            offset-xl="2"
+                        sm="12"
+                        md="8"
+                        lg="8"
+                        xl="8"
+                        offset-md="2"
+                        offset-lg="2"
+                        offset-xl="2"
                     >
                         <p>私聊推送消息非常简单，只需要向以下URL发一个GET或者POST请求：</p>
                         <b-form-input
-                                v-model="this.serverUrl+ '/send/' + user.skey"
-                                type="text"
-                                class="form-control"
-                                disabled
+                            v-model="this.serverUrl+ '/send/' + user.skey"
+                            type="text"
+                            class="form-control"
+                            disabled
                         ></b-form-input>
                         <p class="mt-2">同样的, 如需群消息推送，只需要向以下URL发一个GET或者POST请求：</p>
                         <b-form-input
-                                v-model="this.serverUrl+ '/group/' + user.skey"
-                                type="text"
-                                class="form-control"
-                                disabled
+                            v-model="this.serverUrl+ '/group/' + user.skey"
+                            type="text"
+                            class="form-control"
+                            disabled
                         ></b-form-input>
 
-                        <p class="mt-2">如果你部署了私有化的QQ机器人，在绑定并验证后，只需要向以下URL发一个GET或者POST请求，即可完成私聊推送，当然，敏感词不受限制，并且增强功能均已开启：</p>
+                        <p class="mt-2">
+                            如果你部署了私有化的QQ机器人，在绑定并验证后，只需要向以下URL发一个GET或者POST请求，即可完成私聊推送，当然，敏感词不受限制，并且增强功能均已开启：</p>
                         <b-form-input
                             v-model="this.serverUrl+ '/psend/' + user.skey"
                             type="text"
@@ -431,10 +459,10 @@
                             最简单的消息发送方式是通过浏览器，在地址栏输入以下URL，回车后即可发送：
                         </p>
                         <b-form-input
-                                v-model="this.serverUrl+ '/send/' + user.skey + '?c=你好呀'"
-                                type="text"
-                                class="form-control"
-                                disabled
+                            v-model="this.serverUrl+ '/send/' + user.skey + '?c=你好呀'"
+                            type="text"
+                            class="form-control"
+                            disabled
                         ></b-form-input>
 
                         <p class="mt-2 text-danger">如需企微消息推送，你需要向以下URL地址发送POST请求：</p>
@@ -447,7 +475,6 @@
                         <p class="mt-2 text-danger">企业微信推送的请求参数可参考<strong>说明文档</strong></p>
 
 
-
                         <p class="mt-2">额外的，如需邮箱消息推送，只需要向以下URL发一个GET或者POST请求：</p>
                         <b-form-input
                             v-model="this.serverUrl+ '/email/' + user.skey"
@@ -455,8 +482,9 @@
                             class="form-control"
                             disabled
                         ></b-form-input>
-                        <p class="mt-2">邮箱消息推送接收两个参数，分别是 <code>t</code> 和 <code>c</code> 表示 <code>title 标题</code> 和 <code>content 内容</code></p>
-                            <p>下面是一个简单的邮件推送演示，在地址栏输入以下URL，回车后即可发送：</p>
+                        <p class="mt-2">邮箱消息推送接收两个参数，分别是 <code>t</code> 和 <code>c</code> 表示 <code>title 标题</code> 和
+                            <code>content 内容</code></p>
+                        <p>下面是一个简单的邮件推送演示，在地址栏输入以下URL，回车后即可发送：</p>
                         <b-form-input
                             v-model="this.serverUrl+ '/email/' + user.skey + '?t=这是推送邮件的标题&c=这是推送邮件的内容'"
                             type="text"
@@ -472,13 +500,13 @@
             <div class="container py-5 docs">
                 <div class="row">
                     <b-col
-                            sm="12"
-                            md="8"
-                            lg="8"
-                            xl="8"
-                            offset-md="2"
-                            offset-lg="2"
-                            offset-xl="2"
+                        sm="12"
+                        md="8"
+                        lg="8"
+                        xl="8"
+                        offset-md="2"
+                        offset-lg="2"
+                        offset-xl="2"
                     >
                         <h3 class="text-primary">说明</h3>
                         <p>
@@ -494,13 +522,13 @@
         <div class="container py-5">
             <div class="row">
                 <b-col
-                        sm="12"
-                        md="8"
-                        lg="8"
-                        xl="8"
-                        offset-md="2"
-                        offset-lg="2"
-                        offset-xl="2"
+                    sm="12"
+                    md="8"
+                    lg="8"
+                    xl="8"
+                    offset-md="2"
+                    offset-lg="2"
+                    offset-xl="2"
                 >
                     <div id="vcomments"></div>
                 </b-col>
@@ -509,7 +537,7 @@
 
         <footer class="footer mb-4 mt-4 text-center">
             <div class="footer-top">
-                © {{fullYear}} <i class="fas fa-heart"></i>
+                © {{ fullYear }} <i class="fas fa-heart"></i>
                 <a href="https://xuthus.cc" target="_blank">&nbsp;&nbsp;xuthus</a>
 
                 <p>
@@ -543,9 +571,13 @@
         <b-modal id="modal-login" centered title="登陆方式" hide-footer>
             <b-button variant="info" class="mr-2" @click="loginBy('github')"><i class="fab fa-github fa-lg pr-1"></i>Github
             </b-button>
-<!--            <b-button variant="info" class="mr-2" @click="loginBy('qq')"><img src='../assets/qq.png' class="icon-size-tpl pr-1"></img>QQ</b-button>-->
-            <b-button variant="info" class="mr-2" @click="loginBy('gitee')"><img src='../assets/gitee.svg' class="icon-size-tpl pr-1"></img>Gitee</b-button>
-            <b-button variant="info" class="mr-2" @click="loginBy('osc')"><img src='../assets/oschina.svg' class="icon-size-osc pr-1"></img>OSC</b-button>
+            <!--            <b-button variant="info" class="mr-2" @click="loginBy('qq')"><img src='../assets/qq.png' class="icon-size-tpl pr-1"></img>QQ</b-button>-->
+            <b-button variant="info" class="mr-2" @click="loginBy('gitee')"><img src='../assets/gitee.svg'
+                                                                                 class="icon-size-tpl pr-1"></img>Gitee
+            </b-button>
+            <b-button variant="info" class="mr-2" @click="loginBy('osc')"><img src='../assets/oschina.svg'
+                                                                               class="icon-size-osc pr-1"></img>OSC
+            </b-button>
         </b-modal>
         <b-modal id="modal-bindWxPusher" centered hide-header ok-title="确定" cancel-title="取消" @ok="bindWxPusher">
             <b-img :src="wxPusherImg" fluid alt="Responsive image"></b-img>
@@ -555,444 +587,88 @@
 </template>
 
 <script>
-    export default {
-        name: "Home",
-        data() {
-            return {
-                accountOption: [
-                    { text: '371365873', value: '371365873' },
-                    { text: '1136423131', value: '1136423131' },
-                    { text: '2046118436', value: '2046118436' },
-                ],
-                accountGroupOption: [
-                    { text: '371365873', value: '371365873' },
-                    { text: '1136423131', value: '1136423131' },
-                    { text: '2046118436', value: '2046118436' },
-                ],
-				accountOfflineList: [
-					'228346469', '964627404', '723860385', '2277671372', '1498598914', '2292066393', '3150058140'
-				],
-                corpSelected: 0,
-                corpListOptions: [
-                ],
-                wwBindConfig: {
-                    user: {},
-                    app: {}
-                },
-                user: {
-                    skey: "",
-                    sendTo: "",
-                    sendFrom: "",
-                    groupTo: "",
-                    groupFrom: "",
-                    privatePath: "",
-                    wxPusherUid: "",
-                }, //用户信息
-                msg: "", //在线测试的消息体
-                isLogin: false
-                , //检测是否登录 false没有登陆
-                openWxPusher: false,//是否开启微信推送
-                wxPusherImg: "",//获得二维码地址
-                wxPusherShowBindResult: false,
-                emailConfig:{
-                    host: "",
-                    port: "",
-                    username: "",
-                    password: "",
-                    from: "",
-                    to: ""
-                },
+export default {
+    name: "Home",
+    data() {
+        return {
+            accountOption: [
+                {text: '371365873', value: '371365873'},
+                {text: '1136423131', value: '1136423131'},
+                {text: '2046118436', value: '2046118436'},
+            ],
+            accountGroupOption: [
+                {text: '371365873', value: '371365873'},
+                {text: '1136423131', value: '1136423131'},
+                {text: '2046118436', value: '2046118436'},
+            ],
+            accountOfflineList: [
+                '228346469', '964627404', '723860385', '2277671372', '1498598914', '2292066393', '3150058140'
+            ],
+            corpSelected: 0,
+            corpListOptions: [],
+            wwBindConfig: {
+                user: {},
+                app: {}
+            },
+            user: {
+                skey: "",
+                sendTo: "",
+                sendFrom: "",
+                groupTo: "",
+                groupFrom: "",
+                privatePath: "",
+                privateAccessToken: "",
+                wxPusherUid: "",
+            }, //用户信息
+            msg: "", //在线测试的消息体
+            isLogin: true
+            , //检测是否登录 false没有登陆
+            openWxPusher: false,//是否开启微信推送
+            wxPusherImg: "",//获得二维码地址
+            wxPusherShowBindResult: false,
+            emailConfig: {
+                host: "",
+                port: "",
+                username: "",
+                password: "",
+                from: "",
+                to: ""
+            },
 
-                //弹窗相关
-                color: "warning",
-                dismissSecs: 5,
-                alertMessage: "",
-                dismissCountDown: 0,
+            //弹窗相关
+            color: "warning",
+            dismissSecs: 5,
+            alertMessage: "",
+            dismissCountDown: 0,
 
-                //评论插件
-                valine: null,
-            };
+            //评论插件
+            valine: null,
+        };
+    },
+    methods: {
+        randomAccountList() {
+            return this.accountOption.shuffle()
         },
-        methods: {
-            randomAccountList() {
-                return this.accountOption.shuffle()
-            },
-            randomGroupAccountList() {
-                return this.accountGroupOption.shuffle()
-            },
-            countDownChanged(dismissCountDown) {
-                this.dismissCountDown = dismissCountDown;
-            },
-            resetSkey() {
-                //存在token 先检验 token是否有效 再打开 isLogin 变量
-                let token = localStorage.getItem("token");
-                if (token !== null) {
-                    let header = {token: token};
-                    this.$api
-                        .get(this.serverUrl + "/reset?id=" + this.user.id, {headers: header})
-                        .then((response) => {
-                            let data = response.data;
-                            if (data.code === 200) {
-                                this.$swal.fire({
-                                    position: 'top-end',
-                                    icon: 'success',
-                                    title: '重置成功,刷新页面以获取最新Skey',
-                                    showConfirmButton: false,
-                                    timer: 5000
-                                });
-                            } else {
-                                this.$swal.fire({
-                                    position: 'top-end',
-                                    icon: 'error',
-                                    title: "重置失败: " + data.message + '<br/>日志: '+ data.data,
-                                    showConfirmButton: false,
-                                    timer: 5000
-                                });
-                            }
-                        })
-                        .catch((error) => {
-                            this.$swal.fire({
-                                position: 'top-end',
-                                icon: 'error',
-                                title: "重置结果:" + error.msg,
-                                showConfirmButton: false,
-                                timer: 5000
-                            });
-                        });
-                }
-            },
-            sendGetMsg() {
-                if (this.msg !== "") {
-                    this.$api
-                        .get(this.serverUrl + '/send/' + this.user.skey + "?c=" + this.msg)
-                        .then((response) => {
-                            let data = response.data;
-                            if (data.code !== 200) {
-                                this.$swal.fire({
-                                    position: 'top-end',
-                                    icon: 'error',
-                                    title: "发送失败: " + data.message + '<br/>日志: '+ data.data,
-                                    showConfirmButton: false,
-                                    timer: 5000
-                                });
-                                return
-                            }
-                            this.$swal.fire({
-                                position: 'top-end',
-                                icon: 'success',
-                                title: "发送成功",
-                                showConfirmButton: false,
-                                timer: 5000
-                            });
-                        })
-                        .catch((error) => {
-                            this.$swal.fire({
-                                position: 'top-end',
-                                icon: 'error',
-                                title: "发送失败:" + error.msg,
-                                showConfirmButton: false,
-                                timer: 5000
-                            });
-                        });
-                }
-            },
-            sendPostMsg() {
-                if (this.msg !== "") {
-                    this.$api
-                        .post(this.serverUrl + '/send/' + this.user.skey, this.msg, {headers: {"Content-type": "application/json"}})
-                        .then((response) => {
-                            let data = response.data;
-                            if (response.data.code !== 200) {
-                                this.$swal.fire({
-                                    position: 'top-end',
-                                    icon: 'error',
-                                    title: "发送失败:" + data.message + '<br/>日志: '+ data.data,
-                                    showConfirmButton: false,
-                                    timer: 5000
-                                });
-                                return
-                            }
-                            this.$swal.fire({
-                                position: 'top-end',
-                                icon: 'success',
-                                title: "发送成功",
-                                showConfirmButton: false,
-                                timer: 5000
-                            });
-                        })
-                        .catch((error) => {
-                            this.$swal.fire({
-                                position: 'top-end',
-                                icon: 'error',
-                                title: "发送失败:" + error.msg,
-                                showConfirmButton: false,
-                                timer: 5000
-                            });
-                        });
-                }
-            },
-            bind() {
-                let token = localStorage.getItem("token");
+        randomGroupAccountList() {
+            return this.accountGroupOption.shuffle()
+        },
+        countDownChanged(dismissCountDown) {
+            this.dismissCountDown = dismissCountDown;
+        },
+        resetSkey() {
+            //存在token 先检验 token是否有效 再打开 isLogin 变量
+            let token = localStorage.getItem("token");
+            if (token !== null) {
                 let header = {token: token};
                 this.$api
-                    .get(
-                        this.serverUrl + "/bind?id=" +
-                        this.user.id +
-                        "&sendTo=" +
-                        this.user.sendTo +
-                        "&sendFrom=" +
-                        this.user.sendFrom,
-                        {headers: header}
-                    )
-                    .then((response) => {
-                        let data = response.data;
-                        if (response.data.code !== 200) {
-                            this.$swal.fire({
-                                position: 'top-end',
-                                icon: 'error',
-                                title: "绑定失败: " + data.message + '<br/>日志: '+ data.data,
-                                showConfirmButton: false,
-                                timer: 5000
-                            });
-                            return
-                        }
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: "绑定成功",
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                    })
-                    .catch((error) => {
-                        //绑定失败
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "绑定失败: " + error.msg,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                    });
-            },
-            groupBind() {
-                let token = localStorage.getItem("token");
-                let header = {token: token};
-                this.$api
-                    .get(
-                        this.serverUrl + "/group_bind?id=" +
-                        this.user.id +
-                        "&groupTo=" +
-                        this.user.groupTo +
-                        "&groupFrom=" +
-                        this.user.groupFrom,
-                        {headers: header}
-                    )
-                    .then((response) => {
-                        let data = response.data;
-                        if (response.data.code !== 200) {
-                            this.$swal.fire({
-                                position: 'top-end',
-                                icon: 'error',
-                                title: "绑定失败: " + data.message + '<br/>日志: '+ data.data,
-                                showConfirmButton: false,
-                                timer: 5000
-                            });
-                            return
-                        }
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: "绑定成功",
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                    })
-                    .catch((error) => {
-                        //绑定失败
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "绑定失败: " + error.msg,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                    });
-            },
-            emailBind() {
-                let token = localStorage.getItem("token");
-                let header = {token: token};
-                this.emailConfig.port = parseInt(this.emailConfig.port)
-                this.$api
-                    .post(
-                        this.serverUrl + "/emails/bind", this.emailConfig, {headers: header}
-                    )
-                    .then((response) => {
-                        let data = response.data;
-                        if (response.data.code !== 200) {
-                            this.$swal.fire({
-                                position: 'top-end',
-                                icon: 'error',
-                                title: "绑定失败: " + data.message + '<br/>日志: '+ data.data,
-                                showConfirmButton: false,
-                                timer: 5000
-                            });
-                            return
-                        }
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: "绑定成功",
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                    })
-                    .catch((error) => {
-                        //绑定失败
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "绑定失败: " + error.msg,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                    });
-            },
-            emailValid() {
-                let token = localStorage.getItem("token");
-                let header = {token: token};
-                this.$api
-                    .get(
-                        this.serverUrl + "/emails/valid", {headers: header}
-                    )
-                    .then((response) => {
-                        let data = response.data;
-                        if (response.data.code !== 200) {
-                            this.$swal.fire({
-                                position: 'top-end',
-                                icon: 'error',
-                                title: "校验失败: " + data.message + '<br/>日志: '+ data.data,
-                                showConfirmButton: false,
-                                timer: 5000
-                            });
-                            return
-                        }
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: "校验成功，请查收递投测试邮件",
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                    })
-                    .catch((error) => {
-                        //绑定失败
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "校验失败: " + error.msg,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                    });
-            },
-            bindWxPusher() {
-                let token = localStorage.getItem("token");
-                if (token !== null) {
-                    let header = {token: token};
-                    this.$api
-                        .get(this.serverUrl + "/check", {headers: header})
-                        .then((response) => {
-                            let data = response.data;
-                            if (data.code === 200) {
-                                if (data.wxPusherUid === '') {
-                                    this.$swal.fire({
-                                        position: 'top-end',
-                                        icon: 'error',
-                                        title: "绑定失败,请重试: " + data.message + '<br/>日志: '+ data.data,
-                                        showConfirmButton: false,
-                                        timer: 5000
-                                    });
-                                }else{
-                                    this.wxPusherShowBindResult = true;
-                                    this.$swal.fire({
-                                        position: 'top-end',
-                                        icon: 'success',
-                                        title: "绑定成功!",
-                                        showConfirmButton: false,
-                                        timer: 5000
-                                    });
-                                }
-                            } else {
-                                this.$swal.fire({
-                                    position: 'top-end',
-                                    icon: 'error',
-                                    title: "校验失败: " + data.message + '<br/>日志: '+ data.data,
-                                    showConfirmButton: false,
-                                    timer: 5000
-                                });
-                            }
-                        })
-                        .catch((error) => {
-                            //清空localStorage
-                            this.isLogin = false;
-                            localStorage.clear();
-                        });
-                }
-            },
-            getWxPusherQrCode() {
-                //存在token 先检验 token是否有效 再打开 isLogin 变量
-                let token = localStorage.getItem("token");
-                if (token !== null) {
-                    let header = {token: token};
-                    this.$api
-                        .get(this.serverUrl + "/qr_code", {headers: header})
-                        .then((response) => {
-                            let data = response.data;
-                            if (data.code === 200) {
-                                this.wxPusherImg = data.data;
-                                this.$bvModal.show('modal-bindWxPusher')
-                            } else {
-                                this.$swal.fire({
-                                    position: 'top-end',
-                                    icon: 'error',
-                                    title: "获取二维码失败: " + data.message + '<br/>日志: '+ data.data,
-                                    showConfirmButton: false,
-                                    timer: 5000
-                                });
-                            }
-                        })
-                        .catch((error) => {
-                            console.log("重置结果", error);
-                            //清空localStorage
-                            // localStorage.clear();
-                            this.$swal.fire({
-                                position: 'top-end',
-                                icon: 'error',
-                                title: "获取二维码失败: " + error.msg,
-                                showConfirmButton: false,
-                                timer: 5000
-                            });
-                        });
-                }
-            },
-            cancelBindWxPusher() {
-                let token = localStorage.getItem("token");
-                let header = {token: token};
-                this.$api
-                    .get(
-                        this.serverUrl + "/cancel_wx_pusher?id=" +
-                        this.user.id,
-                        {headers: header}
-                    )
+                    .get(this.serverUrl + "/reset?id=" + this.user.id, {headers: header})
                     .then((response) => {
                         let data = response.data;
                         if (data.code === 200) {
-                            this.user.wxPusherUid = '';
                             this.$swal.fire({
                                 position: 'top-end',
                                 icon: 'success',
-                                title: "取消绑定成功!",
+                                title: '重置成功,刷新页面以获取最新Skey',
                                 showConfirmButton: false,
                                 timer: 5000
                             });
@@ -1000,7 +676,7 @@
                             this.$swal.fire({
                                 position: 'top-end',
                                 icon: 'error',
-                                title: "取消绑定是啊比: " + data.message + '<br/>日志: '+ data.data,
+                                title: "重置失败: " + data.message + '<br/>日志: ' + data.data,
                                 showConfirmButton: false,
                                 timer: 5000
                             });
@@ -1010,255 +686,249 @@
                         this.$swal.fire({
                             position: 'top-end',
                             icon: 'error',
-                            title: "取消绑定失败: " + error.msg,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                    });
-            },
-            logout() {
-                this.isLogin = false;
-                sessionStorage.clear();
-                localStorage.clear();
-            },
-            login() {
-                this.$bvModal.show("modal-login")
-            },
-            loginBy(method) {
-                if (method === "github") {
-                    localStorage.setItem("loginType", "github");
-                    window.location.href = this.github;
-                } else if (method === "gitee") {
-                    localStorage.setItem("loginType", "gitee");
-                    window.location.href = this.gitee;
-                } else if (method === "osc") {
-                    localStorage.setItem("loginType", "osc");
-                    window.location.href = this.osc;
-                } else if (method === "qq") {
-                    localStorage.setItem("loginType", "qq");
-                    window.location.href = this.qq;
-                }
-            },
-            wwJoinSubmit() {
-                if (this.wwBindConfig.user.user_id.toLowerCase() === "@all") {
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'error',
-                        title: "非法参数 @all",
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                    return
-                }
-
-                let token = localStorage.getItem("token");
-                let header = {token: token};
-                this.$api
-                    .get(
-                        this.serverUrl + "/wework/join?appId=" +
-                        this.corpSelected + "&userId=" +
-                        this.wwBindConfig.user.user_id,
-                        {headers: header}
-                    )
-                    .then((response) => {
-                        let data = response.data;
-                        if (response.data.code === 200) {
-                            this.$swal.fire({
-                                position: 'top-end',
-                                icon: 'success',
-                                title: "操作成功!",
-                                showConfirmButton: false,
-                                timer: 5000
-                            });
-                        }else{
-                            this.$swal.fire({
-                                position: 'top-end',
-                                icon: 'error',
-                                title: "操作失败: " + data.message + '<br/>日志: '+ data.data,
-                                showConfirmButton: false,
-                                timer: 5000
-                            });
-                        }
-                    })
-                    .catch((error) => {
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "操作失败: " + error.msg,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                    });
-            },
-            wwBindSubmit() {
-                if (this.wwBindConfig.user.user_id.toLowerCase() === "@all") {
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'error',
-                        title: "非法参数: @all",
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                    return;
-                }
-
-                let token = localStorage.getItem("token");
-                this.wwBindConfig.app.agent_id = parseInt(this.wwBindConfig.app.agent_id)
-                this.$api
-                    .post(this.serverUrl + '/wework/bind?userId='+this.wwBindConfig.user.user_id, this.wwBindConfig.app,
-                        {headers: {"Content-type": "application/json", token: token }})
-                    .then((response) => {
-                        let data = response.data;
-                        if (response.data.code === 200) {
-                            this.$swal.fire({
-                                position: 'top-end',
-                                icon: 'success',
-                                title: "操作成功!",
-                                showConfirmButton: false,
-                                timer: 5000
-                            });
-                        }else{
-                            this.$swal.fire({
-                                position: 'top-end',
-                                icon: 'error',
-                                title: "操作失败: " + data.message + '<br/>日志: '+ data.data,
-                                showConfirmButton: false,
-                                timer: 5000
-                            });
-                        }
-                    })
-                    .catch((error) => {
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "操作失败: " + error.msg,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                    });
-            },
-            getJoinLink(id) {
-                for (let i = 0; i < this.corpListOptions.length; i++) {
-                    if (this.corpListOptions[i].value === id) {
-                        return this.corpListOptions[i]
-                    }
-                }
-            },
-            qqPrivateBind() {
-
-                if (this.user.privatePath === "") {
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'error',
-                        title: "请指定绑定地址",
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                    return
-                }
-
-                let reg = new RegExp(/(\w+):\/\/([^/:]+)(:\d*)?/);
-                let result = this.user.privatePath.match(reg)
-                if (result === null || result[0] === "") {
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'error',
-                        title: "格式不正确",
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                    return
-                }
-
-                let removeLastPart = function(url) {
-                    let lastSlashIndex = url.lastIndexOf("/");
-                    if (lastSlashIndex > url.indexOf("/") + 1) {
-                        return url.substr(0, lastSlashIndex);
-                    } else {
-                        return url;
-                    }
-                }
-
-                this.user.privatePath = removeLastPart(this.user.privatePath);
-
-                let token = localStorage.getItem("token");
-                let header = {token: token};
-                this.$api
-                    .get(
-                        this.serverUrl + "/qq/private/bind?sendPath=" + this.user.privatePath,
-                        {headers: header}
-                    )
-                    .then((response) => {
-                        let data = response.data;
-                        if (response.data.code === 200) {
-                            this.$swal.fire({
-                                position: 'top-end',
-                                icon: 'success',
-                                title: "操作成功!",
-                                showConfirmButton: false,
-                                timer: 5000
-                            });
-                        }else{
-                            this.$swal.fire({
-                                position: 'top-end',
-                                icon: 'error',
-                                title: "操作失败: " + data.message + '<br/>日志: '+ data.data,
-                                showConfirmButton: false,
-                                timer: 5000
-                            });
-                        }
-                    })
-                    .catch((error) => {
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "操作失败: " + error.msg,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                    });
-            },
-            qqPrivateValid() {
-                let token = localStorage.getItem("token");
-                let header = {token: token};
-                this.$api
-                    .get(
-                        this.serverUrl + "/qq/private/valid",
-                        {headers: header}
-                    )
-                    .then((response) => {
-                        let data = response.data;
-                        if (response.data.code === 200) {
-                            this.$swal.fire({
-                                position: 'top-end',
-                                icon: 'success',
-                                title: "校验成功!",
-                                showConfirmButton: false,
-                                timer: 5000
-                            });
-                        }else{
-                            this.$swal.fire({
-                                position: 'top-end',
-                                icon: 'error',
-                                title: "校验失败: " + data.message + '<br/>日志: '+ data.data,
-                                showConfirmButton: false,
-                                timer: 5000
-                            });
-                        }
-                    })
-                    .catch((error) => {
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "操作失败: " + error.msg,
+                            title: "重置结果:" + error.msg,
                             showConfirmButton: false,
                             timer: 5000
                         });
                     });
             }
         },
-        created() {
-            //存在token 先检验 token是否有效 再打开 isLogin 变量
+        sendGetMsg() {
+            if (this.msg !== "") {
+                this.$api
+                    .get(this.serverUrl + '/send/' + this.user.skey + "?c=" + this.msg)
+                    .then((response) => {
+                        let data = response.data;
+                        if (data.code !== 200) {
+                            this.$swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: "发送失败: " + data.message + '<br/>日志: ' + data.data,
+                                showConfirmButton: false,
+                                timer: 5000
+                            });
+                            return
+                        }
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: "发送成功",
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                    })
+                    .catch((error) => {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "发送失败:" + error.msg,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                    });
+            }
+        },
+        sendPostMsg() {
+            if (this.msg !== "") {
+                this.$api
+                    .post(this.serverUrl + '/send/' + this.user.skey, this.msg, {headers: {"Content-type": "application/json"}})
+                    .then((response) => {
+                        let data = response.data;
+                        if (response.data.code !== 200) {
+                            this.$swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: "发送失败:" + data.message + '<br/>日志: ' + data.data,
+                                showConfirmButton: false,
+                                timer: 5000
+                            });
+                            return
+                        }
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: "发送成功",
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                    })
+                    .catch((error) => {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "发送失败:" + error.msg,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                    });
+            }
+        },
+        bind() {
+            let token = localStorage.getItem("token");
+            let header = {token: token};
+            this.$api
+                .get(
+                    this.serverUrl + "/bind?id=" +
+                    this.user.id +
+                    "&sendTo=" +
+                    this.user.sendTo +
+                    "&sendFrom=" +
+                    this.user.sendFrom,
+                    {headers: header}
+                )
+                .then((response) => {
+                    let data = response.data;
+                    if (response.data.code !== 200) {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "绑定失败: " + data.message + '<br/>日志: ' + data.data,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                        return
+                    }
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: "绑定成功",
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                })
+                .catch((error) => {
+                    //绑定失败
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "绑定失败: " + error.msg,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                });
+        },
+        groupBind() {
+            let token = localStorage.getItem("token");
+            let header = {token: token};
+            this.$api
+                .get(
+                    this.serverUrl + "/group_bind?id=" +
+                    this.user.id +
+                    "&groupTo=" +
+                    this.user.groupTo +
+                    "&groupFrom=" +
+                    this.user.groupFrom,
+                    {headers: header}
+                )
+                .then((response) => {
+                    let data = response.data;
+                    if (response.data.code !== 200) {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "绑定失败: " + data.message + '<br/>日志: ' + data.data,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                        return
+                    }
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: "绑定成功",
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                })
+                .catch((error) => {
+                    //绑定失败
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "绑定失败: " + error.msg,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                });
+        },
+        emailBind() {
+            let token = localStorage.getItem("token");
+            let header = {token: token};
+            this.emailConfig.port = parseInt(this.emailConfig.port)
+            this.$api
+                .post(
+                    this.serverUrl + "/emails/bind", this.emailConfig, {headers: header}
+                )
+                .then((response) => {
+                    let data = response.data;
+                    if (response.data.code !== 200) {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "绑定失败: " + data.message + '<br/>日志: ' + data.data,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                        return
+                    }
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: "绑定成功",
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                })
+                .catch((error) => {
+                    //绑定失败
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "绑定失败: " + error.msg,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                });
+        },
+        emailValid() {
+            let token = localStorage.getItem("token");
+            let header = {token: token};
+            this.$api
+                .get(
+                    this.serverUrl + "/emails/valid", {headers: header}
+                )
+                .then((response) => {
+                    let data = response.data;
+                    if (response.data.code !== 200) {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "校验失败: " + data.message + '<br/>日志: ' + data.data,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                        return
+                    }
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: "校验成功，请查收递投测试邮件",
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                })
+                .catch((error) => {
+                    //绑定失败
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "校验失败: " + error.msg,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                });
+        },
+        bindWxPusher() {
             let token = localStorage.getItem("token");
             if (token !== null) {
                 let header = {token: token};
@@ -1267,12 +937,32 @@
                     .then((response) => {
                         let data = response.data;
                         if (data.code === 200) {
-                            this.isLogin = true;
-                            this.user = data.data;
+                            if (data.wxPusherUid === '') {
+                                this.$swal.fire({
+                                    position: 'top-end',
+                                    icon: 'error',
+                                    title: "绑定失败,请重试: " + data.message + '<br/>日志: ' + data.data,
+                                    showConfirmButton: false,
+                                    timer: 5000
+                                });
+                            } else {
+                                this.wxPusherShowBindResult = true;
+                                this.$swal.fire({
+                                    position: 'top-end',
+                                    icon: 'success',
+                                    title: "绑定成功!",
+                                    showConfirmButton: false,
+                                    timer: 5000
+                                });
+                            }
                         } else {
-                            //清空localStorage
-                            this.isLogin = false;
-                            localStorage.clear();
+                            this.$swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: "校验失败: " + data.message + '<br/>日志: ' + data.data,
+                                showConfirmButton: false,
+                                timer: 5000
+                            });
                         }
                     })
                     .catch((error) => {
@@ -1281,157 +971,510 @@
                         localStorage.clear();
                     });
             }
-
-            // code 检测
-            let code = this.$route.query.code;
-            if (code !== undefined) {
-                //推送到专门页面处理
-                this.$router.push({name: "Callback", query: {code: code}});
-            }
-            // 登录出错
-            let error = this.$route.query.error;
-            if (error !== undefined) {
-                //推送到专门页面处理
-                this.$router.push({name: "Callback", query: {error: error}});
-            }
-
-            //正常 获取企业列表
+        },
+        getWxPusherQrCode() {
+            //存在token 先检验 token是否有效 再打开 isLogin 变量
+            let token = localStorage.getItem("token");
             if (token !== null) {
                 let header = {token: token};
                 this.$api
-                    .get(this.serverUrl + "/wework/list", {headers: header})
+                    .get(this.serverUrl + "/qr_code", {headers: header})
                     .then((response) => {
                         let data = response.data;
                         if (data.code === 200) {
-                            for (let i = 0; i < data.data.length; i++) {
-                                this.corpListOptions.push({value: data.data[i].id, text: data.data[i].corp_name, link: data.data[i].join_link})
-                            }
+                            this.wxPusherImg = data.data;
+                            this.$bvModal.show('modal-bindWxPusher')
+                        } else {
+                            this.$swal.fire({
+                                position: 'top-end',
+                                icon: 'error',
+                                title: "获取二维码失败: " + data.message + '<br/>日志: ' + data.data,
+                                showConfirmButton: false,
+                                timer: 5000
+                            });
                         }
                     })
                     .catch((error) => {
+                        console.log("重置结果", error);
                         //清空localStorage
-                        this.$router.push({name: "Callback", query: {error: error}});
-                    });
-
-                this.$api
-                    .get(this.serverUrl + "/wework/get_bind_app", {headers: header})
-                    .then((response) => {
-                        let data = response.data;
-                        if (data.code === 200) {
-                            this.wwBindConfig.user = data.data.user;
-                            this.wwBindConfig.app = data.data.app;
-                            this.corpSelected = data.data.user.app_id;
-                        }
-                    })
-                    .catch((error) => {
-                        //清空localStorage
-                        this.$router.push({name: "Callback", query: {error: error}});
-                    });
-
-                this.$api
-                    .get(this.serverUrl + "/emails/get", {headers: header})
-                    .then((response) => {
-                        let data = response.data;
-                        if (data.code === 200 && data.data !== null) {
-                            this.emailConfig = data.data;
-                        }
-                    })
-                    .catch((error) => {
-                        //清空localStorage
-                        this.$router.push({name: "Callback", query: {error: error}});
+                        // localStorage.clear();
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "获取二维码失败: " + error.msg,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
                     });
             }
         },
-        mounted() {
-            let vm = this;
-            vm.$nextTick(() => {
-                vm.valine = new Valine({
-                    el: "#vcomments",
-                    appId: "yQWj6lVYUOEHCbUBpkbaSe9S-gzGzoHsz",
-                    appKey: "UkX1y2515bHOWb3JAPh0nWHY",
-                    avatar: "mp",
-                    path: vm.$route.path,
+        cancelBindWxPusher() {
+            let token = localStorage.getItem("token");
+            let header = {token: token};
+            this.$api
+                .get(
+                    this.serverUrl + "/cancel_wx_pusher?id=" +
+                    this.user.id,
+                    {headers: header}
+                )
+                .then((response) => {
+                    let data = response.data;
+                    if (data.code === 200) {
+                        this.user.wxPusherUid = '';
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: "取消绑定成功!",
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                    } else {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "取消绑定是啊比: " + data.message + '<br/>日志: ' + data.data,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                    }
+                })
+                .catch((error) => {
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "取消绑定失败: " + error.msg,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
                 });
-            });
         },
-        watch: {
-            $route(to, from) {
-                if (from.path != to.path) {
-                    this.valine && this.valine.setPath(to.path);
+        logout() {
+            this.isLogin = false;
+            sessionStorage.clear();
+            localStorage.clear();
+        },
+        login() {
+            this.$bvModal.show("modal-login")
+        },
+        loginBy(method) {
+            if (method === "github") {
+                localStorage.setItem("loginType", "github");
+                window.location.href = this.github;
+            } else if (method === "gitee") {
+                localStorage.setItem("loginType", "gitee");
+                window.location.href = this.gitee;
+            } else if (method === "osc") {
+                localStorage.setItem("loginType", "osc");
+                window.location.href = this.osc;
+            } else if (method === "qq") {
+                localStorage.setItem("loginType", "qq");
+                window.location.href = this.qq;
+            }
+        },
+        wwJoinSubmit() {
+            if (this.wwBindConfig.user.user_id.toLowerCase() === "@all") {
+                this.$swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: "非法参数 @all",
+                    showConfirmButton: false,
+                    timer: 5000
+                });
+                return
+            }
+
+            let token = localStorage.getItem("token");
+            let header = {token: token};
+            this.$api
+                .get(
+                    this.serverUrl + "/wework/join?appId=" +
+                    this.corpSelected + "&userId=" +
+                    this.wwBindConfig.user.user_id,
+                    {headers: header}
+                )
+                .then((response) => {
+                    let data = response.data;
+                    if (response.data.code === 200) {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: "操作成功!",
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                    } else {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "操作失败: " + data.message + '<br/>日志: ' + data.data,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                    }
+                })
+                .catch((error) => {
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "操作失败: " + error.msg,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                });
+        },
+        wwBindSubmit() {
+            if (this.wwBindConfig.user.user_id.toLowerCase() === "@all") {
+                this.$swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: "非法参数: @all",
+                    showConfirmButton: false,
+                    timer: 5000
+                });
+                return;
+            }
+
+            let token = localStorage.getItem("token");
+            this.wwBindConfig.app.agent_id = parseInt(this.wwBindConfig.app.agent_id)
+            this.$api
+                .post(this.serverUrl + '/wework/bind?userId=' + this.wwBindConfig.user.user_id, this.wwBindConfig.app,
+                    {headers: {"Content-type": "application/json", token: token}})
+                .then((response) => {
+                    let data = response.data;
+                    if (response.data.code === 200) {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: "操作成功!",
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                    } else {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "操作失败: " + data.message + '<br/>日志: ' + data.data,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                    }
+                })
+                .catch((error) => {
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "操作失败: " + error.msg,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                });
+        },
+        getJoinLink(id) {
+            for (let i = 0; i < this.corpListOptions.length; i++) {
+                if (this.corpListOptions[i].value === id) {
+                    return this.corpListOptions[i]
                 }
-            },
+            }
         },
-    };
+        qqPrivateBind() {
+
+            if (this.user.privatePath === "") {
+                this.$swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: "请指定绑定地址",
+                    showConfirmButton: false,
+                    timer: 5000
+                });
+                return
+            }
+
+            let reg = new RegExp(/(\w+):\/\/([^/:]+)(:\d*)?/);
+            let result = this.user.privatePath.match(reg)
+            if (result === null || result[0] === "") {
+                this.$swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: "格式不正确",
+                    showConfirmButton: false,
+                    timer: 5000
+                });
+                return
+            }
+
+            let removeLastPart = function (url) {
+                let lastSlashIndex = url.lastIndexOf("/");
+                if (lastSlashIndex > url.indexOf("/") + 1) {
+                    return url.substr(0, lastSlashIndex);
+                } else {
+                    return url;
+                }
+            }
+
+            this.user.privatePath = removeLastPart(this.user.privatePath);
+
+            let token = localStorage.getItem("token");
+            let header = {token: token};
+            let payload = {
+                "private_path": this.user.privatePath,
+                "access_token": this.user.privateAccessToken,
+            }
+            this.$api
+                .post(
+                    this.serverUrl + "/qq/private/bind", payload, {headers: header}
+                )
+                .then((response) => {
+                    let data = response.data;
+                    if (response.data.code === 200) {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: "操作成功!",
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                    } else {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "操作失败: " + data.message + '<br/>日志: ' + data.data,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                    }
+                })
+                .catch((error) => {
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "操作失败: " + error.msg,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                });
+        },
+        qqPrivateValid() {
+            let token = localStorage.getItem("token");
+            let header = {token: token};
+            this.$api
+                .get(
+                    this.serverUrl + "/qq/private/valid",
+                    {headers: header}
+                )
+                .then((response) => {
+                    let data = response.data;
+                    if (response.data.code === 200) {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: "校验成功!",
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                    } else {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "校验失败: " + data.message + '<br/>日志: ' + data.data,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                    }
+                })
+                .catch((error) => {
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "操作失败: " + error.msg,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                });
+        }
+    },
+    created() {
+        //存在token 先检验 token是否有效 再打开 isLogin 变量
+        let token = localStorage.getItem("token");
+        if (token !== null) {
+            let header = {token: token};
+            this.$api
+                .get(this.serverUrl + "/check", {headers: header})
+                .then((response) => {
+                    let data = response.data;
+                    if (data.code === 200) {
+                        this.isLogin = true;
+                        this.user = data.data;
+                    } else {
+                        //清空localStorage
+                        this.isLogin = false;
+                        localStorage.clear();
+                    }
+                })
+                .catch((error) => {
+                    //清空localStorage
+                    this.isLogin = false;
+                    localStorage.clear();
+                });
+        }
+
+        // code 检测
+        let code = this.$route.query.code;
+        if (code !== undefined) {
+            //推送到专门页面处理
+            this.$router.push({name: "Callback", query: {code: code}});
+        }
+        // 登录出错
+        let error = this.$route.query.error;
+        if (error !== undefined) {
+            //推送到专门页面处理
+            this.$router.push({name: "Callback", query: {error: error}});
+        }
+
+        //正常 获取企业列表
+        if (token !== null) {
+            let header = {token: token};
+            this.$api
+                .get(this.serverUrl + "/wework/list", {headers: header})
+                .then((response) => {
+                    let data = response.data;
+                    if (data.code === 200) {
+                        for (let i = 0; i < data.data.length; i++) {
+                            this.corpListOptions.push({
+                                value: data.data[i].id,
+                                text: data.data[i].corp_name,
+                                link: data.data[i].join_link
+                            })
+                        }
+                    }
+                })
+                .catch((error) => {
+                    //清空localStorage
+                    this.$router.push({name: "Callback", query: {error: error}});
+                });
+
+            this.$api
+                .get(this.serverUrl + "/wework/get_bind_app", {headers: header})
+                .then((response) => {
+                    let data = response.data;
+                    if (data.code === 200) {
+                        this.wwBindConfig.user = data.data.user;
+                        this.wwBindConfig.app = data.data.app;
+                        this.corpSelected = data.data.user.app_id;
+                    }
+                })
+                .catch((error) => {
+                    //清空localStorage
+                    this.$router.push({name: "Callback", query: {error: error}});
+                });
+
+            this.$api
+                .get(this.serverUrl + "/emails/get", {headers: header})
+                .then((response) => {
+                    let data = response.data;
+                    if (data.code === 200 && data.data !== null) {
+                        this.emailConfig = data.data;
+                    }
+                })
+                .catch((error) => {
+                    //清空localStorage
+                    this.$router.push({name: "Callback", query: {error: error}});
+                });
+        }
+    },
+    mounted() {
+        let vm = this;
+        vm.$nextTick(() => {
+            vm.valine = new Valine({
+                el: "#vcomments",
+                appId: "yQWj6lVYUOEHCbUBpkbaSe9S-gzGzoHsz",
+                appKey: "UkX1y2515bHOWb3JAPh0nWHY",
+                avatar: "mp",
+                path: vm.$route.path,
+            });
+        });
+    },
+    watch: {
+        $route(to, from) {
+            if (from.path != to.path) {
+                this.valine && this.valine.setPath(to.path);
+            }
+        },
+    },
+};
 </script>
 
 <style>
-    .btn {
-        border-radius: 0.3rem !important;
-    }
+.btn {
+    border-radius: 0.3rem !important;
+}
 
-    .bg-dark {
-        background-color: #0b1a31 !important;
-    }
+.bg-dark {
+    background-color: #0b1a31 !important;
+}
 
-    .btn-info {
-        color: #ffffff;
-    }
+.btn-info {
+    color: #ffffff;
+}
 
-    .btn-primary {
-        background-color: #007bff !important;
-    }
+.btn-primary {
+    background-color: #007bff !important;
+}
 
-    .icon-size-tpl {
-        width: 22px;
-        height: 22px;
-    }
+.icon-size-tpl {
+    width: 22px;
+    height: 22px;
+}
 
-    .icon-size-osc {
-        width: 25px;
-        height: 25px;
-        vertical-align: bottom;
-    }
+.icon-size-osc {
+    width: 25px;
+    height: 25px;
+    vertical-align: bottom;
+}
 
-    .main-body {
-        text-align: center;
-    }
+.main-body {
+    text-align: center;
+}
 
-    .call-key h3 {
-        width: 50%;
-    }
+.call-key h3 {
+    width: 50%;
+}
 
-    footer {
-        line-height: 1.725;
-    }
+.private_deploy .form-inline .form-control {
+    width: 48% !important;
+}
 
-    footer .footer-top .fa-heart {
-        padding-left: 4px;
-        padding-right: 4px;
-        color: red;
-    }
+footer {
+    line-height: 1.725;
+}
 
-    footer .footer-top a {
-        font-size: 1.2rem;
-    }
+footer .footer-top .fa-heart {
+    padding-left: 4px;
+    padding-right: 4px;
+    color: red;
+}
 
-    footer .footer-bottom {
-        margin: 0.3rem 0 1rem 0;
-        width: 100%;
-        text-align: center;
-    }
+footer .footer-top a {
+    font-size: 1.2rem;
+}
 
-    .site-uv {
-        margin-right: 0.5rem;
-    }
+footer .footer-bottom {
+    margin: 0.3rem 0 1rem 0;
+    width: 100%;
+    text-align: center;
+}
 
-    .site-uv::after {
-        content: "|";
-        padding-left: 0.5rem;
-    }
+.site-uv {
+    margin-right: 0.5rem;
+}
 
-    footer .fa-heart {
-        padding-left: 4px;
-        padding-right: 4px;
-        color: red;
-    }
+.site-uv::after {
+    content: "|";
+    padding-left: 0.5rem;
+}
+
+footer .fa-heart {
+    padding-left: 4px;
+    padding-right: 4px;
+    color: red;
+}
 </style>
