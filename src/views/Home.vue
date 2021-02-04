@@ -591,7 +591,7 @@
                     wxPusherUid: "",
                 }, //用户信息
                 msg: "", //在线测试的消息体
-                isLogin: true
+                isLogin: false
                 , //检测是否登录 false没有登陆
                 openWxPusher: false,//是否开启微信推送
                 wxPusherImg: "",//获得二维码地址
