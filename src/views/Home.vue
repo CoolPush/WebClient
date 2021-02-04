@@ -140,7 +140,12 @@
                         <hr>
 
                         <div class="form-group">
-                            <label>私有化绑定</label> <a href="https://images.xuthus.cc/images/coolpush">linux部署包(go-cqhttp定制版本)</a>
+                            <label>私有化绑定</label> <router-link
+							:to="{ name: 'Deploy' }"
+							class="my-2 mr-2"
+						>
+							<span>部署包(go-cqhttp定制版本)</span>
+						</router-link>
                             <b-form-input
                                 v-model="user.privatePath"
                                 type="text"
@@ -586,7 +591,7 @@
                     wxPusherUid: "",
                 }, //用户信息
                 msg: "", //在线测试的消息体
-                isLogin: false
+                isLogin: true
                 , //检测是否登录 false没有登陆
                 openWxPusher: false,//是否开启微信推送
                 wxPusherImg: "",//获得二维码地址
