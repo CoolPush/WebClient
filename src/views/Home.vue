@@ -709,7 +709,7 @@ export default {
                             this.$swal.fire({
                                 position: 'top-end',
                                 icon: 'error',
-                                title: "发送失败: " + data.message + '<br/>日志: ' + data.data,
+                                title: "发送失败: " + data.message,
                                 showConfirmButton: false,
                                 timer: 5000
                             });
