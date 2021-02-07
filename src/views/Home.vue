@@ -23,31 +23,9 @@
             </div>
         </div>
 
-        <div v-if="dismissCountDown" class="container mt-4 docs">
-            <div class="row">
-                <b-col
-                    sm="12"
-                    md="8"
-                    lg="8"
-                    xl="8"
-                    offset-md="2"
-                    offset-lg="2"
-                    offset-xl="2"
-                >
-                    <b-alert
-                        :show="dismissCountDown"
-                        dismissible
-                        :variant="color"
-                        @dismissed="dismissCountDown = 0"
-                        @dismiss-count-down="countDownChanged"
-                    >
-                        {{ alertMessage }}
-                    </b-alert>
-                </b-col>
-            </div>
-        </div>
-
+        <!-- 主内容 -->
         <div v-if="isLogin">
+            <!-- 显示skey -->
             <div class="container py-5 docs">
                 <div class="row">
                     <b-col
@@ -73,6 +51,7 @@
                 </div>
             </div>
 
+            <!-- 绑定机器人 -->
             <div class="container py-3 docs">
                 <div class="row">
                     <b-col
@@ -372,6 +351,7 @@
                 </div>
             </div>
 
+            <!-- 在线测试 -->
             <div class="container py-3 docs">
                 <div class="row">
                     <b-col
@@ -401,6 +381,7 @@
                 </div>
             </div>
 
+            <!-- 简单介绍使用 -->
             <div class="container py-3 docs">
                 <div class="row">
                     <b-col
@@ -412,14 +393,14 @@
                         offset-lg="2"
                         offset-xl="2"
                     >
-                        <p>私聊推送消息非常简单，只需要向以下URL发一个GET或者POST请求：</p>
+                        <p><code>私聊推送</code>消息非常简单，只需要向以下URL发一个GET或者POST请求：</p>
                         <b-form-input
                             v-model="this.serverUrl+ '/send/' + user.skey"
                             type="text"
                             class="form-control"
                             disabled
                         ></b-form-input>
-                        <p class="mt-2">同样的, 如需群消息推送，只需要向以下URL发一个GET或者POST请求：</p>
+                        <p class="mt-2">同样的, 如需 <code>群消息推送</code> ，只需要向以下URL发一个GET或者POST请求：</p>
                         <b-form-input
                             v-model="this.serverUrl+ '/group/' + user.skey"
                             type="text"
@@ -428,7 +409,7 @@
                         ></b-form-input>
 
                         <p class="mt-2">
-                            如果你部署了私有化的QQ机器人，在绑定并验证后，只需要向以下URL发一个GET或者POST请求，即可完成私聊推送，当然，敏感词不受限制，并且增强功能均已开启：</p>
+                            如果你部署了私有化的QQ机器人，在绑定并验证后，只需要向以下URL发一个GET或者POST请求，即可完成 <code>私有化私聊推送</code>，当然，敏感词不受限制，并且增强功能均已开启：</p>
                         <b-form-input
                             v-model="this.serverUrl+ '/psend/' + user.skey"
                             type="text"
@@ -444,7 +425,15 @@
                             disabled
                         ></b-form-input>
 
-                        <p class="mt-2">如需微信消息推送，只需要向以下URL发一个GET或者POST请求：</p>
+                        <p class="mt-2">需要说明的是，如果你需要动态的指定推送消息给特定的qq号或者群，你可以使用 <code>userId/groupId</code> 这两个GET参数来自定义，其中userId表示要推送的QQ号，groupId表示要推送的群号码，添加了些许灵活性</p>
+                        <b-form-input
+                            v-model="this.serverUrl+ '/send/' + user.skey+ '?userId=13239686'"
+                            type="text"
+                            class="form-control"
+                            disabled
+                        ></b-form-input>
+
+                        <p class="mt-2"><code>微信消息推送</code>，只需要向以下URL发一个GET或者POST请求：</p>
                         <b-form-input
                             v-model="this.serverUrl+ '/wx/' + user.skey"
                             type="text"
@@ -465,14 +454,14 @@
                             disabled
                         ></b-form-input>
 
-                        <p class="mt-2 text-danger">如需企微消息推送，你需要向以下URL地址发送POST请求：</p>
+                        <p class="mt-2">如需 <code>企业微信</code> 消息推送，你需要向以下URL地址发送POST请求：</p>
                         <b-form-input
                             v-model="this.serverUrl+ '/ww/' + user.skey"
                             type="text"
                             class="form-control"
                             disabled
                         ></b-form-input>
-                        <p class="mt-2 text-danger">企业微信推送的请求参数可参考<strong>说明文档</strong></p>
+                        <p class="mt-2 text-danger">企业微信推送的请求参数可参考<strong><router-link :to="{'name': 'Docs'}">说明文档</router-link></strong></p>
 
 
                         <p class="mt-2">额外的，如需邮箱消息推送，只需要向以下URL发一个GET或者POST请求：</p>
@@ -496,6 +485,7 @@
             </div>
 
         </div>
+        <!-- 未登录 -->
         <div v-else>
             <div class="container py-5 docs">
                 <div class="row">
@@ -519,6 +509,7 @@
             </div>
         </div>
 
+        <!-- 评论 -->
         <div class="container py-5">
             <div class="row">
                 <b-col
@@ -535,6 +526,7 @@
             </div>
         </div>
 
+        <!-- 底部 -->
         <footer class="footer mb-4 mt-4 text-center">
             <div class="footer-top">
                 © {{ fullYear }} <i class="fas fa-heart"></i>
@@ -621,7 +613,7 @@ export default {
                 wxPusherUid: "",
             }, //用户信息
             msg: "", //在线测试的消息体
-            isLogin: true
+            isLogin: false
             , //检测是否登录 false没有登陆
             openWxPusher: false,//是否开启微信推送
             wxPusherImg: "",//获得二维码地址
