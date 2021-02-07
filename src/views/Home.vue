@@ -174,7 +174,7 @@
                             >
                             <br/>
                             <h5>
-                                <b-badge variant="danger">W4j1e</b-badge>
+                                <b-badge class="mr-2" v-for="username in accountShareUserList" :key="username" variant="danger">{{username}}</b-badge>
                             </h5>
                         </div>
 
@@ -585,16 +585,18 @@ export default {
         return {
             accountOption: [
                 {text: '371365873', value: '371365873'},
-                {text: '1136423131', value: '1136423131'},
-                {text: '2046118436', value: '2046118436'},
+                {text: '2277671372', value: '2277671372'},
             ],
             accountGroupOption: [
                 {text: '371365873', value: '371365873'},
-                {text: '1136423131', value: '1136423131'},
-                {text: '2046118436', value: '2046118436'},
+                {text: '2277671372', value: '2277671372'},
             ],
             accountOfflineList: [
-                '228346469', '964627404', '723860385', '2277671372', '1498598914', '2292066393', '3150058140'
+                '228346469', '964627404', '723860385', '1498598914', '2292066393', '3150058140',
+                '1136423131','2046118436'
+            ],
+            accountShareUserList: [
+                'W4j1e','余生安好'
             ],
             corpSelected: 0,
             corpListOptions: [],
