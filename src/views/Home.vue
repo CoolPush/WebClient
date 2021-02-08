@@ -147,7 +147,8 @@
                                     placeholder="若存在鉴权,请输入 access_token"
                                 ></b-form-input>
                             </b-form>
-                            <small class="form-text text-muted"><code>输入私有化部署后的可供访问的URL地址,并完成校验. 私有化部署不限制敏感词</code></small>
+                            <small class="form-text text-muted"><code>输入私有化部署后的可供访问的URL地址,并完成校验.
+                                私有化部署不限制敏感词</code></small>
                         </div>
 
                         <button type="button" class="btn btn-danger mt-2 mr-2" @click="qqPrivateValid">
@@ -181,7 +182,9 @@
                             >
                             <br/>
                             <h5>
-                                <b-badge class="mr-2" v-for="username in accountShareUserList" :key="username" variant="danger">{{username}}</b-badge>
+                                <b-badge class="mr-2" v-for="username in accountShareUserList" :key="username"
+                                         variant="danger">{{ username }}
+                                </b-badge>
                             </h5>
                         </div>
 
@@ -388,7 +391,8 @@
                         ></b-form-input>
 
                         <p class="mt-2">
-                            如果你部署了私有化的QQ机器人，在绑定并验证后，只需要向以下URL发一个GET或者POST请求，即可完成 <code>私有化私聊推送</code>，当然，敏感词不受限制，并且增强功能均已开启：</p>
+                            如果你部署了私有化的QQ机器人，在绑定并验证后，只需要向以下URL发一个GET或者POST请求，即可完成 <code>私有化私聊推送</code>，当然，敏感词不受限制，并且增强功能均已开启：
+                        </p>
                         <b-form-input
                             v-model="this.serverUrl+ '/psend/' + user.skey"
                             type="text"
@@ -404,7 +408,8 @@
                             disabled
                         ></b-form-input>
 
-                        <p class="mt-2">需要说明的是，如果你需要动态的指定推送消息给特定的qq号或者群，你可以使用 <code>userId/groupId</code> 这两个GET参数来自定义，其中userId表示要推送的QQ号，groupId表示要推送的群号码，添加了些许灵活性</p>
+                        <p class="mt-2">需要说明的是，如果你需要动态的指定推送消息给特定的qq号或者群，你可以使用 <code>userId/groupId</code>
+                            这两个GET参数来自定义，其中userId表示要推送的QQ号，groupId表示要推送的群号码，添加了些许灵活性</p>
                         <b-form-input
                             v-model="this.serverUrl+ '/send/' + user.skey+ '?userId=13239686'"
                             type="text"
@@ -440,7 +445,9 @@
                             class="form-control"
                             disabled
                         ></b-form-input>
-                        <p class="mt-2 text-danger">企业微信推送的请求参数可参考<strong><router-link :to="{'name': 'Docs'}">说明文档</router-link></strong></p>
+                        <p class="mt-2 text-danger">企业微信推送的请求参数可参考<strong>
+                            <router-link :to="{'name': 'Docs'}">说明文档</router-link>
+                        </strong></p>
 
 
                         <p class="mt-2">额外的，如需邮箱消息推送，只需要向以下URL发一个GET或者POST请求：</p>
@@ -584,10 +591,10 @@ export default {
             ],
             accountOfflineList: [
                 '228346469', '964627404', '723860385', '1498598914', '2292066393', '3150058140',
-                '1136423131','2046118436'
+                '1136423131', '2046118436'
             ],
             accountShareUserList: [
-                'W4j1e','余生安好'
+                'W4j1e', '余生安好'
             ],
             corpSelected: 0,
             corpListOptions: [],
@@ -1345,7 +1352,12 @@ export default {
                 });
         },
         wwValid() {
-            let content = { "title": "测试消息", "desc": "当你看到这条消息,说明CoolPush校验已通过", "href": "https://cp.xuthus.cc", "btntxt": "了解更多" };
+            let content = {
+                "title": "测试消息",
+                "desc": "当你看到这条消息,说明CoolPush校验已通过",
+                "href": "https://cp.xuthus.cc",
+                "btntxt": "了解更多"
+            };
             this.$api
                 .post(this.serverUrl + '/ww/' + this.user.skey + '?type=1', content, {headers: {"Content-type": "application/json"}})
                 .then((response) => {
@@ -1497,10 +1509,6 @@ export default {
 
 .bg-dark {
     background-color: #0b1a31 !important;
-}
-
-.btn-info {
-    color: #ffffff;
 }
 
 .btn-primary {

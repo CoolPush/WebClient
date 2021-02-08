@@ -33,7 +33,9 @@
                     <p><code>删除机器人为好友,并重新添加</code></p>
                     <p>由于早期机器人添加好友均为单项好友关系,目前机器人升级,导致添加好友和邀请好友入群失败.删除机器人好友,并重新添加即可,机器人将响应你的请求,并添加你为好友,建立双向好友关系.</p>
 
-                    <h3 class="text-primary">企微推送<b-badge variant="danger">New</b-badge></h3>
+                    <h3 class="text-primary">企微推送
+                        <b-badge variant="danger">New</b-badge>
+                    </h3>
                     <p>目前企微推送支持四种消息格式，且只允许使用POST方式推送。推送格式如下：</p>
                     <p>(一)普通消息推送：</p>
                     <p>url: <code>https://push.xuthus.cc/ww/skey</code></p>
@@ -66,16 +68,34 @@
                     <p>加入酷推企业的，在企业微信中，找到 <code>酷推</code> 应用，回复 "获取用户ID" 即可。</p>
                     <p>加入第三方企业的，咨询该企业管理员获取。</p>
 
-                    <h3 class="text-primary">推送增强<b-badge variant="danger">由于滥用,[图片推送][json][xml]通道已关闭</b-badge></h3>
+                    <h3 class="text-primary">推送增强
+                        <b-badge variant="danger">由于滥用,[图片推送][json][xml]通道已关闭</b-badge>
+                    </h3>
                     <p>目前QQ机器人推送支持发送 <code>图片</code>、<code>群内@</code>、<code>表情</code>，使用方式：</p>
-                    <p>发送图片：<code>@image=可访问的图片地址@</code> , 例如：<code>@image=https://xuthus.cc/images/Photo_0411_1a.jpg@</code></p>
-                    <p>发送表情：<code>@face=表情ID@</code> , 例如：<code>@face=176@</code> , 表情ID可从此处寻找：<a href="https://github.com/richardchien/coolq-http-api/wiki/%E8%A1%A8%E6%83%85-CQ-%E7%A0%81-ID-%E8%A1%A8" target="_blank">github</a></p>
-                    <p>群消息@：<code>@at=群成员QQ号@</code> , 例如：<code>@at=13239686@</code>, 当需要@全体成员时 只需要 <code>@at=all@</code></p>
-                    <p>自定义xml：<code>@xml=xml格式的数据@</code> , 例如：<br /><code>@xml=&lt;?xml version='1.0' encoding='UTF-8' standalone='yes' ?&gt;&lt;msg serviceID="2" templateID="1" action="web" brief="&#91;分享&#93; 十年" sourceMsgId="0" url="http://music.163.com/m/song/409650368" flag="0" adverSign="0" multiMsgFlag="0" &gt;&lt;item layout="2"&gt;&lt;audio cover="http://p2.music.126.net/g-Qgb9ibk9Wp_0HWra0xQQ==/16636710440565853.jpg?param=90y90" src="https://music.163.com/song/media/outer/url?id=409650368.mp3" /&gt;&lt;title&gt;十年&lt;/title&gt;&lt;summary&gt;黄梦之&lt;/summary&gt;&lt;/item&gt;&lt;source name="网易云音乐" icon="https://pic.rmb.bdstatic.com/911423bee2bef937975b29b265d737b3.png" url="http://web.p.qq.com/qqmpmobile/aio/app.html?id=1101079856" action="app" a_actionData="com.netease.cloudmusic" i_actionData="tencent100495085://" appid="100495085" /&gt;&lt;/msg&gt;@</code></p>
-                    <p>自定义json：<code>@json=json格式的数据@</code> , 注意中间不能有换行符 , 例如：<br /> <code>@json={"app":"com.tencent.miniapp","desc":"","view":"notification","ver":"0.0.0.1","prompt":"[应用]","appID":"","sourceName":"","actionData":"","actionData_A":"","sourceUrl":"","meta":{"notification":{"appInfo":{"appName":"全国疫情数据统计","appType":4,"appid":1109659848,"iconUrl":"http:\/\/gchat.qpic.cn\/gchatpic_new\/719328335\/-2010394141-6383A777BEB79B70B31CE250142D740F\/0"},"data":[{"title":"确诊","value":"80932"},{"title":"今日确诊","value":"28"},{"title":"疑似","value":"72"},{"title":"今日疑似","value":"5"},{"title":"治愈","value":"60197"},{"title":"今日治愈","value":"1513"},{"title":"死亡","value":"3140"},{"title":"今**亡","value":"17"}],"title":"中国加油，武汉加油","button":[{"name":"病毒：SARS-CoV-2，其导致疾病命名 COVID-19","action":""},{"name":"传染源：新冠肺炎的患者。无症状感染者也可能成为传染源。","action":""}],"emphasis_keyword":""}},"text":"","sourceAd":""}@</code></p>
+                    <p>发送图片：<code>@image=可访问的图片地址@</code> ,
+                        例如：<code>@image=https://xuthus.cc/images/Photo_0411_1a.jpg@</code></p>
+                    <p>发送表情：<code>@face=表情ID@</code> , 例如：<code>@face=176@</code> , 表情ID可从此处寻找：<a
+                        href="https://github.com/richardchien/coolq-http-api/wiki/%E8%A1%A8%E6%83%85-CQ-%E7%A0%81-ID-%E8%A1%A8"
+                        target="_blank">github</a></p>
+                    <p>群消息@：<code>@at=群成员QQ号@</code> , 例如：<code>@at=13239686@</code>, 当需要@全体成员时 只需要
+                        <code>@at=all@</code></p>
+                    <p>自定义xml：<code>@xml=xml格式的数据@</code> , 例如：<br/><code>@xml=&lt;?xml version='1.0' encoding='UTF-8'
+                        standalone='yes' ?&gt;&lt;msg serviceID="2" templateID="1" action="web" brief="&#91;分享&#93; 十年"
+                        sourceMsgId="0" url="http://music.163.com/m/song/409650368" flag="0" adverSign="0"
+                        multiMsgFlag="0" &gt;&lt;item layout="2"&gt;&lt;audio
+                        cover="http://p2.music.126.net/g-Qgb9ibk9Wp_0HWra0xQQ==/16636710440565853.jpg?param=90y90"
+                        src="https://music.163.com/song/media/outer/url?id=409650368.mp3" /&gt;&lt;title&gt;十年&lt;/title&gt;&lt;summary&gt;黄梦之&lt;/summary&gt;&lt;/item&gt;&lt;source
+                        name="网易云音乐" icon="https://pic.rmb.bdstatic.com/911423bee2bef937975b29b265d737b3.png"
+                        url="http://web.p.qq.com/qqmpmobile/aio/app.html?id=1101079856" action="app"
+                        a_actionData="com.netease.cloudmusic" i_actionData="tencent100495085://" appid="100495085" /&gt;&lt;/msg&gt;@</code>
+                    </p>
+                    <p>自定义json：<code>@json=json格式的数据@</code> , 注意中间不能有换行符 , 例如：<br/> <code>@json={"app":"com.tencent.miniapp","desc":"","view":"notification","ver":"0.0.0.1","prompt":"[应用]","appID":"","sourceName":"","actionData":"","actionData_A":"","sourceUrl":"","meta":{"notification":{"appInfo":{"appName":"全国疫情数据统计","appType":4,"appid":1109659848,"iconUrl":"http:\/\/gchat.qpic.cn\/gchatpic_new\/719328335\/-2010394141-6383A777BEB79B70B31CE250142D740F\/0"},"data":[{"title":"确诊","value":"80932"},{"title":"今日确诊","value":"28"},{"title":"疑似","value":"72"},{"title":"今日疑似","value":"5"},{"title":"治愈","value":"60197"},{"title":"今日治愈","value":"1513"},{"title":"死亡","value":"3140"},{"title":"今**亡","value":"17"}],"title":"中国加油，武汉加油","button":[{"name":"病毒：SARS-CoV-2，其导致疾病命名
+                        COVID-19","action":""},{"name":"传染源：新冠肺炎的患者。无症状感染者也可能成为传染源。","action":""}],"emphasis_keyword":""}},"text":"","sourceAd":""}@</code>
+                    </p>
                     <p>音乐分享：<code>@music=[type=custom,url=点击时的跳转链接地址,audio=音频地址,title=音乐标题,image=分享封面图片地址]@</code>
                     </p>
-                    <p>例如：<code>@music=[type=custom,title=测试,url=https://c.y.qq.com/base/fcgi-bin/u?__=CY6V4b,image=https://xuthus.cc/images/Photo_0411_1a.jpg]@</code></p>
+                    <p>例如：<code>@music=[type=custom,title=测试,url=https://c.y.qq.com/base/fcgi-bin/u?__=CY6V4b,image=https://xuthus.cc/images/Photo_0411_1a.jpg]@</code>
+                    </p>
                     <p>下图为音乐分享对应的参数说明</p>
                     <b-img src="https://images.xuthus.cc/images/a4ZE03A_音乐分享.png" fluid></b-img>
 
@@ -183,8 +203,8 @@ _,_ = client.Do(req)
                     <h3 class="text-primary">反馈</h3>
                     <p><code
                     >交流QQ群:<a
-                            target="_blank"
-                            href="//shang.qq.com/wpa/qunwpa?idkey=2c22cb324dc36e260043185618cbe8763ed63dd5a985ee5e181e20ba2390e78a"
+                        target="_blank"
+                        href="//shang.qq.com/wpa/qunwpa?idkey=2c22cb324dc36e260043185618cbe8763ed63dd5a985ee5e181e20ba2390e78a"
                     >824187964</a
                     ></code
                     ></p>
@@ -206,7 +226,7 @@ _,_ = client.Do(req)
 
         <footer class="footer mb-4 mt-4 text-center">
             <div class="footer-top">
-                © {{fullYear}} <i class="fas fa-heart"></i>
+                © {{ fullYear }} <i class="fas fa-heart"></i>
                 <a href="https://xuthus.cc" target="_blank">&nbsp;&nbsp;xuthus</a>
             </div>
 
@@ -223,45 +243,45 @@ _,_ = client.Do(req)
 </template>
 
 <script>
-    export default {
-        name: 'Docs',
-        data() {
-            return {}
-        }
+export default {
+    name: 'Docs',
+    data() {
+        return {}
     }
+}
 </script>
 
 <style>
-    .bg-dark {
-        background-color: #0b1a31 !important;
-    }
+.bg-dark {
+    background-color: #0b1a31 !important;
+}
 
-    .btn {
-        border-radius: 0.3rem !important;
-    }
+.btn {
+    border-radius: 0.3rem !important;
+}
 
-    .main-body {
-        text-align: center;
-    }
+.main-body {
+    text-align: center;
+}
 
-    .docs p {
-        font-size: 1.2rem;
-    }
+.docs p {
+    font-size: 1.2rem;
+}
 
-    .code {
-        background-color: #f5f5f5;
-        font-family: Courier New,serif !important;
-        font-size: 12px !important;
-        border: 1px solid #ccc;
-        padding: 5px;
-        overflow: auto;
-        margin: 5px 0;
-        color: #000;
-    }
+.code {
+    background-color: #f5f5f5;
+    font-family: Courier New, serif !important;
+    font-size: 12px !important;
+    border: 1px solid #ccc;
+    padding: 5px;
+    overflow: auto;
+    margin: 5px 0;
+    color: #000;
+}
 
-    footer .fa-heart {
-        padding-left: 4px;
-        padding-right: 4px;
-        color: red;
-    }
+footer .fa-heart {
+    padding-left: 4px;
+    padding-right: 4px;
+    color: red;
+}
 </style>
