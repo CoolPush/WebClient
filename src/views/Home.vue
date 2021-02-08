@@ -85,6 +85,9 @@
                             text-field="text"
                         ></b-form-radio-group>
 
+                        <button type="button" class="btn btn-danger mt-2 mr-2" @click="privateValid">
+                            校验
+                        </button>
                         <button type="button" class="btn btn-primary mt-2" @click="bind">
                             绑定
                         </button>
@@ -111,6 +114,10 @@
                             value-field="value"
                             text-field="text"
                         ></b-form-radio-group>
+
+                        <button type="button" class="btn btn-danger mt-2 mr-2" @click="groupValid">
+                            绑定
+                        </button>
 
                         <button type="button" class="btn btn-primary mt-2" @click="groupBind">
                             绑定
@@ -140,7 +147,7 @@
                                     placeholder="若存在鉴权,请输入 access_token"
                                 ></b-form-input>
                             </b-form>
-                            <small class="form-text text-muted"><code>输入私有化部署后的可供访问的URL地址,并完成校验</code></small>
+                            <small class="form-text text-muted"><code>输入私有化部署后的可供访问的URL地址,并完成校验. 私有化部署不限制敏感词</code></small>
                         </div>
 
                         <button type="button" class="btn btn-danger mt-2 mr-2" @click="qqPrivateValid">
@@ -294,6 +301,7 @@
                                         :href="getJoinLink(corpSelected).link">{{ getJoinLink(corpSelected).link }}</a>
                                     </div>
 
+                                    <b-button variant="danger" class="mb-2 mt-2" @click="wwValid">校验</b-button>
                                 </b-tab>
                                 <b-tab title="自定义企业">
                                     <b-card-text>如果你希望自定义企业推送，可以在这里配置。</b-card-text>
@@ -342,41 +350,12 @@
                                                       placeholder="eg: XiaoMing"></b-form-input>
                                     </b-input-group>
 
+                                    <b-button variant="danger" class="mt-4 mr-2" @click="wwValid">校验</b-button>
                                     <b-button variant="primary" class="mt-4" @click="wwBindSubmit">保存</b-button>
                                 </b-tab>
                             </b-tabs>
                         </b-card>
 
-                    </b-col>
-                </div>
-            </div>
-
-            <!-- 在线测试 -->
-            <div class="container py-3 docs">
-                <div class="row">
-                    <b-col
-                        sm="12"
-                        md="8"
-                        lg="8"
-                        xl="8"
-                        offset-md="2"
-                        offset-lg="2"
-                        offset-xl="2"
-                    >
-                        <h3 class="text-primary">在线测试</h3>
-                        <b-form-textarea
-                            id="textarea"
-                            v-model="msg"
-                            placeholder="消息内容,限制最长1500字母/500汉字;如需格式化消息,请使用POST按照raw格式提交"
-                            rows="5"
-                            max-rows="6"
-                        ></b-form-textarea>
-                        <button type="button" class="btn btn-primary mt-2 mr-2" @click="sendGetMsg">
-                            发送消息
-                        </button>
-                        <button type="button" class="btn btn-primary mt-2" @click="sendPostMsg">
-                            发送POST消息
-                        </button>
                     </b-col>
                 </div>
             </div>
@@ -1296,7 +1275,109 @@ export default {
                         timer: 5000
                     });
                 });
-        }
+        },
+        privateValid() {
+            let content = 'hello world\n这是测试消息\n当你看到这条消息,说明校验已通过';
+            this.$api
+                .post(this.serverUrl + '/send/' + this.user.skey, content, {headers: {"Content-type": "application/json"}})
+                .then((response) => {
+                    let data = response.data;
+                    if (response.data.code !== 200) {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "校验失败:" + data.message,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                        return
+                    }
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: "校验成功",
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                })
+                .catch((error) => {
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "校验失败:" + error.msg,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                });
+        },
+        groupValid() {
+            let content = 'hello world\n这是测试消息\n当你看到这条消息,说明校验已通过';
+            this.$api
+                .post(this.serverUrl + '/group/' + this.user.skey, content, {headers: {"Content-type": "application/json"}})
+                .then((response) => {
+                    let data = response.data;
+                    if (response.data.code !== 200) {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "校验失败:" + data.message,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                        return
+                    }
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: "校验成功",
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                })
+                .catch((error) => {
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "校验失败:" + error.msg,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                });
+        },
+        wwValid() {
+            let content = { "title": "测试消息", "desc": "当你看到这条消息,说明CoolPush校验已通过", "href": "https://cp.xuthus.cc", "btntxt": "了解更多" };
+            this.$api
+                .post(this.serverUrl + '/ww/' + this.user.skey + '?type=1', content, {headers: {"Content-type": "application/json"}})
+                .then((response) => {
+                    let data = response.data;
+                    if (response.data.code !== 200) {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "校验失败:" + data.message,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                        return
+                    }
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: "校验成功",
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                })
+                .catch((error) => {
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "校验失败:" + error.msg,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                });
+        },
     },
     created() {
         //存在token 先检验 token是否有效 再打开 isLogin 变量
