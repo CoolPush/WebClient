@@ -5,7 +5,7 @@ import router from './router'
 import VueSweetalert2 from 'vue-sweetalert2';
 
 import Axios from "axios";
-import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import {BootstrapVue, IconsPlugin} from 'bootstrap-vue'
 
 import './assets/bootstrap4-business-tycoon.min.css'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -30,18 +30,20 @@ Vue.prototype.fullYear = new Date().getFullYear();
 
 Vue.config.productionTip = false
 
-Array.prototype.shuffle = function() {
-  let input = this;
-  for (let i = input.length-1; i >=0; i--) {
-    let randomIndex = Math.floor(Math.random()*(i+1));
-    let itemAtIndex = input[randomIndex];
-    input[randomIndex] = input[i];
-    input[i] = itemAtIndex;
-  }
-  return input;
+Array.prototype.shuffle = function () {
+    let input = this;
+    for (let i = input.length - 1; i >= 0; i--) {
+        let randomIndex = Math.floor(Math.random() * (i + 1));
+        let itemAtIndex = input[randomIndex];
+        input[randomIndex] = input[i];
+        input[i] = itemAtIndex;
+    }
+    return input;
 }
 
 new Vue({
-  router,
-  render: function (h) { return h(App) }
+    router,
+    render: function (h) {
+        return h(App)
+    }
 }).$mount('#app')
