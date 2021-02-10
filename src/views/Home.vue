@@ -359,6 +359,36 @@
                             </b-tabs>
                         </b-card>
 
+                        <hr>
+
+                        <h3 class="text-primary">绑定Telegram推送</h3>
+                        <b-form inline>
+                            <b-form-input
+                                v-model="tgConfig.token"
+                                class="mb-2 mr-2"
+                                placeholder="机器人BotToken"
+                            ></b-form-input>
+
+                            <b-form-input
+                                v-model="tgConfig.chatid"
+                                class="mb-2"
+                                placeholder="用户ChatID: eg. 717869201"
+                            ></b-form-input>
+
+                        </b-form>
+
+                        <small class="form-text text-muted"><code>用途:协助需要使用TG发送消息但服务器网络无法翻墙访问TG.</code></small>
+                        <small class="form-text text-muted"><code>如何获取BotToken:添加 <strong>@BotFather</strong> 为好友. 获取机器人 <strong>token</strong> 机器人token格式类似: 123456:AAEQ7MEf9WoUS0dMgb</code></small>
+                        <small class="form-text text-muted"><code>如何获取推送用户ID:添加上一步中生成的机器人为好友. 给机器人发送一条消息, 访问 https://api.telegram.org/bot{BotToken}/getUpdates 获取 chatId 即可(替换 {BotToken} 为机器人的token,)</code></small>
+
+                        <button type="button" class="btn btn-danger mt-2 mr-2" @click="tgValid" disabled>
+                            校验
+                        </button>
+
+                        <button type="button" class="btn btn-primary mt-2" @click="tgBind" disabled>
+                            绑定
+                        </button>
+
                     </b-col>
                 </div>
             </div>
@@ -375,14 +405,14 @@
                         offset-lg="2"
                         offset-xl="2"
                     >
-                        <p><code>私聊推送</code>消息非常简单，只需要向以下URL发一个GET或者POST请求：</p>
+                        <p><code>QQ私聊推送</code>: 只需要向以下URL发一个GET或者POST请求:</p>
                         <b-form-input
                             v-model="this.serverUrl+ '/send/' + user.skey"
                             type="text"
                             class="form-control"
                             disabled
                         ></b-form-input>
-                        <p class="mt-2">同样的, 如需 <code>群消息推送</code> ，只需要向以下URL发一个GET或者POST请求：</p>
+                        <p class="mt-2"><code>QQ群消息推送</code>: 只需要向以下URL发一个GET或者POST请求:</p>
                         <b-form-input
                             v-model="this.serverUrl+ '/group/' + user.skey"
                             type="text"
@@ -390,8 +420,8 @@
                             disabled
                         ></b-form-input>
 
-                        <p class="mt-2">
-                            如果你部署了私有化的QQ机器人，在绑定并验证后，只需要向以下URL发一个GET或者POST请求，即可完成 <code>私有化私聊推送</code>，当然，敏感词不受限制，并且增强功能均已开启：
+                        <p class="mt-2"><code>QQ私有化私聊推送</code>:
+                            如果你部署了私有化的QQ机器人，在绑定并验证后，只需要向以下URL发一个GET或者POST请求，即可完成 ，当然，<code>敏感词不受限制，并且增强功能均已开启</code>:
                         </p>
                         <b-form-input
                             v-model="this.serverUrl+ '/psend/' + user.skey"
@@ -400,7 +430,7 @@
                             disabled
                         ></b-form-input>
 
-                        <p class="mt-2">私有化QQ机器人群聊推送：</p>
+                        <p class="mt-2"><code>QQ私有化群聊推送</code>：</p>
                         <b-form-input
                             v-model="this.serverUrl+ '/pgroup/' + user.skey"
                             type="text"
@@ -424,7 +454,16 @@
                             class="form-control"
                             disabled
                         ></b-form-input>
-                        <p class="mt-2">他们都只接受一个参数 <code>c</code> 表示 <code>content</code>：</p>
+
+                        <p class="mt-2"><code>Telegram推送</code>: 向以下地址发送一个GET或者POST请求: </p>
+                        <b-form-input
+                            v-model="this.serverUrl+ '/tg/' + user.skey"
+                            type="text"
+                            class="form-control"
+                            disabled
+                        ></b-form-input>
+
+                        <p class="mt-2">他们都只接受一个参数 <code>c</code> 表示 <code>content 内容</code>：</p>
                         <ul>
                             <li>c: 消息内容</li>
                         </ul>
@@ -438,7 +477,7 @@
                             disabled
                         ></b-form-input>
 
-                        <p class="mt-2">如需 <code>企业微信</code> 消息推送，你需要向以下URL地址发送POST请求：</p>
+                        <p class="mt-2"><code>企业微信消息推送</code>: 你需要向以下URL地址发送POST请求(<code>仅接受POST请求</code>)：</p>
                         <b-form-input
                             v-model="this.serverUrl+ '/ww/' + user.skey"
                             type="text"
@@ -450,7 +489,7 @@
                         </strong></p>
 
 
-                        <p class="mt-2">额外的，如需邮箱消息推送，只需要向以下URL发一个GET或者POST请求：</p>
+                        <p class="mt-2"><code>邮箱消息推送</code>: 需要向以下URL发一个GET或者POST请求：</p>
                         <b-form-input
                             v-model="this.serverUrl+ '/email/' + user.skey"
                             type="text"
@@ -626,6 +665,7 @@ export default {
                 from: "",
                 to: ""
             },
+            tgConfig: {},
 
             //弹窗相关
             color: "warning",
@@ -1429,7 +1469,7 @@ export default {
             this.$router.push({name: "Callback", query: {error: error}});
         }
 
-        //正常 获取企业列表
+        //正常 获取配置列表
         if (token !== null) {
             let header = {token: token};
             this.$api
