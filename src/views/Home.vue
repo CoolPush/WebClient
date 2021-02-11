@@ -1412,6 +1412,7 @@ export default {
         tgBind() {
             let token = localStorage.getItem("token");
             let header = {token: token};
+            this.tgConfig.chat_id = parseInt(this.tgConfig.chat_id);
             this.$api
                 .post(
                     this.serverUrl + "/telegram/bind", this.tgConfig, {headers: header}
