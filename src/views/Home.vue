@@ -370,7 +370,7 @@
                             ></b-form-input>
 
                             <b-form-input
-                                v-model="tgConfig.chatid"
+                                v-model="tgConfig.chat_id"
                                 class="mb-2"
                                 placeholder="用户ChatID: eg. 717869201"
                             ></b-form-input>
@@ -384,11 +384,11 @@
                             https://api.telegram.org/bot{BotToken}/getUpdates 获取 chatId 即可(替换 {BotToken}
                             为机器人的token,)</code></small>
 
-                        <button type="button" class="btn btn-danger mt-2 mr-2" @click="tgValid" disabled>
+                        <button type="button" class="btn btn-danger mt-2 mr-2" @click="tgValid">
                             校验
                         </button>
 
-                        <button type="button" class="btn btn-primary mt-2" @click="tgBind" disabled>
+                        <button type="button" class="btn btn-primary mt-2" @click="tgBind">
                             绑定
                         </button>
 
@@ -1375,8 +1375,77 @@ export default {
                 });
         },
         tgValid() {
+            let token = localStorage.getItem("token");
+            let header = {token: token};
+            this.$api
+                .get(this.serverUrl + '/telegram/valid', {headers: header})
+                .then((response) => {
+                    let data = response.data;
+                    if (response.data.code !== 200) {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "校验失败:" + data.message,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                        return
+                    }
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: "校验成功",
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                })
+                .catch((error) => {
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "校验失败:" + error.msg,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                });
         },
         tgBind() {
+            let token = localStorage.getItem("token");
+            let header = {token: token};
+            this.$api
+                .post(
+                    this.serverUrl + "/telegram/bind", this.tgConfig, {headers: header}
+                )
+                .then((response) => {
+                    let data = response.data;
+                    if (response.data.code !== 200) {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "绑定失败: " + data.message,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                        return
+                    }
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: "绑定成功",
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                })
+                .catch((error) => {
+                    //绑定失败
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "绑定失败: " + error.msg,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                });
         },
     },
     created() {
