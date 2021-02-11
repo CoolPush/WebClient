@@ -116,7 +116,7 @@
                         ></b-form-radio-group>
 
                         <button type="button" class="btn btn-danger mt-2 mr-2" @click="groupValid">
-                            绑定
+                            校验
                         </button>
 
                         <button type="button" class="btn btn-primary mt-2" @click="groupBind">
@@ -635,28 +635,29 @@ export default {
             accountShareUserList: [
                 'W4j1e', '余生安好'
             ],
+
+            // 企业微信相关
             corpSelected: 0,
             corpListOptions: [],
             wwBindConfig: {
                 user: {},
                 app: {}
             },
+
+            // base
             user: {
                 skey: "",
-                sendTo: "",
-                sendFrom: "",
-                groupTo: "",
-                groupFrom: "",
-                privatePath: "",
-                privateAccessToken: "",
-                wxPusherUid: "",
             }, //用户信息
-            msg: "", //在线测试的消息体
             isLogin: false
             , //检测是否登录 false没有登陆
+
+            // 微信推送相关
             openWxPusher: false,//是否开启微信推送
             wxPusherImg: "",//获得二维码地址
             wxPusherShowBindResult: false,
+            wxPusherUid: "",
+
+            //邮箱推送相关
             emailConfig: {
                 host: "",
                 port: "",
@@ -665,7 +666,19 @@ export default {
                 from: "",
                 to: ""
             },
+
+            // tg推送相关
             tgConfig: {},
+
+            // qq推送相关
+            qqConfig: {
+                sendTo: "",
+                sendFrom: "",
+                groupTo: "",
+                groupFrom: "",
+                privatePath: "",
+                privateAccessToken: "",
+            },
 
             //弹窗相关
             color: "warning",
@@ -1430,6 +1443,8 @@ export default {
                     });
                 });
         },
+        tgValid() {},
+        tgBind() {},
     },
     created() {
         //存在token 先检验 token是否有效 再打开 isLogin 变量
@@ -1491,27 +1506,37 @@ export default {
                     this.$router.push({name: "Callback", query: {error: error}});
                 });
 
-            this.$api
-                .get(this.serverUrl + "/wework/get_bind_app", {headers: header})
-                .then((response) => {
-                    let data = response.data;
-                    if (data.code === 200) {
-                        this.wwBindConfig.user = data.data.user;
-                        this.wwBindConfig.app = data.data.app;
-                        this.corpSelected = data.data.user.app_id;
-                    }
-                })
-                .catch((error) => {
-                    //清空localStorage
-                    this.$router.push({name: "Callback", query: {error: error}});
-                });
+            // this.$api
+            //     .get(this.serverUrl + "/wework/get_bind_app", {headers: header})
+            //     .then((response) => {
+            //         let data = response.data;
+            //         if (data.code === 200) {
+            //             this.wwBindConfig.user = data.data.user;
+            //             this.wwBindConfig.app = data.data.app;
+            //             this.corpSelected = data.data.user.app_id;
+            //         }
+            //     })
+            //     .catch((error) => {
+            //         //清空localStorage
+            //         this.$router.push({name: "Callback", query: {error: error}});
+            //     });
 
             this.$api
-                .get(this.serverUrl + "/emails/get", {headers: header})
+                .get(this.serverUrl + "/config", {headers: header})
                 .then((response) => {
                     let data = response.data;
                     if (data.code === 200 && data.data !== null) {
-                        this.emailConfig = data.data;
+                        this.user = data.user;
+
+                        this.qqConfig = data.qq_config;
+                        this.wxPusherUid = data.wechat_config.wxPusherUid;
+                        this.emailConfig = data.email_config;
+
+                        this.wwBindConfig.user = data.wework_user_config;
+                        this.wwBindConfig.app = data.wework_app_config;
+                        this.corpSelected = data.wework_user_config.app_id;
+
+                        this.tgConfig = data.telegram_config;
                     }
                 })
                 .catch((error) => {
