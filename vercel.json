@@ -1,0 +1,10 @@
+{
+    "version": 2,
+    "routes": [
+      { "src": "/css/(.*)", "dest": "dist/css/$1" },
+      { "src": "/js/(.*)", "dest": "dist/js/$1" },
+      { "src": "/img/(.*)", "dest": "dist/img/$1" },
+      { "src": "/", "dest": "dist/index.html" },
+      { "src": "/(.*)", "dest": "dist/index.html" }
+    ]
+  }

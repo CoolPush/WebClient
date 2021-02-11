@@ -65,9 +65,9 @@
                     >
                         <h3 class="text-primary">绑定机器人</h3>
                         <div class="form-group">
-                            <label>QQ号私人推送</label>
+                            <label>QQ私聊推送</label>
                             <b-form-input
-                                v-model="user.sendTo"
+                                v-model="qqConfig.sendTo"
                                 type="text"
                                 class="form-control"
                                 placeholder="输入推送QQ地址"
@@ -78,7 +78,7 @@
                         </div>
 
                         <b-form-radio-group
-                            v-model="user.sendFrom"
+                            v-model="qqConfig.sendFrom"
                             :options="randomAccountList()"
                             class="mb-3"
                             value-field="value"
@@ -97,7 +97,7 @@
                         <div class="form-group">
                             <label>QQ群推送</label>
                             <b-form-input
-                                v-model="user.groupTo"
+                                v-model="qqConfig.groupTo"
                                 type="text"
                                 class="form-control"
                                 placeholder="输入需要绑定的QQ群号码"
@@ -108,7 +108,7 @@
                         </div>
 
                         <b-form-radio-group
-                            v-model="user.groupFrom"
+                            v-model="qqConfig.groupFrom"
                             :options="randomGroupAccountList()"
                             class="mb-3"
                             value-field="value"
@@ -135,13 +135,13 @@
                             </router-link>
                             <b-form inline>
                                 <b-form-input
-                                    v-model="user.privatePath"
+                                    v-model="qqConfig.privatePath"
                                     type="text"
                                     class="form-control mr-2"
                                     placeholder="绑定URL地址,eg: http://8.8.8.8:5700"
                                 ></b-form-input>
                                 <b-form-input
-                                    v-model="user.privateAccessToken"
+                                    v-model="qqConfig.privateAccessToken"
                                     type="text"
                                     class="form-control"
                                     placeholder="若存在鉴权,请输入 access_token"
@@ -246,7 +246,7 @@
                         <hr>
 
                         <h3 class="text-primary">绑定微信推送</h3>
-                        <div v-if="user.wxPusherUid === ''">
+                        <div v-if="wxPusherUid === ''">
                             <b-form-checkbox v-model="openWxPusher" name="check-button" switch>
                                 开启微信推送
                             </b-form-checkbox>
@@ -378,8 +378,11 @@
                         </b-form>
 
                         <small class="form-text text-muted"><code>用途:协助需要使用TG发送消息但服务器网络无法翻墙访问TG.</code></small>
-                        <small class="form-text text-muted"><code>如何获取BotToken:添加 <strong>@BotFather</strong> 为好友. 获取机器人 <strong>token</strong> 机器人token格式类似: 123456:AAEQ7MEf9WoUS0dMgb</code></small>
-                        <small class="form-text text-muted"><code>如何获取推送用户ID:添加上一步中生成的机器人为好友. 给机器人发送一条消息, 访问 https://api.telegram.org/bot{BotToken}/getUpdates 获取 chatId 即可(替换 {BotToken} 为机器人的token,)</code></small>
+                        <small class="form-text text-muted"><code>如何获取BotToken:添加 <strong>@BotFather</strong> 为好友. 获取机器人
+                            <strong>token</strong> 机器人token格式类似: 123456:AAEQ7MEf9WoUS0dMgb</code></small>
+                        <small class="form-text text-muted"><code>如何获取推送用户ID:添加上一步中生成的机器人为好友. 给机器人发送一条消息, 访问
+                            https://api.telegram.org/bot{BotToken}/getUpdates 获取 chatId 即可(替换 {BotToken}
+                            为机器人的token,)</code></small>
 
                         <button type="button" class="btn btn-danger mt-2 mr-2" @click="tgValid" disabled>
                             校验
@@ -590,10 +593,10 @@
             </b-button>
             <!--            <b-button variant="info" class="mr-2" @click="loginBy('qq')"><img src='../assets/qq.png' class="icon-size-tpl pr-1"></img>QQ</b-button>-->
             <b-button variant="info" class="mr-2" @click="loginBy('gitee')"><img src='../assets/gitee.svg'
-                                                                                 class="icon-size-tpl pr-1"></img>Gitee
+                                                                                 class="icon-size-tpl pr-1" alt="">Gitee
             </b-button>
             <b-button variant="info" class="mr-2" @click="loginBy('osc')"><img src='../assets/oschina.svg'
-                                                                               class="icon-size-osc pr-1"></img>OSC
+                                                                               class="icon-size-osc pr-1" alt="">OSC
             </b-button>
         </b-modal>
         <b-modal id="modal-bindWxPusher" centered hide-header ok-title="确定" cancel-title="取消" @ok="bindWxPusher">
@@ -645,11 +648,8 @@ export default {
             },
 
             // base
-            user: {
-                skey: "",
-            }, //用户信息
-            isLogin: false
-            , //检测是否登录 false没有登陆
+            user: {}, //用户信息
+            isLogin: false, //检测是否登录 false没有登陆
 
             // 微信推送相关
             openWxPusher: false,//是否开启微信推送
@@ -732,76 +732,6 @@ export default {
                             position: 'top-end',
                             icon: 'error',
                             title: "重置结果:" + error.msg,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                    });
-            }
-        },
-        sendGetMsg() {
-            if (this.msg !== "") {
-                this.$api
-                    .get(this.serverUrl + '/send/' + this.user.skey + "?c=" + this.msg)
-                    .then((response) => {
-                        let data = response.data;
-                        if (data.code !== 200) {
-                            this.$swal.fire({
-                                position: 'top-end',
-                                icon: 'error',
-                                title: "发送失败: " + data.message,
-                                showConfirmButton: false,
-                                timer: 5000
-                            });
-                            return
-                        }
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: "发送成功",
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                    })
-                    .catch((error) => {
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "发送失败:" + error.msg,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                    });
-            }
-        },
-        sendPostMsg() {
-            if (this.msg !== "") {
-                this.$api
-                    .post(this.serverUrl + '/send/' + this.user.skey, this.msg, {headers: {"Content-type": "application/json"}})
-                    .then((response) => {
-                        let data = response.data;
-                        if (response.data.code !== 200) {
-                            this.$swal.fire({
-                                position: 'top-end',
-                                icon: 'error',
-                                title: "发送失败:" + data.message,
-                                showConfirmButton: false,
-                                timer: 5000
-                            });
-                            return
-                        }
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: "发送成功",
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                    })
-                    .catch((error) => {
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "发送失败:" + error.msg,
                             showConfirmButton: false,
                             timer: 5000
                         });
@@ -1012,6 +942,7 @@ export default {
                     })
                     .catch((error) => {
                         //清空localStorage
+                        console.log(error);
                         this.isLogin = false;
                         localStorage.clear();
                     });
@@ -1443,8 +1374,10 @@ export default {
                     });
                 });
         },
-        tgValid() {},
-        tgBind() {},
+        tgValid() {
+        },
+        tgBind() {
+        },
     },
     created() {
         //存在token 先检验 token是否有效 再打开 isLogin 变量
@@ -1466,6 +1399,7 @@ export default {
                 })
                 .catch((error) => {
                     //清空localStorage
+                    console.log(error);
                     this.isLogin = false;
                     localStorage.clear();
                 });
@@ -1506,37 +1440,21 @@ export default {
                     this.$router.push({name: "Callback", query: {error: error}});
                 });
 
-            // this.$api
-            //     .get(this.serverUrl + "/wework/get_bind_app", {headers: header})
-            //     .then((response) => {
-            //         let data = response.data;
-            //         if (data.code === 200) {
-            //             this.wwBindConfig.user = data.data.user;
-            //             this.wwBindConfig.app = data.data.app;
-            //             this.corpSelected = data.data.user.app_id;
-            //         }
-            //     })
-            //     .catch((error) => {
-            //         //清空localStorage
-            //         this.$router.push({name: "Callback", query: {error: error}});
-            //     });
-
             this.$api
                 .get(this.serverUrl + "/config", {headers: header})
                 .then((response) => {
                     let data = response.data;
                     if (data.code === 200 && data.data !== null) {
-                        this.user = data.user;
+                        this.user = data.data.user;
 
-                        this.qqConfig = data.qq_config;
-                        this.wxPusherUid = data.wechat_config.wxPusherUid;
-                        this.emailConfig = data.email_config;
+                        this.qqConfig = data.data.qq_config;
+                        this.wxPusherUid = data.data.wechat_config.wxPusherUid;
+                        this.emailConfig = data.data.email_config;
 
-                        this.wwBindConfig.user = data.wework_user_config;
-                        this.wwBindConfig.app = data.wework_app_config;
-                        this.corpSelected = data.wework_user_config.app_id;
-
-                        this.tgConfig = data.telegram_config;
+                        this.wwBindConfig.user = data.data.wework_user_config;
+                        this.wwBindConfig.app = data.data.wework_app_config;
+                        this.corpSelected = data.data.wework_user_config.app_id;
+                        this.tgConfig = data.data.telegram_config;
                     }
                 })
                 .catch((error) => {
@@ -1559,7 +1477,7 @@ export default {
     },
     watch: {
         $route(to, from) {
-            if (from.path != to.path) {
+            if (from.path !== to.path) {
                 this.valine && this.valine.setPath(to.path);
             }
         },
