@@ -1624,12 +1624,12 @@ export default {
                         this.user = defaultValue(data.data.user);
 
                         this.qqConfig = defaultValue(data.data.qq_config);
-                        this.wxPusherUid = defaultValue(data.data.wechat_config.wxPusherUid);
+                        this.wxPusherUid = defaultValue(data.data.wechat_config).wxPusherUid;
                         this.emailConfig = defaultValue(data.data.email_config);
 
                         this.wwBindConfig.user = defaultValue(data.data.wework_user_config);
                         this.wwBindConfig.app = defaultValue(data.data.wework_app_config);
-                        this.corpSelected = defaultValue(data.data.wework_user_config.app_id);
+                        this.corpSelected = defaultValue(data.data.wework_user_config).app_id;
                         this.tgConfig = defaultValue(data.data.telegram_config);
                         this.dingConfig = defaultValue(data.data.ding_talk_config);
                     }
