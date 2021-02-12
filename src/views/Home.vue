@@ -392,6 +392,37 @@
                             绑定
                         </button>
 
+                        <h3 class="text-primary">绑定钉钉推送</h3>
+                        <b-form inline>
+                            <b-form-input
+                                v-model="tgConfig.token"
+                                class="mb-2 mr-2"
+                                placeholder="机器人BotToken"
+                            ></b-form-input>
+
+                            <b-form-input
+                                v-model="tgConfig.chat_id"
+                                class="mb-2"
+                                placeholder="用户ChatID: eg. 717869201"
+                            ></b-form-input>
+
+                        </b-form>
+
+                        <small class="form-text text-muted"><code>用途:协助需要使用TG发送消息但服务器网络无法翻墙访问TG.</code></small>
+                        <small class="form-text text-muted"><code>如何获取BotToken:添加 <strong>@BotFather</strong> 为好友. 获取机器人
+                            <strong>token</strong> 机器人token格式类似: 123456:AAEQ7MEf9WoUS0dMgb</code></small>
+                        <small class="form-text text-muted"><code>如何获取推送用户ID:添加上一步中生成的机器人为好友. 给机器人发送一条消息, 访问
+                            https://api.telegram.org/bot{BotToken}/getUpdates 获取 chatId 即可(替换 {BotToken}
+                            为机器人的token,)</code></small>
+
+                        <button type="button" class="btn btn-danger mt-2 mr-2" @click="validTelegram">
+                            校验
+                        </button>
+
+                        <button type="button" class="btn btn-primary mt-2" @click="bindTelegram">
+                            绑定
+                        </button>
+
                     </b-col>
                 </div>
             </div>
