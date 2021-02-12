@@ -25,19 +25,19 @@
                                 <b-spinner variant="primary" label="Spinning"></b-spinner>
                             </div>
                             <div v-else>
-                                <div v-if="code === 500 || code === 501">
-                                    <h4 class="card-title">建立请求失败</h4>
-                                    <p class="card-text text-danger">{{ message }}</p>
-                                    <a :href="this.callback" type="button" class="btn btn-primary">授权</a>
-                                </div>
-                                <div v-else-if="code === 502">
+                                <div v-if="code === 502">
                                     <h4 class="card-title">授权登录失败</h4>
                                     <p class="card-text text-danger">{{ message }}</p>
-                                    <a :href="this.callback" type="button" class="btn btn-primary">授权</a>
+                                    <b-button @click="reload" type="button" class="btn btn-primary">授权</b-button>
                                 </div>
                                 <div v-else-if="code === 503">
                                     <h4 class="card-title">禁止登录</h4>
                                     <p class="card-text text-danger">{{ message }}</p>
+                                </div>
+                                <div v-else>
+                                    <h4 class="card-title">建立请求失败</h4>
+                                    <p class="card-text text-danger">{{ message }}</p>
+                                    <b-button @click="reload" type="button" class="btn btn-primary mr-2">授权</b-button>
                                 </div>
                             </div>
                         </div>
