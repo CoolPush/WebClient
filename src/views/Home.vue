@@ -392,34 +392,31 @@
                             绑定
                         </button>
 
+                        <hr>
+
                         <h3 class="text-primary">绑定钉钉推送</h3>
                         <b-form inline>
                             <b-form-input
-                                v-model="tgConfig.token"
+                                v-model="dingConfig.web_hook"
                                 class="mb-2 mr-2"
-                                placeholder="机器人BotToken"
+                                placeholder="机器人Webhook地址"
                             ></b-form-input>
 
                             <b-form-input
-                                v-model="tgConfig.chat_id"
+                                v-model="dingConfig.sign"
                                 class="mb-2"
-                                placeholder="用户ChatID: eg. 717869201"
+                                placeholder="加签密钥"
                             ></b-form-input>
 
                         </b-form>
 
-                        <small class="form-text text-muted"><code>用途:协助需要使用TG发送消息但服务器网络无法翻墙访问TG.</code></small>
-                        <small class="form-text text-muted"><code>如何获取BotToken:添加 <strong>@BotFather</strong> 为好友. 获取机器人
-                            <strong>token</strong> 机器人token格式类似: 123456:AAEQ7MEf9WoUS0dMgb</code></small>
-                        <small class="form-text text-muted"><code>如何获取推送用户ID:添加上一步中生成的机器人为好友. 给机器人发送一条消息, 访问
-                            https://api.telegram.org/bot{BotToken}/getUpdates 获取 chatId 即可(替换 {BotToken}
-                            为机器人的token,)</code></small>
+                        <small class="form-text text-muted"><code>目前已实现了加签方式的推送, 建议开启加签</code></small>
 
-                        <button type="button" class="btn btn-danger mt-2 mr-2" @click="validTelegram">
+                        <button type="button" class="btn btn-danger mt-2 mr-2" @click="validDingTalk">
                             校验
                         </button>
 
-                        <button type="button" class="btn btn-primary mt-2" @click="bindTelegram">
+                        <button type="button" class="btn btn-primary mt-2" @click="bindDingTalk">
                             绑定
                         </button>
 
@@ -642,6 +639,8 @@ export default {
     name: "Home",
     data() {
         return {
+            isLogin: true, //检测是否登录 false没有登陆
+
             accountOption: [
                 {text: '2277671372', value: '2277671372'},
                 {text: '997539145', value: '997539145'},
@@ -676,15 +675,14 @@ export default {
                 app: {}
             },
 
-            // base
-            user: {}, //用户信息
-            isLogin: false, //检测是否登录 false没有登陆
-
             // 微信推送相关
             openWxPusher: false,//是否开启微信推送
             wxPusherImg: "",//获得二维码地址
             wxPusherShowBindResult: false,
             wxPusherUid: "",
+
+            // base 用户信息相关
+            user: {},
 
             //邮箱推送相关
             emailConfig: {
@@ -701,6 +699,9 @@ export default {
 
             // qq推送相关
             qqConfig: {},
+
+            // 钉钉推送相关
+            dingConfig: {},
 
             //弹窗相关
             color: "warning",
@@ -1049,6 +1050,7 @@ export default {
                     });
                 });
         },
+        bindDingTalk() {},
 
         validQQPrivate() {
             let token = localStorage.getItem("token");
@@ -1268,6 +1270,7 @@ export default {
                     });
                 });
         },
+        validDingTalk() {},
 
         getWxPusherQrCode() {
             //存在token 先检验 token是否有效 再打开 isLogin 变量
@@ -1531,6 +1534,7 @@ export default {
                         this.wwBindConfig.app = data.data.wework_app_config;
                         this.corpSelected = data.data.wework_user_config.app_id;
                         this.tgConfig = data.data.telegram_config;
+                        this.dingConfig = data.data.ding_talk_config;
                     }
                 })
                 .catch((error) => {
