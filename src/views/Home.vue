@@ -671,14 +671,7 @@ export default {
             tgConfig: {},
 
             // qq推送相关
-            qqConfig: {
-                sendTo: "",
-                sendFrom: "",
-                groupTo: "",
-                groupFrom: "",
-                privatePath: "",
-                privateAccessToken: "",
-            },
+            qqConfig: {},
 
             //弹窗相关
             color: "warning",
@@ -746,9 +739,9 @@ export default {
                     this.serverUrl + "/bind?id=" +
                     this.user.id +
                     "&sendTo=" +
-                    this.user.sendTo +
+                    this.qqConfig.sendTo +
                     "&sendFrom=" +
-                    this.user.sendFrom,
+                    this.qqConfig.sendFrom,
                     {headers: header}
                 )
                 .then((response) => {
@@ -790,9 +783,9 @@ export default {
                     this.serverUrl + "/group_bind?id=" +
                     this.user.id +
                     "&groupTo=" +
-                    this.user.groupTo +
+                    this.qqConfig.groupTo +
                     "&groupFrom=" +
-                    this.user.groupFrom,
+                    this.qqConfig.groupFrom,
                     {headers: header}
                 )
                 .then((response) => {
@@ -972,8 +965,6 @@ export default {
                     })
                     .catch((error) => {
                         console.log("重置结果", error);
-                        //清空localStorage
-                        // localStorage.clear();
                         this.$swal.fire({
                             position: 'top-end',
                             icon: 'error',
@@ -1153,8 +1144,7 @@ export default {
             }
         },
         qqPrivateBind() {
-
-            if (this.user.privatePath === "") {
+            if (this.qqConfig.privatePath === "") {
                 this.$swal.fire({
                     position: 'top-end',
                     icon: 'error',
@@ -1166,7 +1156,7 @@ export default {
             }
 
             let reg = new RegExp(/(\w+):\/\/([^/:]+)(:\d*)?/);
-            let result = this.user.privatePath.match(reg)
+            let result = this.qqConfig.privatePath.match(reg)
             if (result === null || result[0] === "") {
                 this.$swal.fire({
                     position: 'top-end',
@@ -1187,13 +1177,13 @@ export default {
                 }
             }
 
-            this.user.privatePath = removeLastPart(this.user.privatePath);
+            this.qqConfig.privatePath = removeLastPart(this.qqConfig.privatePath);
 
             let token = localStorage.getItem("token");
             let header = {token: token};
             let payload = {
-                "private_path": this.user.privatePath,
-                "access_token": this.user.privateAccessToken,
+                "private_path": this.qqConfig.privatePath,
+                "access_token": this.qqConfig.privateAccessToken,
             }
             this.$api
                 .post(
