@@ -763,7 +763,6 @@ export default {
         },
 
         bindQQSingle() {
-            console.log("qq_config: ",this.qqConfig);
             let token = localStorage.getItem("token");
             let header = {token: token};
             this.$api
@@ -1590,22 +1589,27 @@ export default {
         if (token !== null) {
             let header = {token: token};
 
+            let defaultValue = function (obj) {
+                if (obj === null) return {};
+                return obj;
+            }
+
             this.$api
                 .get(this.serverUrl + "/config", {headers: header})
                 .then((response) => {
                     let data = response.data;
                     if (data.code === 200 && data.data !== null) {
-                        this.user = data.data.user;
+                        this.user = defaultValue(data.data.user);
 
-                        this.qqConfig = data.data.qq_config;
-                        this.wxPusherUid = data.data.wechat_config.wxPusherUid;
-                        this.emailConfig = data.data.email_config;
+                        this.qqConfig = defaultValue(data.data.qq_config);
+                        this.wxPusherUid = defaultValue(data.data.wechat_config.wxPusherUid);
+                        this.emailConfig = defaultValue(data.data.email_config);
 
-                        this.wwBindConfig.user = data.data.wework_user_config;
-                        this.wwBindConfig.app = data.data.wework_app_config;
-                        this.corpSelected = data.data.wework_user_config.app_id;
-                        this.tgConfig = data.data.telegram_config;
-                        this.dingConfig = data.data.ding_talk_config;
+                        this.wwBindConfig.user = defaultValue(data.data.wework_user_config);
+                        this.wwBindConfig.app = defaultValue(data.data.wework_app_config);
+                        this.corpSelected = defaultValue(data.data.wework_user_config.app_id);
+                        this.tgConfig = defaultValue(data.data.telegram_config);
+                        this.dingConfig = defaultValue(data.data.ding_talk_config);
                     }
                 })
                 .catch((error) => {
@@ -1617,7 +1621,6 @@ export default {
                 .get(this.serverUrl + "/wework/list", {headers: header})
                 .then((response) => {
                     let data = response.data;
-                    console.log("wework list: ",data);
                     if (data.code === 200) {
                         for (let i = 0; i < data.data.length; i++) {
                             this.corpListOptions.push({
