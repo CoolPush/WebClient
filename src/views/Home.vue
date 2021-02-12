@@ -519,6 +519,17 @@
                             <router-link :to="{'name': 'Docs'}">说明文档</router-link>
                         </strong></p>
 
+                        <p class="mt-2"><code>钉钉群消息推送</code>: 你需要向以下URL地址发送POST请求(<code>仅接受POST请求</code>)：</p>
+                        <b-form-input
+                            v-model="this.serverUrl+ '/ding/' + user.skey"
+                            type="text"
+                            class="form-control"
+                            disabled
+                        ></b-form-input>
+                        <p class="mt-2 text-danger">钉钉群消息推送的请求参数可参考<strong>
+                            <router-link :to="{'name': 'Docs'}">说明文档</router-link>
+                        </strong></p>
+
 
                         <p class="mt-2"><code>邮箱消息推送</code>: 需要向以下URL发一个GET或者POST请求：</p>
                         <b-form-input
@@ -1591,6 +1602,9 @@ export default {
 
             let defaultValue = function (obj) {
                 if (obj === null) return {};
+
+                if (obj === undefined) return '';
+
                 return obj;
             }
 

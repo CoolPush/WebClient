@@ -33,9 +33,10 @@
                     <p><code>删除机器人为好友,并重新添加</code></p>
                     <p>由于早期机器人添加好友均为单项好友关系,目前机器人升级,导致添加好友和邀请好友入群失败.删除机器人好友,并重新添加即可,机器人将响应你的请求,并添加你为好友,建立双向好友关系.</p>
 
-                    <h3 class="text-primary">企微推送
-                        <b-badge variant="danger">New</b-badge>
-                    </h3>
+                    <h3 class="text-primary">钉钉群消息推送</h3>
+                    <p>目前钉钉群消息推送只支持使用POST推送, 参数和官方文档保持一致。官网文档参考地址：<a href="https://developers.dingtalk.com/document/app/custom-robot-access/title-72m-8ag-pqw" target="_blank">自定义机器人接入-钉钉开放平台</a></p>
+
+                    <h3 class="text-primary">企微推送</h3>
                     <p>目前企微推送支持四种消息格式，且只允许使用POST方式推送。推送格式如下：</p>
                     <p>(一)普通消息推送：</p>
                     <p>url: <code>https://push.xuthus.cc/ww/skey</code></p>
