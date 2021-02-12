@@ -85,10 +85,10 @@
                             text-field="text"
                         ></b-form-radio-group>
 
-                        <button type="button" class="btn btn-danger mt-2 mr-2" @click="privateValid">
+                        <button type="button" class="btn btn-danger mt-2 mr-2" @click="validQQSingle">
                             校验
                         </button>
-                        <button type="button" class="btn btn-primary mt-2" @click="bind">
+                        <button type="button" class="btn btn-primary mt-2" @click="bindQQSingle">
                             绑定
                         </button>
 
@@ -115,11 +115,11 @@
                             text-field="text"
                         ></b-form-radio-group>
 
-                        <button type="button" class="btn btn-danger mt-2 mr-2" @click="groupValid">
+                        <button type="button" class="btn btn-danger mt-2 mr-2" @click="validQQGroup">
                             校验
                         </button>
 
-                        <button type="button" class="btn btn-primary mt-2" @click="groupBind">
+                        <button type="button" class="btn btn-primary mt-2" @click="bindQQGroup">
                             绑定
                         </button>
 
@@ -151,11 +151,11 @@
                                 私有化部署不限制敏感词</code></small>
                         </div>
 
-                        <button type="button" class="btn btn-danger mt-2 mr-2" @click="qqPrivateValid">
+                        <button type="button" class="btn btn-danger mt-2 mr-2" @click="validQQPrivate">
                             校验
                         </button>
 
-                        <button type="button" class="btn btn-primary mt-2" @click="qqPrivateBind">
+                        <button type="button" class="btn btn-primary mt-2" @click="bindQQPrivate">
                             绑定
                         </button>
 
@@ -235,11 +235,11 @@
                             ></b-form-input>
                         </b-form>
 
-                        <button type="button" class="btn btn-danger mt-2 mr-2" @click="emailValid">
+                        <button type="button" class="btn btn-danger mt-2 mr-2" @click="validEmail">
                             校验
                         </button>
 
-                        <button type="button" class="btn btn-primary mt-2" @click="emailBind">
+                        <button type="button" class="btn btn-primary mt-2" @click="bindEmail">
                             绑定
                         </button>
 
@@ -353,7 +353,7 @@
                                                       placeholder="eg: XiaoMing"></b-form-input>
                                     </b-input-group>
 
-                                    <b-button variant="danger" class="mt-4 mr-2" @click="wwValid">校验</b-button>
+                                    <b-button variant="danger" class="mt-4 mr-2" @click="validWework">校验</b-button>
                                     <b-button variant="primary" class="mt-4" @click="wwBindSubmit">保存</b-button>
                                 </b-tab>
                             </b-tabs>
@@ -384,11 +384,11 @@
                             https://api.telegram.org/bot{BotToken}/getUpdates 获取 chatId 即可(替换 {BotToken}
                             为机器人的token,)</code></small>
 
-                        <button type="button" class="btn btn-danger mt-2 mr-2" @click="tgValid">
+                        <button type="button" class="btn btn-danger mt-2 mr-2" @click="validTelegram">
                             校验
                         </button>
 
-                        <button type="button" class="btn btn-primary mt-2" @click="tgBind">
+                        <button type="button" class="btn btn-primary mt-2" @click="bindTelegram">
                             绑定
                         </button>
 
@@ -731,12 +731,14 @@ export default {
                     });
             }
         },
-        bind() {
+
+        bindQQSingle() {
+            console.log("qq_config: ",this.qqConfig);
             let token = localStorage.getItem("token");
             let header = {token: token};
             this.$api
                 .get(
-                    this.serverUrl + "/bind?id=" +
+                    this.serverUrl + "/bind/qqSingle?id=" +
                     this.user.id +
                     "&sendTo=" +
                     this.qqConfig.sendTo +
@@ -775,12 +777,12 @@ export default {
                     });
                 });
         },
-        groupBind() {
+        bindQQGroup() {
             let token = localStorage.getItem("token");
             let header = {token: token};
             this.$api
                 .get(
-                    this.serverUrl + "/group_bind?id=" +
+                    this.serverUrl + "/bind/qqGroup?id=" +
                     this.user.id +
                     "&groupTo=" +
                     this.qqConfig.groupTo +
@@ -819,13 +821,89 @@ export default {
                     });
                 });
         },
-        emailBind() {
+        bindQQPrivate() {
+            if (this.qqConfig.privatePath === "") {
+                this.$swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: "请指定绑定地址",
+                    showConfirmButton: false,
+                    timer: 5000
+                });
+                return
+            }
+
+            let reg = new RegExp(/(\w+):\/\/([^/:]+)(:\d*)?/);
+            let result = this.qqConfig.privatePath.match(reg)
+            if (result === null || result[0] === "") {
+                this.$swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: "格式不正确",
+                    showConfirmButton: false,
+                    timer: 5000
+                });
+                return
+            }
+
+            let removeLastPart = function (url) {
+                let lastSlashIndex = url.lastIndexOf("/");
+                if (lastSlashIndex > url.indexOf("/") + 1) {
+                    return url.substr(0, lastSlashIndex);
+                } else {
+                    return url;
+                }
+            }
+
+            this.qqConfig.privatePath = removeLastPart(this.qqConfig.privatePath);
+
+            let token = localStorage.getItem("token");
+            let header = {token: token};
+            let payload = {
+                "private_path": this.qqConfig.privatePath,
+                "access_token": this.qqConfig.privateAccessToken,
+            }
+            this.$api
+                .post(
+                    this.serverUrl + "/bind/qqPrivate", payload, {headers: header}
+                )
+                .then((response) => {
+                    let data = response.data;
+                    if (response.data.code === 200) {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: "操作成功!",
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                    } else {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "操作失败: " + data.message,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                    }
+                })
+                .catch((error) => {
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "操作失败: " + error.msg,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                });
+        },
+        bindEmail() {
             let token = localStorage.getItem("token");
             let header = {token: token};
             this.emailConfig.port = parseInt(this.emailConfig.port)
             this.$api
                 .post(
-                    this.serverUrl + "/emails/bind", this.emailConfig, {headers: header}
+                    this.serverUrl + "/bind/email", this.emailConfig, {headers: header}
                 )
                 .then((response) => {
                     let data = response.data;
@@ -853,44 +931,6 @@ export default {
                         position: 'top-end',
                         icon: 'error',
                         title: "绑定失败: " + error.msg,
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                });
-        },
-        emailValid() {
-            let token = localStorage.getItem("token");
-            let header = {token: token};
-            this.$api
-                .get(
-                    this.serverUrl + "/emails/valid", {headers: header}
-                )
-                .then((response) => {
-                    let data = response.data;
-                    if (response.data.code !== 200) {
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "校验失败: " + data.message,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                        return
-                    }
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: "校验成功，请查收递投测试邮件",
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                })
-                .catch((error) => {
-                    //绑定失败
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'error',
-                        title: "校验失败: " + error.msg,
                         showConfirmButton: false,
                         timer: 5000
                     });
@@ -941,6 +981,265 @@ export default {
                     });
             }
         },
+        bindTelegram() {
+            let token = localStorage.getItem("token");
+            let header = {token: token};
+            this.tgConfig.chat_id = parseInt(this.tgConfig.chat_id);
+            this.$api
+                .post(
+                    this.serverUrl + "/bind/telegram", this.tgConfig, {headers: header}
+                )
+                .then((response) => {
+                    let data = response.data;
+                    if (response.data.code !== 200) {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "绑定失败: " + data.message,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                        return
+                    }
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: "绑定成功",
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                })
+                .catch((error) => {
+                    //绑定失败
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "绑定失败: " + error.msg,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                });
+        },
+
+        validQQPrivate() {
+            let token = localStorage.getItem("token");
+            let header = {token: token};
+            this.$api
+                .get(
+                    this.serverUrl + "/valid/qqPrivate",
+                    {headers: header}
+                )
+                .then((response) => {
+                    let data = response.data;
+                    if (response.data.code === 200) {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: "校验成功!",
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                    } else {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "校验失败: " + data.message,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                    }
+                })
+                .catch((error) => {
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "操作失败: " + error.msg,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                });
+        },
+        validQQSingle() {
+            let content = 'hello world\n这是测试消息\n当你看到这条消息,说明校验已通过';
+            this.$api
+                .post(this.serverUrl + '/send/' + this.user.skey, content, {headers: {"Content-type": "application/json"}})
+                .then((response) => {
+                    let data = response.data;
+                    if (response.data.code !== 200) {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "校验失败:" + data.message,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                        return
+                    }
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: "校验成功",
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                })
+                .catch((error) => {
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "校验失败:" + error.msg,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                });
+        },
+        ValidQQGroup() {
+            let content = 'hello world\n这是测试消息\n当你看到这条消息,说明校验已通过';
+            this.$api
+                .post(this.serverUrl + '/group/' + this.user.skey, content, {headers: {"Content-type": "application/json"}})
+                .then((response) => {
+                    let data = response.data;
+                    if (response.data.code !== 200) {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "校验失败:" + data.message,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                        return
+                    }
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: "校验成功",
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                })
+                .catch((error) => {
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "校验失败:" + error.msg,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                });
+        },
+        validEmail() {
+            let token = localStorage.getItem("token");
+            let header = {token: token};
+            this.$api
+                .get(
+                    this.serverUrl + "/valid/email", {headers: header}
+                )
+                .then((response) => {
+                    let data = response.data;
+                    if (response.data.code !== 200) {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "校验失败: " + data.message,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                        return
+                    }
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: "校验成功，请查收递投测试邮件",
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                })
+                .catch((error) => {
+                    //绑定失败
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "校验失败: " + error.msg,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                });
+        },
+        validWework() {
+            let content = {
+                "title": "测试消息",
+                "desc": "当你看到这条消息,说明CoolPush校验已通过",
+                "href": "https://cp.xuthus.cc",
+                "btntxt": "了解更多"
+            };
+            this.$api
+                .post(this.serverUrl + '/ww/' + this.user.skey + '?type=1', content, {headers: {"Content-type": "application/json"}})
+                .then((response) => {
+                    let data = response.data;
+                    if (response.data.code !== 200) {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "校验失败:" + data.message,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                        return
+                    }
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: "校验成功",
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                })
+                .catch((error) => {
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "校验失败:" + error.msg,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                });
+        },
+        validTelegram() {
+            let token = localStorage.getItem("token");
+            let header = {token: token};
+            this.$api
+                .get(this.serverUrl + '/valid/telegram', {headers: header})
+                .then((response) => {
+                    let data = response.data;
+                    if (response.data.code !== 200) {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "校验失败:" + data.message,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                        return
+                    }
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: "校验成功",
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                })
+                .catch((error) => {
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "校验失败:" + error.msg,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                });
+        },
+
         getWxPusherQrCode() {
             //存在token 先检验 token是否有效 再打开 isLogin 变量
             let token = localStorage.getItem("token");
@@ -1143,301 +1442,7 @@ export default {
                 }
             }
         },
-        qqPrivateBind() {
-            if (this.qqConfig.privatePath === "") {
-                this.$swal.fire({
-                    position: 'top-end',
-                    icon: 'error',
-                    title: "请指定绑定地址",
-                    showConfirmButton: false,
-                    timer: 5000
-                });
-                return
-            }
 
-            let reg = new RegExp(/(\w+):\/\/([^/:]+)(:\d*)?/);
-            let result = this.qqConfig.privatePath.match(reg)
-            if (result === null || result[0] === "") {
-                this.$swal.fire({
-                    position: 'top-end',
-                    icon: 'error',
-                    title: "格式不正确",
-                    showConfirmButton: false,
-                    timer: 5000
-                });
-                return
-            }
-
-            let removeLastPart = function (url) {
-                let lastSlashIndex = url.lastIndexOf("/");
-                if (lastSlashIndex > url.indexOf("/") + 1) {
-                    return url.substr(0, lastSlashIndex);
-                } else {
-                    return url;
-                }
-            }
-
-            this.qqConfig.privatePath = removeLastPart(this.qqConfig.privatePath);
-
-            let token = localStorage.getItem("token");
-            let header = {token: token};
-            let payload = {
-                "private_path": this.qqConfig.privatePath,
-                "access_token": this.qqConfig.privateAccessToken,
-            }
-            this.$api
-                .post(
-                    this.serverUrl + "/qq/private/bind", payload, {headers: header}
-                )
-                .then((response) => {
-                    let data = response.data;
-                    if (response.data.code === 200) {
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: "操作成功!",
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                    } else {
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "操作失败: " + data.message,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                    }
-                })
-                .catch((error) => {
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'error',
-                        title: "操作失败: " + error.msg,
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                });
-        },
-        qqPrivateValid() {
-            let token = localStorage.getItem("token");
-            let header = {token: token};
-            this.$api
-                .get(
-                    this.serverUrl + "/qq/private/valid",
-                    {headers: header}
-                )
-                .then((response) => {
-                    let data = response.data;
-                    if (response.data.code === 200) {
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: "校验成功!",
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                    } else {
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "校验失败: " + data.message,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                    }
-                })
-                .catch((error) => {
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'error',
-                        title: "操作失败: " + error.msg,
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                });
-        },
-        privateValid() {
-            let content = 'hello world\n这是测试消息\n当你看到这条消息,说明校验已通过';
-            this.$api
-                .post(this.serverUrl + '/send/' + this.user.skey, content, {headers: {"Content-type": "application/json"}})
-                .then((response) => {
-                    let data = response.data;
-                    if (response.data.code !== 200) {
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "校验失败:" + data.message,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                        return
-                    }
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: "校验成功",
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                })
-                .catch((error) => {
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'error',
-                        title: "校验失败:" + error.msg,
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                });
-        },
-        groupValid() {
-            let content = 'hello world\n这是测试消息\n当你看到这条消息,说明校验已通过';
-            this.$api
-                .post(this.serverUrl + '/group/' + this.user.skey, content, {headers: {"Content-type": "application/json"}})
-                .then((response) => {
-                    let data = response.data;
-                    if (response.data.code !== 200) {
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "校验失败:" + data.message,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                        return
-                    }
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: "校验成功",
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                })
-                .catch((error) => {
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'error',
-                        title: "校验失败:" + error.msg,
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                });
-        },
-        wwValid() {
-            let content = {
-                "title": "测试消息",
-                "desc": "当你看到这条消息,说明CoolPush校验已通过",
-                "href": "https://cp.xuthus.cc",
-                "btntxt": "了解更多"
-            };
-            this.$api
-                .post(this.serverUrl + '/ww/' + this.user.skey + '?type=1', content, {headers: {"Content-type": "application/json"}})
-                .then((response) => {
-                    let data = response.data;
-                    if (response.data.code !== 200) {
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "校验失败:" + data.message,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                        return
-                    }
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: "校验成功",
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                })
-                .catch((error) => {
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'error',
-                        title: "校验失败:" + error.msg,
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                });
-        },
-        tgValid() {
-            let token = localStorage.getItem("token");
-            let header = {token: token};
-            this.$api
-                .get(this.serverUrl + '/telegram/valid', {headers: header})
-                .then((response) => {
-                    let data = response.data;
-                    if (response.data.code !== 200) {
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "校验失败:" + data.message,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                        return
-                    }
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: "校验成功",
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                })
-                .catch((error) => {
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'error',
-                        title: "校验失败:" + error.msg,
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                });
-        },
-        tgBind() {
-            let token = localStorage.getItem("token");
-            let header = {token: token};
-            this.tgConfig.chat_id = parseInt(this.tgConfig.chat_id);
-            this.$api
-                .post(
-                    this.serverUrl + "/telegram/bind", this.tgConfig, {headers: header}
-                )
-                .then((response) => {
-                    let data = response.data;
-                    if (response.data.code !== 200) {
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "绑定失败: " + data.message,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                        return
-                    }
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: "绑定成功",
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                })
-                .catch((error) => {
-                    //绑定失败
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'error',
-                        title: "绑定失败: " + error.msg,
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                });
-        },
     },
     created() {
         //存在token 先检验 token是否有效 再打开 isLogin 变量
