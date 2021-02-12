@@ -1050,7 +1050,44 @@ export default {
                     });
                 });
         },
-        bindDingTalk() {},
+        bindDingTalk() {
+            let token = localStorage.getItem("token");
+            let header = {token: token};
+            this.$api
+                .post(
+                    this.serverUrl + "/bind/dingtalk", this.dingConfig, {headers: header}
+                )
+                .then((response) => {
+                    let data = response.data;
+                    if (response.data.code !== 200) {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "绑定失败: " + data.message,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                        return
+                    }
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: "绑定成功",
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                })
+                .catch((error) => {
+                    //绑定失败
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "绑定失败: " + error.msg,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                });
+        },
 
         validQQPrivate() {
             let token = localStorage.getItem("token");
@@ -1270,7 +1307,41 @@ export default {
                     });
                 });
         },
-        validDingTalk() {},
+        validDingTalk() {
+            let token = localStorage.getItem("token");
+            let header = {token: token};
+            this.$api
+                .get(this.serverUrl + '/valid/dingtalk', {headers: header})
+                .then((response) => {
+                    let data = response.data;
+                    if (response.data.code !== 200) {
+                        this.$swal.fire({
+                            position: 'top-end',
+                            icon: 'error',
+                            title: "校验失败:" + data.message,
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                        return
+                    }
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: "校验成功",
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                })
+                .catch((error) => {
+                    this.$swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: "校验失败:" + error.msg,
+                        showConfirmButton: false,
+                        timer: 5000
+                    });
+                });
+        },
 
         getWxPusherQrCode() {
             //存在token 先检验 token是否有效 再打开 isLogin 变量
