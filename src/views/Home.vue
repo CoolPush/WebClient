@@ -225,7 +225,7 @@
                             <b-form-input
                                 v-model="emailConfig.from"
                                 class="mb-2 mr-sm-2 mb-sm-0"
-                                placeholder="发件昵称:996真福报"
+                                placeholder="发件昵称:酷推"
                             ></b-form-input>
 
                             <b-form-input
@@ -1284,7 +1284,7 @@ export default {
                 .then((response) => {
                     let data = response.data;
                     if (data.code === 200) {
-                        this.user.wxPusherUid = '';
+                        this.wxPusherUid = '';
                         this.$swal.fire({
                             position: 'top-end',
                             icon: 'success',
@@ -1296,7 +1296,7 @@ export default {
                         this.$swal.fire({
                             position: 'top-end',
                             icon: 'error',
-                            title: "取消绑定是啊比: " + data.message,
+                            title: "取消绑定失败: " + data.message,
                             showConfirmButton: false,
                             timer: 5000
                         });
