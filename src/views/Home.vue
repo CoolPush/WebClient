@@ -304,7 +304,7 @@
                                         :href="getJoinLink(corpSelected).link">{{ getJoinLink(corpSelected).link }}</a>
                                     </div>
 
-                                    <b-button variant="danger" class="mb-2 mt-2" @click="wwValid">校验</b-button>
+                                    <b-button variant="danger" class="mb-2 mt-2" @click="validWework">校验</b-button>
                                 </b-tab>
                                 <b-tab title="自定义企业">
                                     <b-card-text>如果你希望自定义企业推送，可以在这里配置。</b-card-text>
@@ -1091,8 +1091,8 @@ export default {
                     });
                 });
         },
-        ValidQQGroup() {
-            let content = 'hello world\n这是测试消息\n当你看到这条消息,说明校验已通过';
+        validQQGroup() {
+            let content = '这是测试消息\n当你看到这条消息,说明CoolPush的校验已通过';
             this.$api
                 .post(this.serverUrl + '/group/' + this.user.skey, content, {headers: {"Content-type": "application/json"}})
                 .then((response) => {
@@ -1484,24 +1484,6 @@ export default {
         //正常 获取配置列表
         if (token !== null) {
             let header = {token: token};
-            this.$api
-                .get(this.serverUrl + "/wework/list", {headers: header})
-                .then((response) => {
-                    let data = response.data;
-                    if (data.code === 200) {
-                        for (let i = 0; i < data.data.length; i++) {
-                            this.corpListOptions.push({
-                                value: data.data[i].id,
-                                text: data.data[i].corp_name,
-                                link: data.data[i].join_link
-                            })
-                        }
-                    }
-                })
-                .catch((error) => {
-                    //清空localStorage
-                    this.$router.push({name: "Callback", query: {error: error}});
-                });
 
             this.$api
                 .get(this.serverUrl + "/config", {headers: header})
@@ -1518,6 +1500,26 @@ export default {
                         this.wwBindConfig.app = data.data.wework_app_config;
                         this.corpSelected = data.data.wework_user_config.app_id;
                         this.tgConfig = data.data.telegram_config;
+                    }
+                })
+                .catch((error) => {
+                    //清空localStorage
+                    this.$router.push({name: "Callback", query: {error: error}});
+                });
+
+            this.$api
+                .get(this.serverUrl + "/wework/list", {headers: header})
+                .then((response) => {
+                    let data = response.data;
+                    console.log("wework list: ",data);
+                    if (data.code === 200) {
+                        for (let i = 0; i < data.data.length; i++) {
+                            this.corpListOptions.push({
+                                value: data.data[i].id,
+                                text: data.data[i].corp_name,
+                                link: data.data[i].join_link
+                            })
+                        }
                     }
                 })
                 .catch((error) => {
