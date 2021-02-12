@@ -650,7 +650,7 @@ export default {
     name: "Home",
     data() {
         return {
-            isLogin: true, //检测是否登录 false没有登陆
+            isLogin: false, //检测是否登录 false没有登陆
 
             accountOption: [
                 {text: '2277671372', value: '2277671372'},

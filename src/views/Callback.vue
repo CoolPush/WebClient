@@ -93,7 +93,7 @@ export default {
                         let data = response.data;
                         if (data.code !== 200) {
                             this.loading = false;
-                            this.message = data.msg;
+                            this.message = data.message;
                             this.code = data.code;
                         } else {
                             sessionStorage.setItem('user', data.data);
