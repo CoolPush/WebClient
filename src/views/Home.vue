@@ -628,11 +628,11 @@
         </b-modal>
         <!-- 登陆方式模态 -->
         <b-modal id="modal-login" centered title="登陆方式" hide-footer>
-            <b-button variant="info" size="lg" class="mr-2" @click="loginBy('qq')"><img src='../assets/qq_new.png'
+            <b-button variant="info" size="lg" class="mr-2 mb-2" @click="loginBy('qq')"><img src='../assets/qq_new.png'
                                                                               class="icon-size-std pr-1" alt="">QQ登录
             </b-button>
 
-            <b-button variant="info" size="lg" class="mr-2" @click="loginBy('github')"><img src='../assets/github.svg'
+            <b-button variant="info" size="lg" class="mr-2 mb-2" @click="loginBy('github')"><img src='../assets/github.svg'
                                                                                             class="icon-size-std pr-1" alt="">Github
             </b-button>
 
@@ -644,7 +644,7 @@
             <!--            <b-button variant="info" class="mr-2" @click="loginBy('osc')"><img src='../assets/oschina.svg'-->
             <!--                                                                               class="icon-size-osc pr-1" alt="">OSC-->
             <!--            </b-button>-->
-            <b-button variant="info" size="lg" class="mr-2" @click="loginBy('dingtalk')"><img src='../assets/dingtalk.svg'
+            <b-button variant="info" size="lg" class="mr-2 mb-2" @click="loginBy('dingtalk')"><img src='../assets/dingtalk.svg'
                                                                                     class="icon-size-std pr-1" alt="">钉钉
             </b-button>
         </b-modal>
