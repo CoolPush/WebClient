@@ -28,7 +28,7 @@
                                 <div v-if="code === 502">
                                     <h4 class="card-title">授权登录失败</h4>
                                     <p class="card-text text-danger">{{ message }}</p>
-                                    <b-button @click="reload" type="button" class="btn btn-primary">授权</b-button>
+                                    <b-button @click="reauthorization" variant="primary">重新授权</b-button>
                                 </div>
                                 <div v-else-if="code === 503">
                                     <h4 class="card-title">禁止登录</h4>
@@ -37,7 +37,7 @@
                                 <div v-else>
                                     <h4 class="card-title">建立请求失败</h4>
                                     <p class="card-text text-danger">{{ message }}</p>
-                                    <b-button @click="reload" type="button" class="btn btn-primary mr-2">授权</b-button>
+                                    <b-button @click="reauthorization" variant="primary">重新授权</b-button>
                                 </div>
                             </div>
                         </div>
@@ -105,6 +105,22 @@ export default {
                         //停止加载
                         this.loading = false;
                     })
+            }
+        },
+        reauthorization() {
+            let method = localStorage.getItem("loginType").toLowerCase();
+            if (method === "github") {
+                localStorage.setItem("loginType", "github");
+                window.location.href = this.github;
+            } else if (method === "dingtalk") {
+                localStorage.setItem("loginType", "dingTalk");
+                window.location.href = this.dingTalk;
+            } else if (method === "qq") {
+                localStorage.setItem("loginType", "qq");
+                window.location.href = this.qq;
+            } else if (method === "gitee") {
+                localStorage.setItem("loginType", "gitee");
+                window.location.href = this.gitee;
             }
         },
     },

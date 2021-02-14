@@ -629,23 +629,24 @@
         <!-- 登陆方式模态 -->
         <b-modal id="modal-login" centered title="登陆方式" hide-footer>
             <b-button variant="info" size="lg" class="mr-2 mb-2" @click="loginBy('qq')"><img src='../assets/qq_new.png'
-                                                                              class="icon-size-std pr-1" alt="">QQ登录
+                                                                                             class="icon-size-std pr-1"
+                                                                                             alt="">QQ登录
             </b-button>
 
-            <b-button variant="info" size="lg" class="mr-2 mb-2" @click="loginBy('github')"><img src='../assets/github.svg'
-                                                                                            class="icon-size-std pr-1" alt="">Github
+            <b-button variant="info" size="lg" class="mr-2 mb-2" @click="loginBy('github')"><img
+                src='../assets/github.svg'
+                class="icon-size-std pr-1" alt="">Github
             </b-button>
 
-<!--            <b-button variant="info" size="lg" class="mr-2" @click="loginBy('github')"><i class="fab fa-github fa-lg pr-1"></i>Github-->
-<!--            </b-button>-->
-            <!--            <b-button variant="info" class="mr-2" @click="loginBy('gitee')"><img src='../assets/gitee.svg'-->
-            <!--                                                                                 class="icon-size-tpl pr-1" alt="">Gitee-->
-            <!--            </b-button>-->
+            <b-button variant="info" size="lg" class="mr-2 mb-2" @click="loginBy('gitee')"><img src='../assets/gitee.svg'
+                                                                                 class="icon-size-std pr-1" alt="">Gitee
+            </b-button>
             <!--            <b-button variant="info" class="mr-2" @click="loginBy('osc')"><img src='../assets/oschina.svg'-->
             <!--                                                                               class="icon-size-osc pr-1" alt="">OSC-->
             <!--            </b-button>-->
-            <b-button variant="info" size="lg" class="mr-2 mb-2" @click="loginBy('dingtalk')"><img src='../assets/dingtalk.svg'
-                                                                                    class="icon-size-std pr-1" alt="">钉钉
+            <b-button variant="info" size="lg" class="mr-2 mb-2" @click="loginBy('dingtalk')"><img
+                src='../assets/dingtalk.svg'
+                class="icon-size-std pr-1" alt="">钉钉
             </b-button>
         </b-modal>
         <b-modal id="modal-bindWxPusher" centered hide-header ok-title="确定" cancel-title="取消" @ok="bindWxPusher">
@@ -1456,11 +1457,11 @@ export default {
             } else if (method === "qq") {
                 localStorage.setItem("loginType", "qq");
                 window.location.href = this.qq;
+            } else if (method === "gitee") {
+                localStorage.setItem("loginType", "gitee");
+                window.location.href = this.gitee;
             }
-            // else if (method === "gitee") {
-            //     localStorage.setItem("loginType", "gitee");
-            //     window.location.href = this.gitee;
-            // } else if (method === "osc") {
+            // else if (method === "osc") {
             //     localStorage.setItem("loginType", "osc");
             //     window.location.href = this.osc;
             // } else if (method === "qq") {
