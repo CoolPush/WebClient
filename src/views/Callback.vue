@@ -121,6 +121,9 @@ export default {
             } else if (method === "gitee") {
                 localStorage.setItem("loginType", "gitee");
                 window.location.href = this.gitee;
+            } else if (method === "osc") {
+                localStorage.setItem("loginType", "osc");
+                window.location.href = this.osc;
             }
         },
     },
