@@ -571,6 +571,12 @@
                             <a href="#" @click="login">登陆</a>
                             按钮以尝试.
                         </p>
+
+                        <p>
+                            <b-button variant="outline-danger" size="lg" class="mr-2 mb-2" @click="loginBy('qq')">
+                                <img src='../assets/qq_new.png' class="icon-size-std pr-2" alt="">QQ账号登录
+                            </b-button>
+                        </p>
                     </b-col>
                 </div>
             </div>
@@ -627,12 +633,13 @@
             <p class="my-4">确定要重置Skey？之前所有调用该KEY的地方都需要做相应的修改哦？</p>
         </b-modal>
         <!-- 登陆方式模态 -->
-        <b-modal id="modal-login" centered title="登陆方式" hide-footer>
+        <b-modal id="modal-login" centered title="请选择登陆方式" hide-footer>
+            <b-button variant="outline-danger" size="lg" class="mr-2 mb-2" @click="loginBy('qq')">
+                <img src='../assets/qq_new.png' class="icon-size-std pr-2" alt="">QQ账号登录
+            </b-button>
+            <br>
             <b-button variant="info" size="lg" class="mr-2 mb-2" @click="loginBy('github')">
                 <img src='../assets/github.svg' class="icon-size-std pr-1" alt="">Github
-            </b-button>
-            <b-button variant="info" size="lg" class="mr-2 mb-2" @click="loginBy('qq')">
-                <img src='../assets/qq_new.png' class="icon-size-std pr-1" alt="">QQ登录
             </b-button>
             <b-button variant="info" size="lg" class="mr-2 mb-2" @click="loginBy('osc')">
                 <img src='../assets/oschina.svg' class="icon-size-osc pr-1" alt="">开源中国
@@ -1704,6 +1711,10 @@ export default {
 .icon-size-std {
     /*width: 22px;*/
     height: 30px;
+}
+
+.icon-color-spec-qq {
+    background-color: #45BCF8;
 }
 
 .main-body {
