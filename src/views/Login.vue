@@ -34,7 +34,7 @@
                                                         <label for="loginPassword">登录密码</label>
                                                         <input type="password" class="form-control" id="loginPassword" placeholder="输入登录密码">
                                                     </div>
-                                                    <b-button variant="primary" @click="">登录</b-button>
+                                                    <b-button variant="primary" @click="" disabled>登录</b-button>
                                                 </b-form>
 
                                                 <hr>
@@ -62,7 +62,7 @@
                                         </b-row>
                                     </b-container>
                                 </b-tab>
-                                <b-tab title="注册">
+                                <b-tab title="注册" disabled>
                                     <b-container fluid>
                                         <b-row>
                                             <b-col sm="0" md="2" lg="2" xl="2"></b-col>
@@ -144,7 +144,25 @@ export default {
         }
     },
     methods: {
-
+        loginBy(method) {
+            method = method.toLowerCase();
+            if (method === "github") {
+                localStorage.setItem("loginType", "github");
+                window.location.href = this.github;
+            } else if (method === "dingtalk") {
+                localStorage.setItem("loginType", "dingTalk");
+                window.location.href = this.dingTalk;
+            } else if (method === "qq") {
+                localStorage.setItem("loginType", "qq");
+                window.location.href = this.qq;
+            } else if (method === "gitee") {
+                localStorage.setItem("loginType", "gitee");
+                window.location.href = this.gitee;
+            } else if (method === "osc") {
+                localStorage.setItem("loginType", "osc");
+                window.location.href = this.osc;
+            }
+        },
     },
     created() {
 
@@ -153,6 +171,11 @@ export default {
 </script>
 
 <style>
+.icon-size-std {
+    /*width: 22px;*/
+    height: 30px;
+}
+
 .bg-dark {
     background-color: #0b1a31 !important;
 }

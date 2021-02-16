@@ -744,10 +744,20 @@ export default {
     },
     methods: {
         randomAccountList() {
-            return this.accountOption.shuffle()
+            return this.arrayShuffle(this.accountOption);
         },
         randomGroupAccountList() {
-            return this.accountGroupOption.shuffle()
+            return this.arrayShuffle(this.accountGroupOption);
+        },
+        arrayShuffle(arr) {
+            let input = arr;
+            for (let i = input.length - 1; i >= 0; i--) {
+                let randomIndex = Math.floor(Math.random() * (i + 1));
+                let itemAtIndex = input[randomIndex];
+                input[randomIndex] = input[i];
+                input[i] = itemAtIndex;
+            }
+            return input;
         },
         countDownChanged(dismissCountDown) {
             this.dismissCountDown = dismissCountDown;
@@ -1716,10 +1726,6 @@ export default {
 .icon-size-std {
     /*width: 22px;*/
     height: 30px;
-}
-
-.icon-color-spec-qq {
-    background-color: #45BCF8;
 }
 
 .main-body {
