@@ -6,7 +6,12 @@
                 <div class="lead mb-3">QQ消息推送服务.</div>
                 <div class="mt-4">
                     <span v-if="!isLogin">
-                        <b-button variant="primary" size="lg" class="my-2 mr-2" @click="login">登录</b-button>
+                        <router-link
+                            :to="{ name: 'Login' }"
+                            class="btn btn-primary btn-lg my-2 mr-2"
+                        >
+                        <span>登录</span>
+                    </router-link>
                     </span>
                     <router-link
                         :to="{ name: 'Docs' }"
@@ -568,15 +573,12 @@
                         <h3 class="text-primary">说明</h3>
                         <p>
                             内容登录可见,点击
-                            <a href="#" @click="login">登录</a>
-                            按钮以尝试. 点击以下按钮快速QQ登录.
-                        </p>
-
-                        <p>
-<!--                            <b-button variant="outline-danger" size="lg" class="mr-2 mb-2" @click="loginBy('qq')">-->
-<!--                                <img src='../assets/qq_new.png' class="icon-size-std pr-2" alt="">QQ账号登录-->
-<!--                            </b-button>-->
-                            <a @click="loginBy('qq')"><img src='../assets/Connect_logo_5.png' class="icon-size-std pr-2" alt=""></a>
+                            <router-link
+                                :to="{ name: 'Login' }"
+                                class="my-2 mr-2"
+                            >
+                                <span>登录</span>
+                            </router-link>按钮以尝试.
                         </p>
                     </b-col>
                 </div>
@@ -635,10 +637,10 @@
         </b-modal>
         <!-- 登陆方式模态 -->
         <b-modal id="modal-login" centered title="请选择登录方式" hide-footer>
-<!--            <b-button variant="outline-danger" size="lg" class="mr-2 mb-2" @click="loginBy('qq')">-->
-<!--                <img src='../assets/qq_new.png' class="icon-size-std pr-2" alt="">QQ账号登录-->
-<!--            </b-button>-->
-            <a @click="loginBy('qq')"><img src='../assets/Connect_logo_5.png' class="icon-size-std pr-2" alt=""></a>
+            <b-button variant="outline-danger" size="lg" class="mr-2 mb-2" @click="loginBy('qq')">
+                <img src='../assets/qq_new.png' class="icon-size-std pr-2" alt="">QQ账号登录
+            </b-button>
+<!--            <a @click="loginBy('qq')"><img src='../assets/Connect_logo_5.png' class="icon-size-std pr-2" alt=""></a>-->
             <br>
             <br>
             <b-button variant="info" size="lg" class="mr-2 mb-2" @click="loginBy('github')">

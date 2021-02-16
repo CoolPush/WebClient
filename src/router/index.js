@@ -28,6 +28,11 @@ const routes = [
         path: '/deploy',
         name: 'Deploy',
         component: () => import('../views/Deploy.vue')
+    },
+    {
+        path: '/login',
+        name: 'Login',
+        component: () => import('../views/Login.vue')
     }
 ]
 
