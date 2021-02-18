@@ -292,6 +292,8 @@
                                 <b-tab title="加入企业" active>
                                     <b-card-text>选择一个企业，通过企业邀请链接加入其中，并回填你在该企业的用户ID</b-card-text>
 
+                                    <b-card-text>加入 <code>酷推</code> 者, 在企业微信中，找到 <code>酷推</code> 应用，回复 "获取用户ID" 即可获得用户ID, 加入其他企业请联系该企业管理员获取</b-card-text>
+
                                     <b-form inline class="mt-4">
                                         <b-form-select v-model="corpSelected" :options="corpListOptions"
                                                        class="mb-4 mr-4"></b-form-select>
