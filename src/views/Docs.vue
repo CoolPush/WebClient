@@ -20,18 +20,20 @@
                     <p>QQ消息推送服务: <code>添加推送机器人QQ号为好友</code>,调用接口即可通过推送机器人将指定消息体推送到你的QQ上</p>
 
                     <h3 class="text-primary">创作缘由</h3>
-                    <p>辅助 <a href="https://func.xuthus.cc" target="_blank">func.xuthus.cc</a> 完成消息推送</p>
+                    <p>辅助 <a href="https://func.xuthus.cc" target="_blank"><del>func.xuthus.cc</del></a> (已关停)完成消息推送</p>
+
+                    <h3 class="text-primary">使用限制</h3>
+                    <p>当前使用单日限制: 无限制, 频率限制: 10次/10分钟</p>
+
+                    <h3 class="text-primary">推送涉违规?</h3>
+                    <p>系统内置敏感词过滤库(可能误伤),推送被查出敏感词次数超过规定阈值,将封停账号,使用且珍惜,不要推送违规内容(敏感词规则详见此: <a href="https://github.com/CoolPush/Server/blob/coolpush/dict.txt">敏感词列表</a> )</p>
 
                     <h3 class="text-primary">使用步骤</h3>
-                    <p>通过 Github 授权登录网站</p>
+                    <p>通过 Oauth 授权登录网站</p>
                     <p>自动获得 <code>Skey</code></p>
                     <p>绑定接收消息的QQ账号,并指派推送机器人</p>
                     <p>绑定的QQ账号添加机器人为好友</p>
                     <p>调用接口发送请求</p>
-
-                    <h3 class="text-primary">推送失败/邀请机器人入群失败</h3>
-                    <p><code>删除机器人为好友,并重新添加</code></p>
-                    <p>由于早期机器人添加好友均为单项好友关系,目前机器人升级,导致添加好友和邀请好友入群失败.删除机器人好友,并重新添加即可,机器人将响应你的请求,并添加你为好友,建立双向好友关系.</p>
 
                     <h3 class="text-primary">钉钉群消息推送</h3>
                     <p>目前钉钉群消息推送只支持使用POST推送, 参数和官方文档保持一致。官网文档参考地址：<a href="https://developers.dingtalk.com/document/app/custom-robot-access/title-72m-8ag-pqw" target="_blank">自定义机器人接入-钉钉开放平台</a></p>
@@ -69,9 +71,8 @@
                     <p>加入酷推企业的，在企业微信中，找到 <code>酷推</code> 应用，回复 "获取用户ID" 即可。</p>
                     <p>加入第三方企业的，咨询该企业管理员获取。</p>
 
-                    <h3 class="text-primary">推送增强
-                        <b-badge variant="danger">由于滥用,[图片推送][json][xml]通道已关闭</b-badge>
-                    </h3>
+                    <h3 class="text-primary">推送增强</h3>
+                    <p>由于滥用,图片推送、json、xml 通道已关闭，请使用私有化部署方式进行推送</p>
                     <p>目前QQ机器人推送支持发送 <code>图片</code>、<code>群内@</code>、<code>表情</code>，使用方式：</p>
                     <p>发送图片：<code>@image=可访问的图片地址@</code> ,
                         例如：<code>@image=https://xuthus.cc/images/Photo_0411_1a.jpg@</code></p>
@@ -190,12 +191,6 @@ _,_ = client.Do(req)
 使用 \n 进行换行
 </pre>
                     </div>
-
-                    <h3 class="text-primary">使用限制</h3>
-                    <p>当前使用单日限制: <del>1万次</del> 无限制</p>
-
-                    <h3 class="text-primary">推送涉违规?</h3>
-                    <p>系统内置敏感词过滤库(可能误伤),推送被查出敏感词次数超过规定阈值,将封停账号,使用且珍惜,不要推送违规内容(敏感词规则详见此: <a href="https://github.com/CoolPush/Server/blob/coolpush/dict.txt">敏感词列表</a> )</p>
 
                     <h3 class="text-primary">同类作品</h3>
                     <p><a href="https://sc.ftqq.com/" target="_blank">Server酱</a> | <a href="https://qmsg.zendee.cn/"

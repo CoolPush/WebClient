@@ -1546,7 +1546,7 @@ export default {
             let token = localStorage.getItem("token");
             this.wwBindConfig.app.agent_id = parseInt(this.wwBindConfig.app.agent_id)
             this.$api
-                .post(this.serverUrl + '/wework/bind?userId=' + this.wwBindConfig.user.user_id, this.wwBindConfig.app,
+                .post(this.serverUrl + '/bind/wework?userId=' + this.wwBindConfig.user.user_id, this.wwBindConfig.app,
                     {headers: {"Content-type": "application/json", token: token}})
                 .then((response) => {
                     let data = response.data;
