@@ -195,7 +195,7 @@ _,_ = client.Do(req)
                     <p>当前使用单日限制: <del>1万次</del> 无限制</p>
 
                     <h3 class="text-primary">推送涉违规?</h3>
-                    <p>系统内置敏感词过滤库(可能误伤),推送被查出敏感词次数超过规定阈值,将封停账号,使用且珍惜,不要推送违规内容</p>
+                    <p>系统内置敏感词过滤库(可能误伤),推送被查出敏感词次数超过规定阈值,将封停账号,使用且珍惜,不要推送违规内容(敏感词规则详见此: <a href="https://github.com/CoolPush/Server/blob/coolpush/dict.txt">敏感词列表</a> )</p>
 
                     <h3 class="text-primary">同类作品</h3>
                     <p><a href="https://sc.ftqq.com/" target="_blank">Server酱</a> | <a href="https://qmsg.zendee.cn/"
