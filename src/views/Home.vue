@@ -458,6 +458,15 @@
                             disabled
                         ></b-form-input>
 
+                        <p class="mt-2"><code>一对多推送</code>: 针对需要 <code>一对多</code>推送的需求，目前也已经支持(私有化部署目前不支持)，你可以使用 <code>sendList</code>
+                            这个GET参数来自定义, 结果用 <code>英文逗号</code> 拼接, 目前最多支持一对多推送10个账号(一对一推送请不要使用该参数, 将导致该推送丢弃), 不支持混合群聊私聊推送, 填写错误将导致推送失败, 推送方式异步, 不立即告知结果, 实际执行效果以收到的消息为准, 悉知。下面是一个私聊一对多推送案例,</p>
+                        <b-form-input
+                            v-model="this.serverUrl+ '/send/' + user.skey + '?sendList=100001,100002'"
+                            type="text"
+                            class="form-control"
+                            disabled
+                        ></b-form-input>
+
                         <p class="mt-2"><code>QQ私有化私聊推送</code>:
                             如果你部署了私有化的QQ机器人，在绑定并验证后，只需要向以下URL发一个GET或者POST请求，即可完成 ，当然，<code>敏感词不受限制，并且增强功能均已开启</code>:
                         </p>
