@@ -6,13 +6,13 @@
                 <div class="lead mb-3">QQ消息推送机器人私有化部署.</div>
                 <div class="mt-4">
                     <b-button variant="primary" class="mr-2"
-                              href="https://images.xuthus.cc/coolpush/coolpush_windows_amd64.exe">Windows_amd64
+                              href="https://images.xuthus.cc/coolpush/coolpush_v2_winx64">Windows_v2_amd64
                     </b-button>
                     <b-button variant="primary" class="mr-2"
-                              href="https://images.xuthus.cc/coolpush/coolpush_linux_amd64">Linux_amd64
+                              href="https://images.xuthus.cc/coolpush/coolpush_v2_linux_amd64">Linux_v2_amd64
                     </b-button>
-                    <b-button variant="primary" class="mr-2" href="https://images.xuthus.cc/coolpush/coolpush_arm64">
-                        Arm64
+                    <b-button variant="primary" class="mr-2" href="https://images.xuthus.cc/coolpush/coolpush_v2_arm64">
+                        v2_Arm64
                     </b-button>
                 </div>
                 <p class="mt-4">说明: 机器人修改自 <a href="https://github.com/Mrs4s/go-cqhttp">go-cqhttp</a> , 已魔改机器人可自动通过好友申请
