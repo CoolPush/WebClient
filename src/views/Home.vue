@@ -13,8 +13,14 @@
                         <span>登录</span>
                     </router-link>
                         <router-link
+                            :to="{ name: 'Proxy' }"
+                            class="btn btn-success btn-lg my-2 mr-2"
+                        >
+                        <span>代理</span>
+                    </router-link>
+                        <router-link
                             :to="{ name: 'Docs' }"
-                            class="btn btn-primary btn-lg my-2 mr-2"
+                            class="btn btn-info btn-lg my-2 mr-2"
                         >
                         <span>说明</span>
                     </router-link>
@@ -25,6 +31,12 @@
                             class="btn btn-success btn-lg my-2 mr-2"
                         >
                         <span>增强</span>
+                    </router-link>
+                        <router-link
+                            :to="{ name: 'Proxy' }"
+                            class="btn btn-info btn-lg my-2 mr-2"
+                        >
+                        <span>代理</span>
                     </router-link>
                         <router-link
                             :to="{ name: 'Docs' }"

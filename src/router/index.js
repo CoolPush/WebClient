@@ -38,6 +38,11 @@ const routes = [
         path: '/feat',
         name: 'Feat',
         component: () => import('../views/Feature.vue')
+    },
+    {
+        path: '/proxy',
+        name: 'Proxy',
+        component: () => import('../views/Proxy.vue')
     }
 ]
 

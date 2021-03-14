@@ -317,6 +317,47 @@
                 </div>
             </div>
 
+            <!-- 代理服务 -->
+            <div class="container py-3 docs">
+                <div class="row">
+                    <b-col
+                        sm="12"
+                        md="8"
+                        lg="8"
+                        xl="8"
+                        offset-md="2"
+                        offset-lg="2"
+                        offset-xl="2"
+                    >
+                        <h3 class="text-primary">代理服务</h3>
+                        <p class="mt-2"><code>Telegram代理</code>: 为了实现Telegram推送, CoolPush实现了基于API的代理服务。只需要向以下URL发一个 <code>POST</code> 请求(只接受POST请求):</p>
+                        <b-form-input
+                            type="text"
+                            class="form-control"
+                            disabled
+                        >https://proxy.xuthus.cc/api/tg_proxy</b-form-input>
+
+                        <p class="mt-2"><code>Telegram推送</code>: 向以下地址发送一个GET或者POST请求: </p>
+                        <b-form-input
+                            v-model="this.serverUrl+ '/tg/' + user.skey"
+                            type="text"
+                            class="form-control"
+                            disabled
+                        ></b-form-input>
+
+                        <p class="mt-2">Telegram代理接口接收两个参数，分别是 <code>url</code> 和 <code>payload</code> 表示 <code>url 请求地址</code> 和
+                            <code>payload 请求body</code></p>
+                        <p>下面是一个简单的调用演示: </p>
+                        <b-form-input
+                            v-model="this.serverUrl+ '/email/' + user.skey + '?t=这是推送邮件的标题&c=这是推送邮件的内容'"
+                            type="text"
+                            class="form-control"
+                            disabled
+                        ></b-form-input>
+                    </b-col>
+                </div>
+            </div>
+
             <!-- 简单介绍使用 -->
             <div class="container py-3 docs">
                 <div class="row">
@@ -498,7 +539,7 @@ export default {
     name: "Home",
     data() {
         return {
-            isLogin: false, //检测是否登录 false没有登陆
+            isLogin: true, //检测是否登录 false没有登陆
 
             // 企业微信相关
             corpSelected: 0,
