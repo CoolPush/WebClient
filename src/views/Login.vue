@@ -24,27 +24,27 @@
                                         <b-row>
                                             <b-col sm="0" md="2" lg="2" xl="2"></b-col>
                                             <b-col>
-                                                <b-form>
-                                                    <div class="form-group">
-                                                        <label for="loginEmail">邮箱地址</label>
-                                                        <input type="email" class="form-control" id="loginEmail" placeholder="输入登录邮箱地址">
-                                                    </div>
+<!--                                                <b-form>-->
+<!--                                                    <div class="form-group">-->
+<!--                                                        <label for="loginEmail">邮箱地址</label>-->
+<!--                                                        <input type="email" class="form-control" id="loginEmail" placeholder="输入登录邮箱地址">-->
+<!--                                                    </div>-->
 
-                                                    <div class="form-group">
-                                                        <label for="loginPassword">登录密码</label>
-                                                        <input type="password" class="form-control" id="loginPassword" placeholder="输入登录密码">
-                                                    </div>
-                                                    <b-button variant="primary" @click="" disabled>登录</b-button>
-                                                </b-form>
+<!--                                                    <div class="form-group">-->
+<!--                                                        <label for="loginPassword">登录密码</label>-->
+<!--                                                        <input type="password" class="form-control" id="loginPassword" placeholder="输入登录密码">-->
+<!--                                                    </div>-->
+<!--                                                    <b-button variant="primary" @click="" disabled>登录</b-button>-->
+<!--                                                </b-form>-->
 
                                                 <hr>
 
                                                 <p>更多登录方式</p>
 
-                                                <b-button variant="outline-danger" size="lg" class="mr-2 mb-2" @click="loginBy('qq')">
-                                                    <img src='../assets/qq_new.png' class="icon-size-std pr-2" alt="">QQ账号登录
-                                                </b-button>
-                                                <br>
+<!--                                                <b-button variant="outline-danger" size="lg" class="mr-2 mb-2" @click="loginBy('qq')">-->
+<!--                                                    <img src='../assets/qq_new.png' class="icon-size-std pr-2" alt="">QQ账号登录-->
+<!--                                                </b-button>-->
+<!--                                                <br>-->
                                                 <b-button variant="info" size="lg" class="mr-2 mb-2" @click="loginBy('github')">
                                                     <img src='../assets/github.svg' class="icon-size-std pr-1" alt="">Github
                                                 </b-button>
