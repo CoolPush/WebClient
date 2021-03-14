@@ -12,14 +12,26 @@
                         >
                         <span>登录</span>
                     </router-link>
-                    </span>
-                    <router-link
-                        :to="{ name: 'Docs' }"
-                        class="btn btn-primary btn-lg my-2 mr-2"
-                    >
+                        <router-link
+                            :to="{ name: 'Docs' }"
+                            class="btn btn-primary btn-lg my-2 mr-2"
+                        >
                         <span>说明</span>
                     </router-link>
+                    </span>
                     <span v-if="isLogin">
+                        <router-link
+                            :to="{ name: 'Feat' }"
+                            class="btn btn-success btn-lg my-2 mr-2"
+                        >
+                        <span>增强</span>
+                    </router-link>
+                        <router-link
+                            :to="{ name: 'Docs' }"
+                            class="btn btn-primary btn-lg my-2 mr-2"
+                        >
+                        <span>说明</span>
+                    </router-link>
             <button @click="logout" class="btn btn-danger btn-lg my-2 mr-2">
               <span>注销</span>
             </button>
@@ -194,239 +206,6 @@
                         </div>
 
                         <hr>
-
-                        <h3 class="text-primary">邮箱推送</h3>
-                        <div class="form-group">
-                            <label>邮箱推送地址</label>
-                            <b-form-input
-                                v-model="emailConfig.to"
-                                type="text"
-                                class="form-control"
-                                placeholder="输入需要绑定的邮箱地址"
-                            ></b-form-input>
-                            <small class="form-text text-muted"
-                            ><code>注意，邮箱消息推送可能由于垃圾邮件而导致被退信</code></small
-                            >
-                        </div>
-                        <b-form inline>
-                            <b-form-input
-                                v-model="emailConfig.host"
-                                class="mb-2 mr-sm-2 mb-sm-0"
-                                placeholder="服务地址:smtp.qq.com"
-                            ></b-form-input>
-
-                            <b-input-group prepend=":" class="mb-2 mr-sm-2 mb-sm-0">
-                                <b-form-input placeholder="端口:465" v-model="emailConfig.port"></b-form-input>
-                            </b-input-group>
-                        </b-form>
-                        <br>
-                        <b-form inline>
-                            <b-form-input
-                                v-model="emailConfig.username"
-                                class="mb-2 mr-sm-2 mb-sm-0"
-                                placeholder="登录账号:test@qq.com"
-                            ></b-form-input>
-
-                            <b-form-input
-                                v-model="emailConfig.from"
-                                class="mb-2 mr-sm-2 mb-sm-0"
-                                placeholder="发件昵称:酷推"
-                            ></b-form-input>
-
-                            <b-form-input
-                                v-model="emailConfig.password"
-                                class="mb-2 mr-sm-2 mb-sm-0"
-                                placeholder="登录密码"
-                            ></b-form-input>
-                        </b-form>
-
-                        <button type="button" class="btn btn-danger mt-2 mr-2" @click="validEmail">
-                            校验
-                        </button>
-
-                        <button type="button" class="btn btn-primary mt-2" @click="bindEmail">
-                            绑定
-                        </button>
-
-                        <hr>
-
-                        <h3 class="text-primary">绑定微信推送</h3>
-                        <div v-if="wxPusherUid === ''">
-                            <b-form-checkbox v-model="openWxPusher" name="check-button" switch>
-                                开启微信推送
-                            </b-form-checkbox>
-                            <div v-if="openWxPusher">
-                                <button type="button" class="btn btn-primary mt-2" v-b-modal.modal-bindWxPusher
-                                        @click="getWxPusherQrCode">
-                                    开始绑定
-                                </button>
-                            </div>
-                        </div>
-                        <div v-else>
-                            <b-button variant="primary mr-2">
-                                已绑定
-                                <b-badge variant="light">ok</b-badge>
-                            </b-button>
-                            <b-button variant="danger"
-                                      v-b-popover.hover.top="'取消绑定后,酷推skey将与推送端微信公众号失去关联,你仍可通过扫码方式重新建立绑定关系'" title="说明"
-                                      @click="cancelBindWxPusher">
-                                取消绑定
-                            </b-button>
-                        </div>
-                        <b-alert
-                            v-if="wxPusherShowBindResult"
-                            :show="dismissCountDown"
-                            dismissible
-                            :variant="color"
-                            @dismissed="dismissCountDown = 0"
-                            @dismiss-count-down="countDownChanged"
-                        >
-                            {{ alertMessage }}
-                        </b-alert>
-
-                        <hr>
-
-                        <h3 class="text-primary">绑定企业微信推送</h3>
-                        <b-card no-body>
-                            <b-tabs pills card>
-                                <b-tab title="加入企业" active>
-                                    <b-card-text>选择一个企业，通过企业邀请链接加入其中，并回填你在该企业的用户ID</b-card-text>
-
-                                    <b-card-text>加入 <code>酷推</code> 者, 在企业微信中，找到 <code>酷推</code> 应用，回复 "获取用户ID" 即可获得用户ID, 加入其他企业请联系该企业管理员获取</b-card-text>
-
-                                    <b-form inline class="mt-4">
-                                        <b-form-select v-model="corpSelected" :options="corpListOptions"
-                                                       class="mb-4 mr-4"></b-form-select>
-
-                                        <b-input-group prepend="用户ID" class="mb-4 mr-2">
-                                            <b-form-input placeholder="UserID"
-                                                          v-model="wwBindConfig.user.user_id"></b-form-input>
-                                        </b-input-group>
-
-                                        <b-button variant="primary" class="mb-4" @click="wwJoinSubmit">保存</b-button>
-                                    </b-form>
-
-                                    <div v-if="corpSelected && getJoinLink(corpSelected)" class="mt-4">
-                                        企业邀请链接：<a
-                                        :href="getJoinLink(corpSelected).link">{{ getJoinLink(corpSelected).link }}</a>
-                                    </div>
-
-                                    <b-button variant="danger" class="mb-2 mt-2" @click="validWework">校验</b-button>
-                                </b-tab>
-                                <b-tab title="自定义企业">
-                                    <b-card-text>如果你希望自定义企业推送，可以在这里配置。</b-card-text>
-
-                                    <b-form inline class="mt-4">
-
-                                        <b-input-group prepend="企业名称" class="mb-2 mr-sm-2 mb-sm-0">
-                                            <b-form-input v-model="wwBindConfig.app.corp_name"
-                                                          placeholder="eg: 酷推"></b-form-input>
-                                        </b-input-group>
-
-                                        <b-input-group prepend="企业CorpId" class="mb-2 mr-sm-2 mb-sm-0">
-                                            <b-form-input v-model="wwBindConfig.app.corp_id"
-                                                          placeholder="eg: wwbc847..."></b-form-input>
-                                        </b-input-group>
-
-                                    </b-form>
-
-                                    <b-form inline class="mt-4">
-
-                                        <b-input-group prepend="应用AgentID" class="mb-2 mr-sm-2 mb-sm-0">
-                                            <b-form-input v-model="wwBindConfig.app.agent_id"
-                                                          placeholder="eg: 1000002"></b-form-input>
-                                        </b-input-group>
-
-                                        <b-input-group prepend="应用Secret" class="mb-2 mr-sm-2 mb-sm-0">
-                                            <b-form-input v-model="wwBindConfig.app.secret"
-                                                          placeholder="eg: z2Ea3uj17UNYO..."></b-form-input>
-                                        </b-input-group>
-
-                                    </b-form>
-
-                                    <b-form-checkbox switch size="lg" v-model="wwBindConfig.app.is_share"
-                                                     class="mr-2 mt-4">是否公开企业邀请
-                                    </b-form-checkbox>
-
-                                    <div v-if="wwBindConfig.app.is_share" class="mt-4">
-                                        <b-input-group prepend="企业邀请链接" class="mb-2 mr-sm-2 mb-sm-0">
-                                            <b-form-input v-model="wwBindConfig.app.join_link"
-                                                          placeholder="eg: https://work.weixin.qq.com/join/..."></b-form-input>
-                                        </b-input-group>
-                                    </div>
-
-                                    <b-input-group prepend="绑定UserID" class="mb-2 mt-4">
-                                        <b-form-input v-model="wwBindConfig.user.user_id"
-                                                      placeholder="eg: XiaoMing"></b-form-input>
-                                    </b-input-group>
-
-                                    <b-button variant="danger" class="mt-4 mr-2" @click="validWework">校验</b-button>
-                                    <b-button variant="primary" class="mt-4" @click="wwBindSubmit">保存</b-button>
-                                </b-tab>
-                            </b-tabs>
-                        </b-card>
-
-                        <hr>
-
-                        <h3 class="text-primary">绑定Telegram推送</h3>
-                        <b-form inline>
-                            <b-form-input
-                                v-model="tgConfig.token"
-                                class="mb-2 mr-2"
-                                placeholder="机器人BotToken"
-                            ></b-form-input>
-
-                            <b-form-input
-                                v-model="tgConfig.chat_id"
-                                class="mb-2"
-                                placeholder="用户ChatID: eg. 717869201"
-                            ></b-form-input>
-
-                        </b-form>
-
-                        <small class="form-text text-muted"><code>用途:协助需要使用TG发送消息但服务器网络无法翻墙访问TG.</code></small>
-                        <small class="form-text text-muted"><code>如何获取BotToken:添加 <strong>@BotFather</strong> 为好友. 获取机器人
-                            <strong>token</strong> 机器人token格式类似: 123456:AAEQ7MEf9WoUS0dMgb</code></small>
-                        <small class="form-text text-muted"><code>如何获取推送用户ID:添加上一步中生成的机器人为好友. 给机器人发送一条消息, 访问
-                            https://api.telegram.org/bot{BotToken}/getUpdates 获取 chatId 即可(替换 {BotToken}
-                            为机器人的token,)</code></small>
-
-                        <button type="button" class="btn btn-danger mt-2 mr-2" @click="validTelegram">
-                            校验
-                        </button>
-
-                        <button type="button" class="btn btn-primary mt-2" @click="bindTelegram">
-                            绑定
-                        </button>
-
-                        <hr>
-
-                        <h3 class="text-primary">绑定钉钉推送</h3>
-                        <b-form inline>
-                            <b-form-input
-                                v-model="dingConfig.web_hook"
-                                class="mb-2 mr-2"
-                                placeholder="机器人Webhook地址"
-                            ></b-form-input>
-
-                            <b-form-input
-                                v-model="dingConfig.sign"
-                                class="mb-2"
-                                placeholder="加签密钥"
-                            ></b-form-input>
-
-                        </b-form>
-
-                        <small class="form-text text-muted"><code>目前已实现了加签方式的推送, 建议开启加签</code></small>
-
-                        <button type="button" class="btn btn-danger mt-2 mr-2" @click="validDingTalk">
-                            校验
-                        </button>
-
-                        <button type="button" class="btn btn-primary mt-2" @click="bindDingTalk">
-                            绑定
-                        </button>
-
                     </b-col>
                 </div>
             </div>
@@ -443,6 +222,7 @@
                         offset-lg="2"
                         offset-xl="2"
                     >
+                        <h3 class="text-primary">推送说明</h3>
                         <p><code>QQ私聊推送</code>: 只需要向以下URL发一个GET或者POST请求:</p>
                         <b-form-input
                             v-model="this.serverUrl+ '/send/' + user.skey"
@@ -459,7 +239,8 @@
                         ></b-form-input>
 
                         <p class="mt-2"><code>一对多推送</code>: 针对需要 <code>一对多</code>推送的需求，目前也已经支持(包括私有化部署)，你可以使用 <code>sendList</code>
-                            这个GET参数来自定义, 结果用 <code>英文逗号</code> 拼接, 目前最多支持一对多推送10个账号(一对一推送请不要使用该参数, 将导致该推送丢弃), 不支持混合群聊私聊推送, 填写错误将导致推送失败, 推送方式异步, 不立即告知结果, 实际执行效果以收到的消息为准, 悉知。下面是一个私聊一对多推送案例,</p>
+                            这个GET参数来自定义, 结果用 <code>英文逗号</code> 拼接, 目前最多支持一对多推送10个账号(一对一推送请不要使用该参数, 将导致该推送丢弃),
+                            不支持混合群聊私聊推送, 填写错误将导致推送失败, 推送方式异步, 不立即告知结果, 实际执行效果以收到的消息为准, 悉知。下面是一个私聊一对多推送案例,</p>
                         <b-form-input
                             v-model="this.serverUrl+ '/send/' + user.skey + '?sendList=100001,100002'"
                             type="text"
@@ -486,79 +267,9 @@
                         ></b-form-input>
 
                         <p class="mt-2">需要说明的是，如果你需要动态的指定推送消息给特定的qq号或者群，你可以使用 <code>userId/groupId</code>
-                            这两个GET参数来自定义，其中userId表示要推送的QQ号，groupId表示要推送的群号码，添加了些许灵活性</p>
+                            这两个GET参数来自定义，其中userId表示要推送的QQ号(适应于 <code>send/psend</code>)，groupId表示要推送的群号码(适应于 <code>group/pgroup</code>)，添加了些许灵活性</p>
                         <b-form-input
                             v-model="this.serverUrl+ '/send/' + user.skey+ '?userId=13239686'"
-                            type="text"
-                            class="form-control"
-                            disabled
-                        ></b-form-input>
-
-                        <p class="mt-2"><code>微信消息推送</code>，只需要向以下URL发一个GET或者POST请求：</p>
-                        <b-form-input
-                            v-model="this.serverUrl+ '/wx/' + user.skey"
-                            type="text"
-                            class="form-control"
-                            disabled
-                        ></b-form-input>
-
-                        <p class="mt-2"><code>Telegram推送</code>: 向以下地址发送一个GET或者POST请求: </p>
-                        <b-form-input
-                            v-model="this.serverUrl+ '/tg/' + user.skey"
-                            type="text"
-                            class="form-control"
-                            disabled
-                        ></b-form-input>
-
-                        <p class="mt-2">他们都只接受一个参数 <code>c</code> 表示 <code>content 内容</code>：</p>
-                        <ul>
-                            <li>c: 消息内容</li>
-                        </ul>
-                        <p>
-                            最简单的消息发送方式是通过浏览器，在地址栏输入以下URL，回车后即可发送：
-                        </p>
-                        <b-form-input
-                            v-model="this.serverUrl+ '/send/' + user.skey + '?c=你好呀'"
-                            type="text"
-                            class="form-control"
-                            disabled
-                        ></b-form-input>
-
-                        <p class="mt-2"><code>企业微信消息推送</code>: 你需要向以下URL地址发送POST请求(<code>仅接受POST请求</code>)：</p>
-                        <b-form-input
-                            v-model="this.serverUrl+ '/ww/' + user.skey"
-                            type="text"
-                            class="form-control"
-                            disabled
-                        ></b-form-input>
-                        <p class="mt-2 text-danger">企业微信推送的请求参数可参考<strong>
-                            <router-link :to="{'name': 'Docs'}">说明文档</router-link>
-                        </strong></p>
-
-                        <p class="mt-2"><code>钉钉群消息推送</code>: 你需要向以下URL地址发送POST请求(<code>仅接受POST请求</code>)：</p>
-                        <b-form-input
-                            v-model="this.serverUrl+ '/ding/' + user.skey"
-                            type="text"
-                            class="form-control"
-                            disabled
-                        ></b-form-input>
-                        <p class="mt-2 text-danger">钉钉群消息推送的请求参数可参考<strong>
-                            <router-link :to="{'name': 'Docs'}">说明文档</router-link>
-                        </strong></p>
-
-
-                        <p class="mt-2"><code>邮箱消息推送</code>: 需要向以下URL发一个GET或者POST请求：</p>
-                        <b-form-input
-                            v-model="this.serverUrl+ '/email/' + user.skey"
-                            type="text"
-                            class="form-control"
-                            disabled
-                        ></b-form-input>
-                        <p class="mt-2">邮箱消息推送接收两个参数，分别是 <code>t</code> 和 <code>c</code> 表示 <code>title 标题</code> 和
-                            <code>content 内容</code></p>
-                        <p>下面是一个简单的邮件推送演示，在地址栏输入以下URL，回车后即可发送：</p>
-                        <b-form-input
-                            v-model="this.serverUrl+ '/email/' + user.skey + '?t=这是推送邮件的标题&c=这是推送邮件的内容'"
                             type="text"
                             class="form-control"
                             disabled
@@ -589,7 +300,8 @@
                                 class="my-2 mr-2"
                             >
                                 <span>登录</span>
-                            </router-link>按钮以尝试.
+                            </router-link>
+                            按钮以尝试.
                         </p>
                     </b-col>
                 </div>
@@ -651,7 +363,7 @@
             <b-button variant="outline-danger" size="lg" class="mr-2 mb-2" @click="loginBy('qq')">
                 <img src='../assets/qq_new.png' class="icon-size-std pr-2" alt="">QQ账号登录
             </b-button>
-<!--            <a @click="loginBy('qq')"><img src='../assets/Connect_logo_5.png' class="icon-size-std pr-2" alt=""></a>-->
+            <!--            <a @click="loginBy('qq')"><img src='../assets/Connect_logo_5.png' class="icon-size-std pr-2" alt=""></a>-->
             <br>
             <br>
             <b-button variant="info" size="lg" class="mr-2 mb-2" @click="loginBy('github')">
@@ -666,10 +378,6 @@
             <b-button variant="info" size="lg" class="mr-2 mb-2" @click="loginBy('dingtalk')">
                 <img src='../assets/dingtalk.svg' class="icon-size-std pr-1" alt="">钉钉
             </b-button>
-        </b-modal>
-        <b-modal id="modal-bindWxPusher" centered hide-header ok-title="确定" cancel-title="取消" @ok="bindWxPusher">
-            <b-img :src="wxPusherImg" fluid alt="Responsive image"></b-img>
-            <p>扫码后，关注公众号并点击确定以进行绑定检查。</p>
         </b-modal>
     </div>
 </template>
@@ -705,41 +413,11 @@ export default {
                 'W4j1e', '余生安好'
             ],
 
-            // 企业微信相关
-            corpSelected: 0,
-            corpListOptions: [],
-            wwBindConfig: {
-                user: {},
-                app: {}
-            },
-
-            // 微信推送相关
-            openWxPusher: false,//是否开启微信推送
-            wxPusherImg: "",//获得二维码地址
-            wxPusherShowBindResult: false,
-            wxPusherUid: "",
-
             // base 用户信息相关
             user: {},
 
-            //邮箱推送相关
-            emailConfig: {
-                host: "",
-                port: "",
-                username: "",
-                password: "",
-                from: "",
-                to: ""
-            },
-
-            // tg推送相关
-            tgConfig: {},
-
             // qq推送相关
             qqConfig: {},
-
-            // 钉钉推送相关
-            dingConfig: {},
 
             //弹窗相关
             color: "warning",
@@ -974,167 +652,6 @@ export default {
                     });
                 });
         },
-        bindEmail() {
-            let token = localStorage.getItem("token");
-            let header = {token: token};
-            this.emailConfig.port = parseInt(this.emailConfig.port)
-            this.$api
-                .post(
-                    this.serverUrl + "/bind/email", this.emailConfig, {headers: header}
-                )
-                .then((response) => {
-                    let data = response.data;
-                    if (response.data.code !== 200) {
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "绑定失败: " + data.message,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                        return
-                    }
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: "绑定成功",
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                })
-                .catch((error) => {
-                    //绑定失败
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'error',
-                        title: "绑定失败: " + error.msg,
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                });
-        },
-        bindWxPusher() {
-            let token = localStorage.getItem("token");
-            if (token !== null) {
-                let header = {token: token};
-                this.$api
-                    .get(this.serverUrl + "/check", {headers: header})
-                    .then((response) => {
-                        let data = response.data;
-                        if (data.code === 200) {
-                            if (data.wxPusherUid === '') {
-                                this.$swal.fire({
-                                    position: 'top-end',
-                                    icon: 'error',
-                                    title: "绑定失败,请重试: " + data.message,
-                                    showConfirmButton: false,
-                                    timer: 5000
-                                });
-                            } else {
-                                this.wxPusherShowBindResult = true;
-                                this.$swal.fire({
-                                    position: 'top-end',
-                                    icon: 'success',
-                                    title: "绑定成功!",
-                                    showConfirmButton: false,
-                                    timer: 5000
-                                });
-                            }
-                        } else {
-                            this.$swal.fire({
-                                position: 'top-end',
-                                icon: 'error',
-                                title: "校验失败: " + data.message,
-                                showConfirmButton: false,
-                                timer: 5000
-                            });
-                        }
-                    })
-                    .catch((error) => {
-                        //清空localStorage
-                        console.log(error);
-                        this.isLogin = false;
-                        localStorage.clear();
-                    });
-            }
-        },
-        bindTelegram() {
-            let token = localStorage.getItem("token");
-            let header = {token: token};
-            this.tgConfig.chat_id = parseInt(this.tgConfig.chat_id);
-            this.$api
-                .post(
-                    this.serverUrl + "/bind/telegram", this.tgConfig, {headers: header}
-                )
-                .then((response) => {
-                    let data = response.data;
-                    if (response.data.code !== 200) {
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "绑定失败: " + data.message,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                        return
-                    }
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: "绑定成功",
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                })
-                .catch((error) => {
-                    //绑定失败
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'error',
-                        title: "绑定失败: " + error.msg,
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                });
-        },
-        bindDingTalk() {
-            let token = localStorage.getItem("token");
-            let header = {token: token};
-            this.$api
-                .post(
-                    this.serverUrl + "/bind/dingtalk", this.dingConfig, {headers: header}
-                )
-                .then((response) => {
-                    let data = response.data;
-                    if (response.data.code !== 200) {
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "绑定失败: " + data.message,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                        return
-                    }
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: "绑定成功",
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                })
-                .catch((error) => {
-                    //绑定失败
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'error',
-                        title: "绑定失败: " + error.msg,
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                });
-        },
 
         validQQPrivate() {
             let token = localStorage.getItem("token");
@@ -1242,228 +759,7 @@ export default {
                     });
                 });
         },
-        validEmail() {
-            let token = localStorage.getItem("token");
-            let header = {token: token};
-            this.$api
-                .get(
-                    this.serverUrl + "/valid/email", {headers: header}
-                )
-                .then((response) => {
-                    let data = response.data;
-                    if (response.data.code !== 200) {
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "校验失败: " + data.message,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                        return
-                    }
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: "校验成功，请查收递投测试邮件",
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                })
-                .catch((error) => {
-                    //绑定失败
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'error',
-                        title: "校验失败: " + error.msg,
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                });
-        },
-        validWework() {
-            let content = {
-                "title": "测试消息",
-                "desc": "当你看到这条消息,说明CoolPush校验已通过",
-                "href": "https://cp.xuthus.cc",
-                "btntxt": "了解更多"
-            };
-            this.$api
-                .post(this.serverUrl + '/ww/' + this.user.skey + '?type=1', content, {headers: {"Content-type": "application/json"}})
-                .then((response) => {
-                    let data = response.data;
-                    if (response.data.code !== 200) {
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "校验失败:" + data.message,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                        return
-                    }
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: "校验成功",
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                })
-                .catch((error) => {
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'error',
-                        title: "校验失败:" + error.msg,
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                });
-        },
-        validTelegram() {
-            let token = localStorage.getItem("token");
-            let header = {token: token};
-            this.$api
-                .get(this.serverUrl + '/valid/telegram', {headers: header})
-                .then((response) => {
-                    let data = response.data;
-                    if (response.data.code !== 200) {
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "校验失败:" + data.message,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                        return
-                    }
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: "校验成功",
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                })
-                .catch((error) => {
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'error',
-                        title: "校验失败:" + error.msg,
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                });
-        },
-        validDingTalk() {
-            let token = localStorage.getItem("token");
-            let header = {token: token};
-            this.$api
-                .get(this.serverUrl + '/valid/dingtalk', {headers: header})
-                .then((response) => {
-                    let data = response.data;
-                    if (response.data.code !== 200) {
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "校验失败:" + data.message,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                        return
-                    }
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: "校验成功",
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                })
-                .catch((error) => {
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'error',
-                        title: "校验失败:" + error.msg,
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                });
-        },
 
-        getWxPusherQrCode() {
-            //存在token 先检验 token是否有效 再打开 isLogin 变量
-            let token = localStorage.getItem("token");
-            if (token !== null) {
-                let header = {token: token};
-                this.$api
-                    .get(this.serverUrl + "/qr_code", {headers: header})
-                    .then((response) => {
-                        let data = response.data;
-                        if (data.code === 200) {
-                            this.wxPusherImg = data.data;
-                            this.$bvModal.show('modal-bindWxPusher')
-                        } else {
-                            this.$swal.fire({
-                                position: 'top-end',
-                                icon: 'error',
-                                title: "获取二维码失败: " + data.message,
-                                showConfirmButton: false,
-                                timer: 5000
-                            });
-                        }
-                    })
-                    .catch((error) => {
-                        console.log("重置结果", error);
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "获取二维码失败: " + error.msg,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                    });
-            }
-        },
-        cancelBindWxPusher() {
-            let token = localStorage.getItem("token");
-            let header = {token: token};
-            this.$api
-                .get(
-                    this.serverUrl + "/cancel_wx_pusher?id=" +
-                    this.user.id,
-                    {headers: header}
-                )
-                .then((response) => {
-                    let data = response.data;
-                    if (data.code === 200) {
-                        this.wxPusherUid = '';
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: "取消绑定成功!",
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                    } else {
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "取消绑定失败: " + data.message,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                    }
-                })
-                .catch((error) => {
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'error',
-                        title: "取消绑定失败: " + error.msg,
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                });
-        },
         logout() {
             this.isLogin = false;
             sessionStorage.clear();
@@ -1491,111 +787,6 @@ export default {
                 window.location.href = this.osc;
             }
         },
-        wwJoinSubmit() {
-            if (this.wwBindConfig.user.user_id.toLowerCase() === "@all") {
-                this.$swal.fire({
-                    position: 'top-end',
-                    icon: 'error',
-                    title: "非法参数 @all",
-                    showConfirmButton: false,
-                    timer: 5000
-                });
-                return
-            }
-
-            let token = localStorage.getItem("token");
-            let header = {token: token};
-            this.$api
-                .get(
-                    this.serverUrl + "/wework/join?appId=" +
-                    this.corpSelected + "&userId=" +
-                    this.wwBindConfig.user.user_id,
-                    {headers: header}
-                )
-                .then((response) => {
-                    let data = response.data;
-                    if (response.data.code === 200) {
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: "操作成功!",
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                    } else {
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "操作失败: " + data.message,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                    }
-                })
-                .catch((error) => {
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'error',
-                        title: "操作失败: " + error.msg,
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                });
-        },
-        wwBindSubmit() {
-            if (this.wwBindConfig.user.user_id.toLowerCase() === "@all") {
-                this.$swal.fire({
-                    position: 'top-end',
-                    icon: 'error',
-                    title: "非法参数: @all",
-                    showConfirmButton: false,
-                    timer: 5000
-                });
-                return;
-            }
-
-            let token = localStorage.getItem("token");
-            this.wwBindConfig.app.agent_id = parseInt(this.wwBindConfig.app.agent_id)
-            this.$api
-                .post(this.serverUrl + '/bind/wework?userId=' + this.wwBindConfig.user.user_id, this.wwBindConfig.app,
-                    {headers: {"Content-type": "application/json", token: token}})
-                .then((response) => {
-                    let data = response.data;
-                    if (response.data.code === 200) {
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: "操作成功!",
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                    } else {
-                        this.$swal.fire({
-                            position: 'top-end',
-                            icon: 'error',
-                            title: "操作失败: " + data.message,
-                            showConfirmButton: false,
-                            timer: 5000
-                        });
-                    }
-                })
-                .catch((error) => {
-                    this.$swal.fire({
-                        position: 'top-end',
-                        icon: 'error',
-                        title: "操作失败: " + error.msg,
-                        showConfirmButton: false,
-                        timer: 5000
-                    });
-                });
-        },
-        getJoinLink(id) {
-            for (let i = 0; i < this.corpListOptions.length; i++) {
-                if (this.corpListOptions[i].value === id) {
-                    return this.corpListOptions[i]
-                }
-            }
-        },
 
     },
     created() {
@@ -1609,6 +800,7 @@ export default {
                     let data = response.data;
                     if (data.code === 200) {
                         this.isLogin = true;
+                        sessionStorage.setItem("isLogin", "true")
                         this.user = data.data;
                     } else {
                         //清空localStorage
@@ -1660,35 +852,7 @@ export default {
                     let data = response.data;
                     if (data.code === 200 && data.data !== null) {
                         this.user = defaultValue(data.data.user);
-
                         this.qqConfig = defaultValue(data.data.qq_config);
-                        this.wxPusherUid = defaultValue(data.data.wechat_config).wxPusherUid;
-                        this.emailConfig = defaultValue(data.data.email_config);
-
-                        this.wwBindConfig.user = defaultValue(data.data.wework_user_config);
-                        this.wwBindConfig.app = defaultValue(data.data.wework_app_config);
-                        this.corpSelected = defaultValue(data.data.wework_user_config).app_id;
-                        this.tgConfig = defaultValue(data.data.telegram_config);
-                        this.dingConfig = defaultValue(data.data.ding_talk_config);
-                    }
-                })
-                .catch((error) => {
-                    //清空localStorage
-                    this.$router.push({name: "Callback", query: {error: error}});
-                });
-
-            this.$api
-                .get(this.serverUrl + "/wework/list", {headers: header})
-                .then((response) => {
-                    let data = response.data;
-                    if (data.code === 200) {
-                        for (let i = 0; i < data.data.length; i++) {
-                            this.corpListOptions.push({
-                                value: data.data[i].id,
-                                text: data.data[i].corp_name,
-                                link: data.data[i].join_link
-                            })
-                        }
                     }
                 })
                 .catch((error) => {
