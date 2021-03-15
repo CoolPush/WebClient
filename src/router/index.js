@@ -20,11 +20,6 @@ const routes = [
         component: () => import('../views/Callback.vue')
     },
     {
-        path: '/404',
-        name: 'NotFound',
-        component: () => import('../views/NotFound.vue')
-    },
-    {
         path: '/deploy',
         name: 'Deploy',
         component: () => import('../views/Deploy.vue')
@@ -43,6 +38,12 @@ const routes = [
         path: '/proxy',
         name: 'Proxy',
         component: () => import('../views/Proxy.vue')
+    },
+    {
+        path: '/*',
+        name: 'NotFound',
+        // component: () => import('../views/NotFound.vue')
+        redirect: { name: 'Home' }
     }
 ]
 
