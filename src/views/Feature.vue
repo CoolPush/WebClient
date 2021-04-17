@@ -1168,7 +1168,11 @@ export default {
                         this.user = defaultValue(data.data.user);
 
                         this.qqConfig = defaultValue(data.data.qq_config);
-                        this.wxPusherUid = defaultValue(data.data.wechat_config).wxPusherUid;
+
+                        if (data.data.wechat_config === null) this.wxPusherUid = '';
+                        else if (defaultValue(data.data.wechat_config).wxPusherUid === undefined) this.wxPusherUid = '';
+                        else this.wxPusherUid = defaultValue(data.data.wechat_config).wxPusherUid;
+
                         this.emailConfig = defaultValue(data.data.email_config);
 
                         this.wwBindConfig.user = defaultValue(data.data.wework_user_config);
